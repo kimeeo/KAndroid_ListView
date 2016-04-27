@@ -72,9 +72,9 @@ abstract public class DataProvider<T> extends MonitorList<T> {
         removeAll(this);
         isFirstCall=true;
         setCanLoadNext(true);
-        loadNext();
+        next();
     }
-    public boolean loadNext()
+    protected boolean loadNext()
     {
         if(isFetching==false && getCanLoadNext() && isFirstCall) {
             isFetching=true;
@@ -114,17 +114,12 @@ abstract public class DataProvider<T> extends MonitorList<T> {
             return false;
         }
     }
-    protected void dataLoadError(Object status)
+    public boolean next()
     {
-        if(onFatchingObserve!=null && onFatchingObserve.size()!=0)
-        {
-            for (WeakReference<OnFatchingObserve> fatchingObserve : onFatchingObserve) {
-                if(fatchingObserve !=null && fatchingObserve.get()!=null)
-                    fatchingObserve.get().onFetchingError(status);
-            }
-        }
+        return loadNext();
     }
-    public boolean loadRefresh()
+
+    protected boolean loadRefresh()
     {
         if(isFetching==false && getCanLoadRefresh() && getLoadRefreshEnabled()) {
             isFetching=true;
@@ -152,6 +147,23 @@ abstract public class DataProvider<T> extends MonitorList<T> {
             return false;
         }
     }
+    public boolean refresh()
+    {
+        return loadRefresh();
+    }
+
+
+    protected void dataLoadError(Object status)
+    {
+        if(onFatchingObserve!=null && onFatchingObserve.size()!=0)
+        {
+            for (WeakReference<OnFatchingObserve> fatchingObserve : onFatchingObserve) {
+                if(fatchingObserve !=null && fatchingObserve.get()!=null)
+                    fatchingObserve.get().onFetchingError(status);
+            }
+        }
+    }
+
 
     abstract protected void invokeLoadNext();
     abstract protected void invokeloadRefresh();
