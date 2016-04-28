@@ -28,7 +28,8 @@ dependencies {
     //This is a core library for any Kimeeo Project
     //This is a core library has a basic fragment, permisions, activity, application bootstap code.
     //https://github.com/kimeeo/KAndroid_core
-    compile ('com.github.kimeeo:KAndroid_core:V1.1@aar'){
+    final KIMEE_CORE_VERSION = 'aa9f570341'
+    compile ("com.github.kimeeo:KAndroid_core:$KIMEE_CORE_VERSION@aar"){
         transitive=true
     }
 

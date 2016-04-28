@@ -25,8 +25,7 @@ import java.util.List;
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 
 
-abstract public class BaseRecyclerView extends BaseListDataView implements AdapterView.OnItemClickListener
-{
+abstract public class BaseRecyclerView extends BaseListDataView implements AdapterView.OnItemClickListener{
     protected RecyclerView recyclerView;
     protected View mRootView;
     protected BaseRecyclerViewAdapter mAdapter;
