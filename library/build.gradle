@@ -31,4 +31,8 @@ dependencies {
     compile ('com.github.kimeeo:KAndroid_core:V1.1@aar'){
         transitive=true
     }
+
+    //RecyclerView Animators
+    //https://github.com/wasabeef/recyclerview-animators
+    compile 'jp.wasabeef:recyclerview-animators:2.2.3'
 }

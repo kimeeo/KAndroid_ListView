@@ -2,18 +2,15 @@ package com.kimeeo.kAndroid.listViews.dataProvider;
 
 import android.os.AsyncTask;
 
-import java.util.List;
-import java.util.Map;
-
 /**
  * Created by BhavinPadhiyar on 27/04/16.
  */
-abstract public class BackgroundDataProvider<T> extends DataProvider<T>
+abstract public class BackgroundDataProvider extends DataProvider
 {
     BackgroundTask backgroundTask;
-    public BackgroundDataProvider(IListProvider<T> listProvider)
+    public BackgroundDataProvider()
     {
-        backgroundTask=new BackgroundTask(listProvider);
+        backgroundTask=new BackgroundTask();
     }
 
     @Override
@@ -28,24 +25,27 @@ abstract public class BackgroundDataProvider<T> extends DataProvider<T>
         backgroundTask.execute(false);
         return true;
     }
-    private class BackgroundTask extends AsyncTask<Boolean, Void, List<T>> {
+    private class BackgroundTask extends AsyncTask<Boolean, Void, Boolean> {
 
-        IListProvider listProvider;
-        public BackgroundTask(IListProvider listProvider)
+        public BackgroundTask()
         {
-            this.listProvider = listProvider;
+
         }
         protected void onPreExecute() {
 
         }
         @Override
-        protected List<T> doInBackground(Boolean... params) {
-            List<T> data = listProvider.getList(params[0]);
-            return data;
+        protected Boolean doInBackground(Boolean... params) {
+            boolean isRefresh =params[0];
+            if(isRefresh)
+                loadRefresh();
+            else
+                loadNext();
+            return true;
         }
         @Override
-        protected void onPostExecute(List<T> data) {
-            addData(data);
+        protected void onPostExecute(Boolean data) {
+
         }
     }
 }

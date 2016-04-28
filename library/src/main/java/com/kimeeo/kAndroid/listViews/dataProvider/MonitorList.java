@@ -1,5 +1,6 @@
 package com.kimeeo.kAndroid.listViews.dataProvider;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -9,12 +10,28 @@ import java.util.List;
  */
 public class MonitorList<T> extends ArrayList<T> {
 
-    private OnChangeWatcher<T> onChangeWatcher;
-    public OnChangeWatcher<T> getDataChangeWatcher() {
-        return onChangeWatcher;
+    private List<WeakReference<OnChangeWatcher<T>>> onChangeWatcherList = new ArrayList<>();
+    public boolean removeDataChangeWatcher(OnChangeWatcher<T> onChangeWatcher) {
+        for (WeakReference<OnChangeWatcher<T>> onChangeWatcherWeakReference : onChangeWatcherList) {
+            if(onChangeWatcherWeakReference!=null && onChangeWatcherWeakReference.get()!=null && onChangeWatcherWeakReference.get()==onChangeWatcher) {
+                return this.onChangeWatcherList.remove(new WeakReference<OnChangeWatcher<T>>(onChangeWatcher));
+            }
+        }
+        return false;
+
     }
-    public void setDataChangeWatcher(OnChangeWatcher<T> onChangeWatcher) {
-        this.onChangeWatcher = onChangeWatcher;
+    public boolean addDataChangeWatcher(OnChangeWatcher<T> onChangeWatcher) {
+        boolean found=false;
+        for (WeakReference<OnChangeWatcher<T>> onChangeWatcherWeakReference : onChangeWatcherList) {
+            if(onChangeWatcherWeakReference!=null && onChangeWatcherWeakReference.get()!=null && onChangeWatcherWeakReference.get()==onChangeWatcher)
+            {
+                found=true;
+                break;
+            }
+        }
+        if(!found)
+            return this.onChangeWatcherList.add(new WeakReference<OnChangeWatcher<T>>(onChangeWatcher));
+        return  false;
     }
 
     @Override
@@ -117,16 +134,31 @@ public class MonitorList<T> extends ArrayList<T> {
 
     //NOTIFICATIONS
     protected void notifyAdd(int position,List<T> objects) {
-        if(onChangeWatcher!=null && objects!=null && objects.size()!=0)
-            onChangeWatcher.itemsAdded(position,objects);
+        if(onChangeWatcherList!=null && objects!=null && objects.size()!=0)
+        {
+            for (WeakReference<OnChangeWatcher<T>> onChangeWatcherWeakReference : onChangeWatcherList) {
+                if(onChangeWatcherWeakReference!=null && onChangeWatcherWeakReference.get()!=null)
+                    onChangeWatcherWeakReference.get().itemsAdded(position,objects);
+            }
+        }
     }
     protected void notifyRemove(int position,List<T> objects) {
-        if(onChangeWatcher!=null && objects!=null && objects.size()!=0)
-            onChangeWatcher.itemsRemoved(position,objects);
+        if(onChangeWatcherList!=null && objects!=null && objects.size()!=0)
+        {
+            for (WeakReference<OnChangeWatcher<T>> onChangeWatcherWeakReference : onChangeWatcherList) {
+                if(onChangeWatcherWeakReference!=null && onChangeWatcherWeakReference.get()!=null)
+                    onChangeWatcherWeakReference.get().itemsRemoved(position,objects);
+            }
+        }
     }
     protected void notifyChanged(int position,List<T> objects) {
-        if(onChangeWatcher!=null && objects!=null && objects.size()!=0)
-            onChangeWatcher.itemsChanged(position,objects);
+        if(onChangeWatcherList!=null && objects!=null && objects.size()!=0)
+        {
+            for (WeakReference<OnChangeWatcher<T>> onChangeWatcherWeakReference : onChangeWatcherList) {
+                if(onChangeWatcherWeakReference!=null && onChangeWatcherWeakReference.get()!=null)
+                    onChangeWatcherWeakReference.get().itemsChanged(position,objects);
+            }
+        }
     }
     public interface OnChangeWatcher<T>
     {

@@ -7,30 +7,39 @@ import java.util.List;
 /**
  * Created by BhavinPadhiyar on 27/04/16.
  */
-abstract public class DataProvider<T> extends MonitorList<T> {
+abstract public class DataProvider extends MonitorList {
     public boolean isFetching() {
         return isFetching;
     }
-
     private boolean isFetching=false;
     private boolean isFetchingRefresh=false;
     private boolean canLoadNext=true;
     private boolean canLoadRefresh=true;
-    private boolean loadRefreshEnabled=false;
-    private boolean loadNextEnabled=false;
-
+    private boolean refreshEnabled=false;
+    private boolean nextEnabled=false;
     private int refreshItemPos=0;
     private boolean isFirstCall=true;
     private  boolean isConfigurableObject=false;
     private List<WeakReference<OnFatchingObserve>> onFatchingObserve=new ArrayList<>();
-
     public boolean removeFatchingObserve(OnFatchingObserve onFatchingObserve) {
-        return this.onFatchingObserve.remove(onFatchingObserve);
+        for (WeakReference<OnFatchingObserve> onFatchingObserveWeakReference : this.onFatchingObserve) {
+            if(onFatchingObserveWeakReference!=null && onFatchingObserveWeakReference.get()!=null && onFatchingObserveWeakReference.get()==onFatchingObserve)
+                return this.onFatchingObserve.remove(onFatchingObserve);
+        }
+        return false;
     }
     public boolean addFatchingObserve(OnFatchingObserve onFatchingObserve) {
-        return this.onFatchingObserve.add(new WeakReference(onFatchingObserve));
+        boolean found=false;
+        for (WeakReference<OnFatchingObserve> onFatchingObserveWeakReference : this.onFatchingObserve) {
+            if(onFatchingObserveWeakReference!=null && onFatchingObserveWeakReference.get()!=null && onFatchingObserveWeakReference.get()==onFatchingObserve) {
+                found = true;
+                break;
+            }
+        }
+        if(!found)
+            return this.onFatchingObserve.add(new WeakReference(onFatchingObserve));
+        return false;
     }
-
     public int getRefreshItemPos() {
         return refreshItemPos;
     }
@@ -43,17 +52,17 @@ abstract public class DataProvider<T> extends MonitorList<T> {
     public void setConfigurableObject(boolean configurableObject) {
         isConfigurableObject = configurableObject;
     }
-    public boolean getLoadNextEnabled() {
-        return loadNextEnabled;
+    public boolean getNextEnabled() {
+        return nextEnabled;
     }
-    public void setLoadNextEnabled(boolean loadNextEnabled) {
-        this.loadNextEnabled = loadNextEnabled;
+    public void setNextEnabled(boolean nextEnabled) {
+        this.nextEnabled = nextEnabled;
     }
-    public boolean getLoadRefreshEnabled() {
-        return loadRefreshEnabled;
+    public boolean getRefreshEnabled() {
+        return refreshEnabled;
     }
-    public void setLoadRefreshEnabled(boolean loadRefreshEnabled) {
-        this.loadRefreshEnabled = loadRefreshEnabled;
+    public void setRefreshEnabled(boolean refreshEnabled) {
+        this.refreshEnabled = refreshEnabled;
     }
     public boolean getCanLoadNext() {
         return canLoadNext;
@@ -67,15 +76,13 @@ abstract public class DataProvider<T> extends MonitorList<T> {
     public void setCanLoadRefresh(boolean canLoadRefresh) {
         this.canLoadRefresh = canLoadRefresh;
     }
-    public void reset()
-    {
+    public void reset() {
         removeAll(this);
         isFirstCall=true;
         setCanLoadNext(true);
         next();
     }
-    protected boolean loadNext()
-    {
+    protected boolean loadNext() {
         if(isFetching==false && getCanLoadNext() && isFirstCall) {
             isFetching=true;
             isFetchingRefresh=false;
@@ -89,7 +96,7 @@ abstract public class DataProvider<T> extends MonitorList<T> {
             invokeLoadNext();
             return true;
         }
-        else if(isFetching==false && getCanLoadNext() && getLoadNextEnabled()) {
+        else if(isFetching==false && getCanLoadNext() && getNextEnabled()) {
             isFetching=true;
             isFetchingRefresh=false;
             if(onFatchingObserve!=null && onFatchingObserve.size()!=0)
@@ -118,10 +125,8 @@ abstract public class DataProvider<T> extends MonitorList<T> {
     {
         return loadNext();
     }
-
-    protected boolean loadRefresh()
-    {
-        if(isFetching==false && getCanLoadRefresh() && getLoadRefreshEnabled()) {
+    protected boolean loadRefresh() {
+        if(isFetching==false && getCanLoadRefresh() && getRefreshEnabled()) {
             isFetching=true;
             isFetchingRefresh=true;
             if(onFatchingObserve!=null && onFatchingObserve.size()!=0)
@@ -151,10 +156,7 @@ abstract public class DataProvider<T> extends MonitorList<T> {
     {
         return loadRefresh();
     }
-
-
-    protected void dataLoadError(Object status)
-    {
+    protected void dataLoadError(Object status) {
         if(onFatchingObserve!=null && onFatchingObserve.size()!=0)
         {
             for (WeakReference<OnFatchingObserve> fatchingObserve : onFatchingObserve) {
@@ -163,13 +165,9 @@ abstract public class DataProvider<T> extends MonitorList<T> {
             }
         }
     }
-
-
     abstract protected void invokeLoadNext();
     abstract protected void invokeloadRefresh();
-
-    public void addData(List<T> list)
-    {
+    public void addData(List list) {
         if(getConfigurableObject())
         {
             for (int i = 0; i < list.size(); i++) {
@@ -177,14 +175,12 @@ abstract public class DataProvider<T> extends MonitorList<T> {
                     ((IConfigurableObject) list.get(i)).config();
             }
         }
-
         if(list!=null) {
             if (isFetchingRefresh)
                 addAll(getRefreshItemPos(), list);
             else
                 addAll(list);
         }
-
         if(onFatchingObserve!=null && onFatchingObserve.size()!=0)
         {
             for (WeakReference<OnFatchingObserve> fatchingObserve : onFatchingObserve) {
@@ -192,16 +188,16 @@ abstract public class DataProvider<T> extends MonitorList<T> {
                     fatchingObserve.get().onFetchingEnd(list,isFetchingRefresh);
             }
         }
-
         isFetchingRefresh=false;
         isFetching=false;
         isFirstCall=false;
     }
-    public interface OnFatchingObserve
-    {
+    public void garbageCollectorCall() {
+
+    }
+    public interface OnFatchingObserve {
         void onFetchingStart(boolean isFetchingRefresh);
         void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh);
         void onFetchingError(Object error);
     }
-
 }

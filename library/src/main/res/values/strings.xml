@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Library</string>
+
+    <string name="_emptyViewMessage">No Records Found</string>
+    <string name="_emptyViewInterntMessage">Internet Connection Required</string>
+    <string name="_emptyRetry">Retry</string>
 </resources>

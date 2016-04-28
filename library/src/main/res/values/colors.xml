@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <array name="progressColors">
+        <item>#FF3F8AF8</item>
+        <item>#FFD8433C</item>
+        <item>#FFF2AF3A</item>
+        <item>#FF279B5E</item>
+    </array>
+
+    <color name="_indicator_background_color">#ffffff</color>
+    <color name="_emptyViewMessageColor">@color/colorPrimary</color>
+</resources>

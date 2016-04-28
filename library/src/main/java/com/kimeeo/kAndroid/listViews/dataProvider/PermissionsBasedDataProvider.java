@@ -12,7 +12,7 @@ import java.util.ArrayList;
 /**
  * Created by BhavinPadhiyar on 27/04/16.
  */
-abstract public class PermissionsBasedDataProvider<T> extends DataProvider<T>
+abstract public class PermissionsBasedDataProvider extends DataProvider
 {
     @Override
     public boolean next()
