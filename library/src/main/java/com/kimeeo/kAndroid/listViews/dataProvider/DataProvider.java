@@ -8,6 +8,8 @@ import java.util.List;
  * Created by BhavinPadhiyar on 27/04/16.
  */
 abstract public class DataProvider extends MonitorList {
+    abstract protected void invokeLoadNext();
+    abstract protected void invokeloadRefresh();
     public boolean isFetching() {
         return isFetching;
     }
@@ -20,24 +22,24 @@ abstract public class DataProvider extends MonitorList {
     private int refreshItemPos=0;
     private boolean isFirstCall=true;
     private  boolean isConfigurableObject=false;
-    private List<WeakReference<OnFatchingObserve>> onFatchingObserve=new ArrayList<>();
+    private List<WeakReference<OnFatchingObserve>> onFatchingObserveList=new ArrayList<>();
     public boolean removeFatchingObserve(OnFatchingObserve onFatchingObserve) {
-        for (WeakReference<OnFatchingObserve> onFatchingObserveWeakReference : this.onFatchingObserve) {
+        for (WeakReference<OnFatchingObserve> onFatchingObserveWeakReference : this.onFatchingObserveList) {
             if(onFatchingObserveWeakReference!=null && onFatchingObserveWeakReference.get()!=null && onFatchingObserveWeakReference.get()==onFatchingObserve)
-                return this.onFatchingObserve.remove(onFatchingObserve);
+                return this.onFatchingObserveList.remove(onFatchingObserve);
         }
         return false;
     }
     public boolean addFatchingObserve(OnFatchingObserve onFatchingObserve) {
         boolean found=false;
-        for (WeakReference<OnFatchingObserve> onFatchingObserveWeakReference : this.onFatchingObserve) {
+        for (WeakReference<OnFatchingObserve> onFatchingObserveWeakReference : this.onFatchingObserveList) {
             if(onFatchingObserveWeakReference!=null && onFatchingObserveWeakReference.get()!=null && onFatchingObserveWeakReference.get()==onFatchingObserve) {
                 found = true;
                 break;
             }
         }
         if(!found)
-            return this.onFatchingObserve.add(new WeakReference(onFatchingObserve));
+            return this.onFatchingObserveList.add(new WeakReference(onFatchingObserve));
         return false;
     }
     public int getRefreshItemPos() {
@@ -86,9 +88,9 @@ abstract public class DataProvider extends MonitorList {
         if(isFetching==false && getCanLoadNext() && isFirstCall) {
             isFetching=true;
             isFetchingRefresh=false;
-            if(onFatchingObserve!=null && onFatchingObserve.size()!=0)
+            if(onFatchingObserveList!=null && onFatchingObserveList.size()!=0)
             {
-                for (WeakReference<OnFatchingObserve> fatchingObserve : onFatchingObserve) {
+                for (WeakReference<OnFatchingObserve> fatchingObserve : onFatchingObserveList) {
                     if(fatchingObserve !=null && fatchingObserve.get()!=null)
                         fatchingObserve.get().onFetchingStart(false);
                 }
@@ -99,9 +101,9 @@ abstract public class DataProvider extends MonitorList {
         else if(isFetching==false && getCanLoadNext() && getNextEnabled()) {
             isFetching=true;
             isFetchingRefresh=false;
-            if(onFatchingObserve!=null && onFatchingObserve.size()!=0)
+            if(onFatchingObserveList!=null && onFatchingObserveList.size()!=0)
             {
-                for (WeakReference<OnFatchingObserve> fatchingObserve : onFatchingObserve) {
+                for (WeakReference<OnFatchingObserve> fatchingObserve : onFatchingObserveList) {
                     if(fatchingObserve !=null && fatchingObserve.get()!=null)
                         fatchingObserve.get().onFetchingStart(false);
                 }
@@ -110,9 +112,9 @@ abstract public class DataProvider extends MonitorList {
             return true;
         }
         else {
-            if(onFatchingObserve!=null && onFatchingObserve.size()!=0)
+            if(onFatchingObserveList!=null && onFatchingObserveList.size()!=0)
             {
-                for (WeakReference<OnFatchingObserve> fatchingObserve : onFatchingObserve) {
+                for (WeakReference<OnFatchingObserve> fatchingObserve : onFatchingObserveList) {
                     if(fatchingObserve !=null && fatchingObserve.get()!=null)
                         fatchingObserve.get().onFetchingEnd(null,false);
                 }
@@ -129,9 +131,9 @@ abstract public class DataProvider extends MonitorList {
         if(isFetching==false && getCanLoadRefresh() && getRefreshEnabled()) {
             isFetching=true;
             isFetchingRefresh=true;
-            if(onFatchingObserve!=null && onFatchingObserve.size()!=0)
+            if(onFatchingObserveList!=null && onFatchingObserveList.size()!=0)
             {
-                for (WeakReference<OnFatchingObserve> fatchingObserve : onFatchingObserve) {
+                for (WeakReference<OnFatchingObserve> fatchingObserve : onFatchingObserveList) {
                     if(fatchingObserve !=null && fatchingObserve.get()!=null)
                         fatchingObserve.get().onFetchingStart(isFetchingRefresh);
                 }
@@ -141,9 +143,9 @@ abstract public class DataProvider extends MonitorList {
             return true;
         }
         else {
-            if(onFatchingObserve!=null && onFatchingObserve.size()!=0)
+            if(onFatchingObserveList!=null && onFatchingObserveList.size()!=0)
             {
-                for (WeakReference<OnFatchingObserve> fatchingObserve : onFatchingObserve) {
+                for (WeakReference<OnFatchingObserve> fatchingObserve : onFatchingObserveList) {
                     if(fatchingObserve !=null && fatchingObserve.get()!=null)
                         fatchingObserve.get().onFetchingEnd(null,isFetchingRefresh);
                 }
@@ -157,16 +159,14 @@ abstract public class DataProvider extends MonitorList {
         return loadRefresh();
     }
     protected void dataLoadError(Object status) {
-        if(onFatchingObserve!=null && onFatchingObserve.size()!=0)
+        if(onFatchingObserveList!=null && onFatchingObserveList.size()!=0)
         {
-            for (WeakReference<OnFatchingObserve> fatchingObserve : onFatchingObserve) {
+            for (WeakReference<OnFatchingObserve> fatchingObserve : onFatchingObserveList) {
                 if(fatchingObserve !=null && fatchingObserve.get()!=null)
                     fatchingObserve.get().onFetchingError(status);
             }
         }
     }
-    abstract protected void invokeLoadNext();
-    abstract protected void invokeloadRefresh();
     public void addData(List list) {
         if(getConfigurableObject())
         {
@@ -181,9 +181,9 @@ abstract public class DataProvider extends MonitorList {
             else
                 addAll(list);
         }
-        if(onFatchingObserve!=null && onFatchingObserve.size()!=0)
+        if(onFatchingObserveList!=null && onFatchingObserveList.size()!=0)
         {
-            for (WeakReference<OnFatchingObserve> fatchingObserve : onFatchingObserve) {
+            for (WeakReference<OnFatchingObserve> fatchingObserve : onFatchingObserveList) {
                 if(fatchingObserve !=null && fatchingObserve.get()!=null)
                     fatchingObserve.get().onFetchingEnd(list,isFetchingRefresh);
             }
