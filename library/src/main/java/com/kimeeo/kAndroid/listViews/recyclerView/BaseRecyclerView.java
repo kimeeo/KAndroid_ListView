@@ -47,7 +47,6 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
         super.garbageCollectorCall();
         if(mAdapter!=null)
             mAdapter.garbageCollectorCall();
-
         mAdapter =null;
         recyclerView = null;
         mSwipeRefreshLayout=null;

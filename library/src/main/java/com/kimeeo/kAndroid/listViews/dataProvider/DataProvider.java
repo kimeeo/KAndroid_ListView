@@ -23,6 +23,15 @@ abstract public class DataProvider extends MonitorList {
     private boolean isFirstCall=true;
     private  boolean isConfigurableObject=false;
     private List<WeakReference<OnFatchingObserve>> onFatchingObserveList=new ArrayList<>();
+    public void garbageCollectorCall() {
+        if(onFatchingObserveList!=null) {
+            for (int i = 0; i < onFatchingObserveList.size(); i++) {
+                onFatchingObserveList.set(i, null);
+            }
+            onFatchingObserveList.removeAll(onFatchingObserveList);
+            onFatchingObserveList =new ArrayList<>();
+        }
+    }
     public boolean removeFatchingObserve(OnFatchingObserve onFatchingObserve) {
         for (WeakReference<OnFatchingObserve> onFatchingObserveWeakReference : this.onFatchingObserveList) {
             if(onFatchingObserveWeakReference!=null && onFatchingObserveWeakReference.get()!=null && onFatchingObserveWeakReference.get()==onFatchingObserve)
@@ -88,38 +97,19 @@ abstract public class DataProvider extends MonitorList {
         if(isFetching==false && getCanLoadNext() && isFirstCall) {
             isFetching=true;
             isFetchingRefresh=false;
-            if(onFatchingObserveList!=null && onFatchingObserveList.size()!=0)
-            {
-                for (WeakReference<OnFatchingObserve> fatchingObserve : onFatchingObserveList) {
-                    if(fatchingObserve !=null && fatchingObserve.get()!=null)
-                        fatchingObserve.get().onFetchingStart(false);
-                }
-            }
+            onFetchingStart(isFetchingRefresh);
             invokeLoadNext();
             return true;
         }
         else if(isFetching==false && getCanLoadNext() && getNextEnabled()) {
             isFetching=true;
             isFetchingRefresh=false;
-            if(onFatchingObserveList!=null && onFatchingObserveList.size()!=0)
-            {
-                for (WeakReference<OnFatchingObserve> fatchingObserve : onFatchingObserveList) {
-                    if(fatchingObserve !=null && fatchingObserve.get()!=null)
-                        fatchingObserve.get().onFetchingStart(false);
-                }
-            }
+            onFetchingStart(isFetchingRefresh);
             invokeLoadNext();
             return true;
         }
         else {
-            if(onFatchingObserveList!=null && onFatchingObserveList.size()!=0)
-            {
-                for (WeakReference<OnFatchingObserve> fatchingObserve : onFatchingObserveList) {
-                    if(fatchingObserve !=null && fatchingObserve.get()!=null)
-                        fatchingObserve.get().onFetchingEnd(null,false);
-                }
-            }
-
+            onFetchingEnd(null,false);
             return false;
         }
     }
@@ -131,34 +121,36 @@ abstract public class DataProvider extends MonitorList {
         if(isFetching==false && getCanLoadRefresh() && getRefreshEnabled()) {
             isFetching=true;
             isFetchingRefresh=true;
-            if(onFatchingObserveList!=null && onFatchingObserveList.size()!=0)
-            {
-                for (WeakReference<OnFatchingObserve> fatchingObserve : onFatchingObserveList) {
-                    if(fatchingObserve !=null && fatchingObserve.get()!=null)
-                        fatchingObserve.get().onFetchingStart(isFetchingRefresh);
-                }
-            }
-
+            onFetchingStart(isFetchingRefresh);
             invokeloadRefresh();
             return true;
         }
         else {
-            if(onFatchingObserveList!=null && onFatchingObserveList.size()!=0)
-            {
-                for (WeakReference<OnFatchingObserve> fatchingObserve : onFatchingObserveList) {
-                    if(fatchingObserve !=null && fatchingObserve.get()!=null)
-                        fatchingObserve.get().onFetchingEnd(null,isFetchingRefresh);
-                }
-            }
-
+            onFetchingEnd(null,isFetchingRefresh);
             return false;
         }
     }
+
     public boolean refresh()
     {
         return loadRefresh();
     }
     protected void dataLoadError(Object status) {
+        onFetchingError(status);
+    }
+
+
+    protected void onFetchingEnd(List list, boolean isFetchingRefresh) {
+        if(onFatchingObserveList!=null && onFatchingObserveList.size()!=0)
+        {
+            for (WeakReference<OnFatchingObserve> fatchingObserve : onFatchingObserveList) {
+                if(fatchingObserve !=null && fatchingObserve.get()!=null)
+                    fatchingObserve.get().onFetchingEnd(list,isFetchingRefresh);
+            }
+        }
+    }
+
+    protected void onFetchingError(Object status) {
         if(onFatchingObserveList!=null && onFatchingObserveList.size()!=0)
         {
             for (WeakReference<OnFatchingObserve> fatchingObserve : onFatchingObserveList) {
@@ -167,6 +159,17 @@ abstract public class DataProvider extends MonitorList {
             }
         }
     }
+
+    protected void onFetchingStart(boolean isFetchingRefresh) {
+        if(onFatchingObserveList!=null && onFatchingObserveList.size()!=0)
+        {
+            for (WeakReference<OnFatchingObserve> fatchingObserve : onFatchingObserveList) {
+                if(fatchingObserve !=null && fatchingObserve.get()!=null)
+                    fatchingObserve.get().onFetchingStart(isFetchingRefresh);
+            }
+        }
+    }
+
     public void addData(List list) {
         if(getConfigurableObject())
         {
@@ -181,20 +184,12 @@ abstract public class DataProvider extends MonitorList {
             else
                 addAll(list);
         }
-        if(onFatchingObserveList!=null && onFatchingObserveList.size()!=0)
-        {
-            for (WeakReference<OnFatchingObserve> fatchingObserve : onFatchingObserveList) {
-                if(fatchingObserve !=null && fatchingObserve.get()!=null)
-                    fatchingObserve.get().onFetchingEnd(list,isFetchingRefresh);
-            }
-        }
+        onFetchingEnd(list,isFetchingRefresh);
         isFetchingRefresh=false;
         isFetching=false;
         isFirstCall=false;
     }
-    public void garbageCollectorCall() {
 
-    }
     public interface OnFatchingObserve {
         void onFetchingStart(boolean isFetchingRefresh);
         void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh);
