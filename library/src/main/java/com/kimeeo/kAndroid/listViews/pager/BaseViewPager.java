@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by bhavinpadhiyar on 1/20/16.
  */
-abstract public class BaseViewPager extends BaseListDataView implements ViewPager.OnPageChangeListener {
+abstract public class BaseViewPager extends BaseListDataView implements ViewPager.OnPageChangeListener,BaseViewPagerAdapter.OnUpdateItem {
     protected View mRootView;
     protected BaseViewPagerAdapter mAdapter;
     protected ViewPager mViewPager;
@@ -82,7 +82,12 @@ abstract public class BaseViewPager extends BaseListDataView implements ViewPage
     }
     protected void createAdapter(ViewPager mViewPager) {
         mAdapter = createViewPagerAdapter();
+        mAdapter.setOnUpdateItem(this);
         mViewPager.setAdapter(mAdapter);
+    }
+    public void update(BaseItemHolder itemHolder, Object item, int position)
+    {
+
     }
     //Confgi Your your viewpager here
     protected void configViewPager(ViewPager mList, BaseViewPagerAdapter mAdapter, View indicator) {

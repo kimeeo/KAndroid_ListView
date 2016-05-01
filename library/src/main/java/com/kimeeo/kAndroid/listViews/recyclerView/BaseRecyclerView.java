@@ -25,7 +25,7 @@ import java.util.List;
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 
 
-abstract public class BaseRecyclerView extends BaseListDataView implements AdapterView.OnItemClickListener{
+abstract public class BaseRecyclerView extends BaseListDataView implements AdapterView.OnItemClickListener,BaseRecyclerViewAdapter.OnUpdateItem{
     protected RecyclerView recyclerView;
     protected View mRootView;
     protected BaseRecyclerViewAdapter mAdapter;
@@ -65,6 +65,11 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
     {
         return mAdapter;
     }
+
+    public void update(BaseItemHolder itemHolder, Object item, int position)
+    {
+
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         configViewParam();
@@ -75,6 +80,8 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
         mEmptyViewHelper = createEmptyViewHelper();
         recyclerView = createRecyclerView(mRootView);
         mAdapter = createListViewAdapter();
+        mAdapter.setOnUpdateItem(this);
+
         RecyclerView.LayoutManager layoutManager= createLayoutManager();
         configLayoutManager(layoutManager);
         recyclerView.setLayoutManager(layoutManager);
@@ -82,7 +89,6 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
         RecyclerView.ItemDecoration itemDecoration= createItemDecoration();
         if(itemDecoration!=null)
             recyclerView.addItemDecoration(itemDecoration);
-
 
         mAdapter.setOnItemClickListener(this);
         recyclerView.setAdapter(mAdapter);

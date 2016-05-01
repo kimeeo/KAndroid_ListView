@@ -11,12 +11,23 @@ import com.kimeeo.kAndroid.listViews.dataProvider.DataProvider;
 import com.kimeeo.kAndroid.listViews.dataProvider.MonitorList;
 import com.kimeeo.kAndroid.listViews.pager.BaseItemHolder;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
  * Created by bhavinpadhiyar on 1/20/16.
  */
 abstract public class BaseViewPagerAdapter extends PagerAdapter implements DataProvider.OnFatchingObserve,MonitorList.OnChangeWatcher {
+    private WeakReference<OnUpdateItem> onUpdateItem;
+    public OnUpdateItem getOnUpdateItem() {
+        if(onUpdateItem!=null)
+            return onUpdateItem.get();
+        return
+                null;
+    }
+    public void setOnUpdateItem(OnUpdateItem onUpdateItem) {
+        this.onUpdateItem = new WeakReference<OnUpdateItem>(onUpdateItem);
+    }
     public void garbageCollectorCall() {
         dataProvider=null;
     }
@@ -54,6 +65,8 @@ abstract public class BaseViewPagerAdapter extends PagerAdapter implements DataP
         view.setTag(itemHolder);
         container.addView(view, 0);
         itemHolder.updateItemView(data, position);
+        if(onUpdateItem!=null && onUpdateItem.get()!=null)
+            onUpdateItem.get().update(itemHolder,data, position);
         return view;
     }
     protected BaseItemHolder getItemHolderAll(View view,int position,Object data) {
@@ -136,5 +149,10 @@ abstract public class BaseViewPagerAdapter extends PagerAdapter implements DataP
         public void updateItemView(Object item,View view,int position){
 
         }
+    }
+
+    public interface OnUpdateItem
+    {
+        void update(BaseItemHolder itemHolder, Object item, int position);
     }
 }

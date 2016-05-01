@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by bhavinpadhiyar on 1/20/16.
  */
-abstract public class BaseListView extends BaseListDataView implements AdapterView.OnItemClickListener{
+abstract public class BaseListView extends BaseListDataView implements AdapterView.OnItemClickListener,BaseListViewAdapter.OnUpdateItem{
     protected ListView mList;
     protected View mRootView;
     protected EmptyViewHelper mEmptyViewHelper;
@@ -59,6 +59,7 @@ abstract public class BaseListView extends BaseListDataView implements AdapterVi
         mEmptyViewHelper = createEmptyViewHelper();
 
         mAdapter = createListViewAdapter();
+        mAdapter.setOnUpdateItem(this);
         mList.setOnItemClickListener(this);
         mList.setAdapter(mAdapter);
         configListView(mList, mAdapter);
@@ -67,6 +68,11 @@ abstract public class BaseListView extends BaseListDataView implements AdapterVi
         onViewCreated(mRootView);
         return mRootView;
     }
+    public void update(BaseItemHolder itemHolder, Object item, int position)
+    {
+
+    }
+
     protected EmptyViewHelper createEmptyViewHelper() {
         return new EmptyViewHelper(getActivity(), createEmptyView(mRootView), this, showInternetError(), showInternetRetryButton());
     }

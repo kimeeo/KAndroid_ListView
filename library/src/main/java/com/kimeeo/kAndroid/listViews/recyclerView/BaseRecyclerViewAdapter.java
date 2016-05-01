@@ -11,6 +11,7 @@ import com.kimeeo.kAndroid.listViews.R;
 import com.kimeeo.kAndroid.listViews.dataProvider.DataProvider;
 import com.kimeeo.kAndroid.listViews.dataProvider.MonitorList;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
@@ -22,6 +23,17 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
     public boolean supportLoader = true;
     private AdapterView.OnItemClickListener mOnItemClickListener;
     private DataProvider dataProvider;
+
+    private WeakReference<OnUpdateItem> onUpdateItem;
+    public OnUpdateItem getOnUpdateItem() {
+        if(onUpdateItem!=null)
+            return onUpdateItem.get();
+        return
+                null;
+    }
+    public void setOnUpdateItem(OnUpdateItem onUpdateItem) {
+        this.onUpdateItem = new WeakReference<OnUpdateItem>(onUpdateItem);
+    }
 
     public BaseRecyclerViewAdapter(DataProvider dataProvider) {
         this.dataProvider = dataProvider;
@@ -135,8 +147,9 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
             StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) itemHolder.itemView.getLayoutParams();
             layoutParams.setFullSpan(isSnap);
         }
-
         itemHolder.updateItemView(item, position);
+        if(onUpdateItem!=null && onUpdateItem.get()!=null)
+            onUpdateItem.get().update(itemHolder,item, position);
     }
 
     protected boolean getSpanForItem(BaseItemHolder itemHolder, int position,int viewType)
@@ -223,5 +236,9 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
         {
 
         }
+    }
+    public interface OnUpdateItem
+    {
+        void update(BaseItemHolder itemHolder, Object item, int position);
     }
 }

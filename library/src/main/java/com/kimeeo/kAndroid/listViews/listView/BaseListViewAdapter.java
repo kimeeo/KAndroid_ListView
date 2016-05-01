@@ -10,6 +10,7 @@ import com.kimeeo.kAndroid.listViews.R;
 import com.kimeeo.kAndroid.listViews.dataProvider.DataProvider;
 import com.kimeeo.kAndroid.listViews.dataProvider.MonitorList;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,19 @@ abstract public class BaseListViewAdapter extends BaseAdapter implements DataPro
     private static final String TAG = "BaseRecyclerViewAdapter";
     private AdapterView.OnItemClickListener mOnItemClickListener;
     private DataProvider dataProvider;
+
+    private WeakReference<OnUpdateItem> onUpdateItem;
+    public OnUpdateItem getOnUpdateItem() {
+        if(onUpdateItem!=null)
+            return onUpdateItem.get();
+        return
+                null;
+    }
+    public void setOnUpdateItem(OnUpdateItem onUpdateItem) {
+        this.onUpdateItem = new WeakReference<OnUpdateItem>(onUpdateItem);
+    }
+
+
     public boolean supportLoader = true;
     public void garbageCollectorCall() {
         dataProvider=null;
@@ -115,6 +129,8 @@ abstract public class BaseListViewAdapter extends BaseAdapter implements DataPro
     public void onBindViewHolder(BaseItemHolder itemHolder, int position) {
         Object item = getDataProvider().get(position);
         itemHolder.updateItemView(item, position);
+        if(onUpdateItem!=null && onUpdateItem.get()!=null)
+            onUpdateItem.get().update(itemHolder,item, position);
     }
     @Override
     public int getItemViewType(int position){
@@ -169,6 +185,10 @@ abstract public class BaseListViewAdapter extends BaseAdapter implements DataPro
         public void updateItemView(Object item,View view,int position){
 
         }
+    }
+    public interface OnUpdateItem
+    {
+        void update(BaseItemHolder itemHolder, Object item, int position);
     }
 }
 
