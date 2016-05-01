@@ -66,7 +66,7 @@ public class MonitorList<T> extends ArrayList<T> {
         T value=super.remove(position);
         ArrayList<T> list = new ArrayList<>();
         list.add(value);
-        notifyRemove(position,list);
+        notifyRemove(position, list);
         return value;
     }
     @Override
@@ -81,7 +81,7 @@ public class MonitorList<T> extends ArrayList<T> {
         return retrunVal;
     }
     @Override
-    public void  add(int position,T value) {
+    public void add(int position,T value) {
         ArrayList<T> list = new ArrayList<>();
         list.add(value);
         notifyAdd(position,list);
@@ -89,18 +89,24 @@ public class MonitorList<T> extends ArrayList<T> {
     }
     @Override
     public boolean addAll(Collection value) {
-        ArrayList<T> list = new ArrayList<>();
-        list.addAll(value);
+        boolean returnVal = super.addAll(value);
+        if(returnVal) {
+            ArrayList<T> list = new ArrayList<>();
+            list.addAll(value);
 
-        notifyAdd(size(),list);
-        return super.addAll(value);
+            notifyAdd(size(), list);
+        }
+        return returnVal;
     }
     @Override
     public boolean addAll(int index, Collection value) {
-        ArrayList<T> list = new ArrayList<>();
-        list.addAll(value);
-        notifyAdd(index,list);
-        return super.addAll(index,value);
+        boolean returnVal = super.addAll(index,value);
+        if(returnVal) {
+            ArrayList<T> list = new ArrayList<>();
+            list.addAll(value);
+            notifyAdd(index, list);
+        }
+        return returnVal;
     }
     @Override
     public boolean removeAll(Collection value) {

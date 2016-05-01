@@ -22,7 +22,9 @@ abstract public class DataProvider extends MonitorList {
     private int refreshItemPos=0;
     private boolean isFirstCall=true;
     private  boolean isConfigurableObject=false;
+
     private List<WeakReference<OnFatchingObserve>> onFatchingObserveList=new ArrayList<>();
+
     public void garbageCollectorCall() {
         if(onFatchingObserveList!=null) {
             for (int i = 0; i < onFatchingObserveList.size(); i++) {
@@ -32,6 +34,7 @@ abstract public class DataProvider extends MonitorList {
             onFatchingObserveList =new ArrayList<>();
         }
     }
+
     public boolean removeFatchingObserve(OnFatchingObserve onFatchingObserve) {
         for (WeakReference<OnFatchingObserve> onFatchingObserveWeakReference : this.onFatchingObserveList) {
             if(onFatchingObserveWeakReference!=null && onFatchingObserveWeakReference.get()!=null && onFatchingObserveWeakReference.get()==onFatchingObserve)
@@ -39,6 +42,7 @@ abstract public class DataProvider extends MonitorList {
         }
         return false;
     }
+
     public boolean addFatchingObserve(OnFatchingObserve onFatchingObserve) {
         boolean found=false;
         for (WeakReference<OnFatchingObserve> onFatchingObserveWeakReference : this.onFatchingObserveList) {
@@ -51,48 +55,61 @@ abstract public class DataProvider extends MonitorList {
             return this.onFatchingObserveList.add(new WeakReference(onFatchingObserve));
         return false;
     }
+
     public int getRefreshItemPos() {
         return refreshItemPos;
     }
+
     public void setRefreshItemPos(int refreshItemPos) {
         this.refreshItemPos = refreshItemPos;
     }
+
     public boolean getConfigurableObject() {
         return isConfigurableObject;
     }
+
     public void setConfigurableObject(boolean configurableObject) {
         isConfigurableObject = configurableObject;
     }
     public boolean getNextEnabled() {
         return nextEnabled;
     }
+
     public void setNextEnabled(boolean nextEnabled) {
         this.nextEnabled = nextEnabled;
     }
+
     public boolean getRefreshEnabled() {
         return refreshEnabled;
     }
+
     public void setRefreshEnabled(boolean refreshEnabled) {
         this.refreshEnabled = refreshEnabled;
     }
+
     public boolean getCanLoadNext() {
         return canLoadNext;
     }
+
     public void setCanLoadNext(boolean canLoadNext) {
         this.canLoadNext = canLoadNext;
     }
+
     public boolean getCanLoadRefresh() {
         return canLoadRefresh;
     }
+
     public void setCanLoadRefresh(boolean canLoadRefresh) {
         this.canLoadRefresh = canLoadRefresh;
     }
+
     public void reset() {
         removeAll(this);
         isFirstCall=true;
         setCanLoadNext(true);
         next();
     }
+
     protected boolean loadNext() {
         if(isFetching==false && getCanLoadNext() && isFirstCall) {
             isFetching=true;
@@ -113,10 +130,12 @@ abstract public class DataProvider extends MonitorList {
             return false;
         }
     }
+
     public boolean next()
     {
         return loadNext();
     }
+
     protected boolean loadRefresh() {
         if(isFetching==false && getCanLoadRefresh() && getRefreshEnabled()) {
             isFetching=true;
@@ -135,6 +154,7 @@ abstract public class DataProvider extends MonitorList {
     {
         return loadRefresh();
     }
+
     protected void dataLoadError(Object status) {
         onFetchingError(status);
     }
