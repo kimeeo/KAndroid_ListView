@@ -230,7 +230,7 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
     public void itemsChanged(int index,List items){
         dataLoaded(items,false);
     };
-    private void dataLoaded(List<?> dataList, boolean isFetchingRefresh) {
+    protected void dataLoaded(List<?> dataList, boolean isFetchingRefresh) {
         if (isFetchingRefresh)
             recyclerView.scrollToPosition(0);
 
