@@ -31,6 +31,11 @@ abstract public class BackgroundDataProvider extends DataProvider
         backgroundTask.execute(false);
         return true;
     }
+    List listThreadSafe=null;
+    public void addDataInThread(final List list) {
+        listThreadSafe =list;
+    }
+
     private class BackgroundTask extends AsyncTask<Boolean, Void, Boolean> {
 
         public BackgroundTask()
@@ -51,14 +56,12 @@ abstract public class BackgroundDataProvider extends DataProvider
         }
         @Override
         protected void onPostExecute(Boolean data) {
-
+            if(listThreadSafe!=null)
+                addData(listThreadSafe);
+            else
+                dataLoadError(listThreadSafe);
+            listThreadSafe = null;
         }
     }
-    public void addDataInThread(final List list) {
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(new Runnable() {
-            public void run() {
-                addData(list);
-            }});
-    }
+
 }
