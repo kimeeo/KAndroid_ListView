@@ -1,6 +1,5 @@
 package com.kimeeo.kAndroid.listViews.dataProvider;
 
-import java.util.List;
 import java.util.Map;
 
 
@@ -13,7 +12,6 @@ abstract public class BackgroundNetworkDataProvider extends BackgroundDataProvid
     {
 
     }
-
     public static final int METHOD_POST =1;
     public static final int METHOD_GET =2;
     abstract protected int getMethod();
@@ -25,9 +23,5 @@ abstract public class BackgroundNetworkDataProvider extends BackgroundDataProvid
     }
     protected Map<String,Object> getRefreshParam(){
         return null;
-    }
-
-    public interface DataModel{
-        public List getDataProvider();
     }
 }

@@ -1,6 +1,5 @@
 package com.kimeeo.kAndroid.listViews.dataProvider;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,9 +18,5 @@ abstract public class NetworkDataProvider extends DataProvider
     }
     protected Map<String,Object> getRefreshParam(){
         return null;
-    }
-
-    public interface DataModel{
-        public List getDataProvider();
     }
 }
