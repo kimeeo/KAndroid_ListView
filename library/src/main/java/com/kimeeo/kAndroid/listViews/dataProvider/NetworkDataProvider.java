@@ -13,7 +13,7 @@ abstract public class NetworkDataProvider extends DataProvider
     abstract protected int getMethod();
     abstract protected String getNextURL();
     abstract protected Map<String,Object> getNextParam();
-    abstract protected Class<DataModel> getListParser();
+    abstract protected Class<DataModel> getDataModel();
     protected String getRefreshURL() {
         return null;
     }
