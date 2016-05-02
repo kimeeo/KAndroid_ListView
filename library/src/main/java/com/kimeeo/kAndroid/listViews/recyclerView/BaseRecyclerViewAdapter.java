@@ -203,7 +203,7 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
         List<Object> list = getDataProvider();
         if (list.size() != 0 && list.get(list.size() - 1) instanceof ProgressItem && supportLoader) {
             getDataProvider().remove(getDataProvider().size() - 1);
-            notifyItemRemoved(getDataProvider().size());
+            //notifyItemRemoved(getDataProvider().size());
         }
     }
 

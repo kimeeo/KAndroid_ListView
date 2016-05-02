@@ -80,7 +80,9 @@ abstract public class BaseFragmentViewPagerAdapter extends FragmentStatePagerAda
 
     };
     public void onFetchingError(Object error){
-
+        List<Object> list = getDataProvider();
+        if(list.size()!=0 && list.get(list.size() - 1) instanceof ProgressItem && supportLoader)
+            getDataProvider().remove(getDataProvider().size() - 1);
     };
     boolean firstTime = true;
     // Returns total number of pages

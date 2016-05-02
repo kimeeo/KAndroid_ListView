@@ -130,7 +130,9 @@ abstract public class BaseViewPagerAdapter extends PagerAdapter implements DataP
     };
     @Override
     public void onFetchingError(Object error){
-
+        List<Object> list = getDataProvider();
+        if(list.size()!=0 && list.get(list.size() - 1) instanceof ProgressItem && supportLoader)
+            getDataProvider().remove(getDataProvider().size() - 1);
     };
     abstract public String getItemTitle(int position,Object navigationObject);
     @Override

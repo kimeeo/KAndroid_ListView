@@ -142,27 +142,27 @@ public class MonitorList<T> extends ArrayList<T> {
     protected void notifyAdd(int position,List<T> objects) {
         if(onChangeWatcherList!=null && objects!=null && objects.size()!=0)
         {
-            for (WeakReference<OnChangeWatcher<T>> onChangeWatcherWeakReference : onChangeWatcherList) {
-                if(onChangeWatcherWeakReference!=null && onChangeWatcherWeakReference.get()!=null)
-                    onChangeWatcherWeakReference.get().itemsAdded(position,objects);
+            for (WeakReference<OnChangeWatcher<T>> item : onChangeWatcherList) {
+                if(item!=null && item.get()!=null)
+                    item.get().itemsAdded(position,objects);
             }
         }
     }
     protected void notifyRemove(int position,List<T> objects) {
         if(onChangeWatcherList!=null && objects!=null && objects.size()!=0)
         {
-            for (WeakReference<OnChangeWatcher<T>> onChangeWatcherWeakReference : onChangeWatcherList) {
-                if(onChangeWatcherWeakReference!=null && onChangeWatcherWeakReference.get()!=null)
-                    onChangeWatcherWeakReference.get().itemsRemoved(position,objects);
+            for (WeakReference<OnChangeWatcher<T>> item : onChangeWatcherList) {
+                if(item!=null && item.get()!=null)
+                    item.get().itemsRemoved(position,objects);
             }
         }
     }
     protected void notifyChanged(int position,List<T> objects) {
         if(onChangeWatcherList!=null && objects!=null && objects.size()!=0)
         {
-            for (WeakReference<OnChangeWatcher<T>> onChangeWatcherWeakReference : onChangeWatcherList) {
-                if(onChangeWatcherWeakReference!=null && onChangeWatcherWeakReference.get()!=null)
-                    onChangeWatcherWeakReference.get().itemsChanged(position,objects);
+            for (WeakReference<OnChangeWatcher<T>> item : onChangeWatcherList) {
+                if(item!=null && item.get()!=null)
+                    item.get().itemsChanged(position,objects);
             }
         }
     }
