@@ -1,6 +1,11 @@
 package com.kimeeo.kAndroid.listViews.dataProvider;
 
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
+
+import java.util.List;
+
 
 /**
  * Created by BhavinPadhiyar on 27/04/16.
@@ -8,9 +13,11 @@ import android.os.AsyncTask;
 abstract public class BackgroundDataProvider extends DataProvider
 {
     BackgroundTask backgroundTask;
+    Handler handler;
     public BackgroundDataProvider()
     {
         backgroundTask=new BackgroundTask();
+        handler = new Handler(Looper.getMainLooper());
     }
 
     @Override
@@ -46,6 +53,22 @@ abstract public class BackgroundDataProvider extends DataProvider
         @Override
         protected void onPostExecute(Boolean data) {
 
+        }
+    }
+    boolean isInLoop=false;
+    public void addData(final List list) {
+        if(isInLoop)
+        {
+            isInLoop=false;
+            super.addData(list);
+        }
+        else {
+            isInLoop=true;
+            handler.post(new Runnable() {
+                public void run() {
+                    BackgroundDataProvider.this.addData(list);
+                }
+            });
         }
     }
 }
