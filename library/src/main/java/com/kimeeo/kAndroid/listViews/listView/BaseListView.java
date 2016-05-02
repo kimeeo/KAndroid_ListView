@@ -181,13 +181,16 @@ abstract public class BaseListView extends BaseListDataView implements AdapterVi
 
     }
     public void itemsAdded(int index,List items){
-        dataLoaded(items,false);
+        if (mEmptyViewHelper != null)
+            mEmptyViewHelper.updateView(getDataProvider());
     };
     public void itemsRemoved(int index,List items){
-        dataLoaded(items,false);
+        if (mEmptyViewHelper != null)
+            mEmptyViewHelper.updateView(getDataProvider());
     };
     public void itemsChanged(int index,List items){
-        dataLoaded(items,false);
+        if (mEmptyViewHelper != null)
+            mEmptyViewHelper.updateView(getDataProvider());
     };
     private void dataLoaded(List<?> dataList, boolean isFetchingRefresh) {
         if (isFetchingRefresh && mList!=null)

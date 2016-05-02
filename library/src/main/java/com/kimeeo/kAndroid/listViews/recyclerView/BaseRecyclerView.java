@@ -190,11 +190,11 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
         }
         return null;
     }
-    public void updateSwipeRefreshLayout(boolean isRefreshData) {
+    public void updateSwipeRefreshLayout(boolean isFetchingRefresh) {
         if(mSwipeRefreshLayout!=null) {
             mSwipeRefreshLayout.setRefreshing(false);
 
-            if(isRefreshData)
+            if(isFetchingRefresh)
                 mSwipeRefreshLayout.setEnabled(getDataProvider().getCanLoadRefresh());
         }
     }
@@ -224,13 +224,16 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
 
     }
     public void itemsAdded(int index,List items){
-        dataLoaded(items,false);
+        if (getEmptyViewHelper() != null)
+            getEmptyViewHelper().updateView(getDataProvider());
     };
     public void itemsRemoved(int index,List items){
-        dataLoaded(items,false);
+        if (getEmptyViewHelper() != null)
+            getEmptyViewHelper().updateView(getDataProvider());
     };
     public void itemsChanged(int index,List items){
-        dataLoaded(items,false);
+        if (getEmptyViewHelper() != null)
+            getEmptyViewHelper().updateView(getDataProvider());
     };
     protected void dataLoaded(List<?> dataList, boolean isFetchingRefresh) {
         if (isFetchingRefresh)

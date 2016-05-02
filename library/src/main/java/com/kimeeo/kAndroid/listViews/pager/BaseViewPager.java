@@ -246,6 +246,7 @@ abstract public class BaseViewPager extends BaseListDataView implements ViewPage
     }
     public void onDataReceived(String url, Object value, Object status) {
     }
+
     public void updateSwipeRefreshLayout(boolean isRefreshData) {
         if (mSwipeRefreshLayout != null) {
             mSwipeRefreshLayout.setRefreshing(false);
@@ -281,13 +282,16 @@ abstract public class BaseViewPager extends BaseListDataView implements ViewPage
 
     }
     public void itemsAdded(int index,List items){
-        dataLoaded(items,false);
+        if (mEmptyViewHelper != null)
+            mEmptyViewHelper.updateView(getDataProvider());
     };
     public void itemsRemoved(int index,List items){
-        dataLoaded(items,false);
+        if (mEmptyViewHelper != null)
+            mEmptyViewHelper.updateView(getDataProvider());
     };
     public void itemsChanged(int index,List items){
-        dataLoaded(items,false);
+        if (mEmptyViewHelper != null)
+            mEmptyViewHelper.updateView(getDataProvider());
     };
     private void dataLoaded(List<?> dataList, boolean isFetchingRefresh) {
         if(dataList!=null && dataList.size()!=0 && getViewPager()!=null)
