@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
 import com.commit451.adapterlayout.AdapterLayoutDelegate;
-import com.kimeeo.library.listDataView.recyclerView.adapterLayout.IAdapterLayoutView;
+import com.kimeeo.kAndroid.listViews.recyclerView.adapterLayout.IAdapterLayoutView;
 
 /**
  * Created by bhavinpadhiyar on 2/16/16.

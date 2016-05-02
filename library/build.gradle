@@ -36,4 +36,9 @@ dependencies {
     //RecyclerView Animators
     //https://github.com/wasabeef/recyclerview-animators
     compile 'jp.wasabeef:recyclerview-animators:2.2.3'
+
+
+    //AdapterLayout
+    //https://github.com/Commit451/AdapterLayout
+    compile 'com.commit451:adapterlayout:1.0.1'
 }

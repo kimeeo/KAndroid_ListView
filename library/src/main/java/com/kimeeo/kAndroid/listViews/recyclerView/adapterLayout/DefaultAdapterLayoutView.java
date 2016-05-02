@@ -12,16 +12,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.kimeeo.library.listDataView.recyclerView.BaseItemHolder;
-import com.kimeeo.library.listDataView.recyclerView.BaseRecyclerViewAdapter;
-import com.kimeeo.library.listDataView.recyclerView.DefaultRecyclerViewAdapter;
-import com.kimeeo.library.listDataView.recyclerView.IViewProvider;
-
+import com.kimeeo.kAndroid.listViews.recyclerView.BaseItemHolder;
+import com.kimeeo.kAndroid.listViews.recyclerView.BaseRecyclerViewAdapter;
+import com.kimeeo.kAndroid.listViews.recyclerView.DefaultRecyclerViewAdapter;
+import com.kimeeo.kAndroid.listViews.recyclerView.IViewProvider;
 
 abstract public class DefaultAdapterLayoutView extends BaseAdapterLayoutView implements IViewProvider
 {
     abstract public View getItemView(int viewType,LayoutInflater inflater,ViewGroup container);
-    abstract public BaseItemHolder getItemHolder(int viewType,View view);
+    abstract public BaseItemHolder getItemHolder(int viewType, View view);
 
     public int getListItemViewType(int position,Object item)
     {
@@ -29,6 +28,6 @@ abstract public class DefaultAdapterLayoutView extends BaseAdapterLayoutView imp
     }
     protected BaseRecyclerViewAdapter createListViewAdapter()
     {
-        return new DefaultRecyclerViewAdapter(getDataManager(),this,this);
+        return new DefaultRecyclerViewAdapter(getDataProvider(),this);
     }
 }

@@ -15,10 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
-import com.kimeeo.library.R;
-import com.kimeeo.library.listDataView.BaseListDataView;
-import com.kimeeo.library.listDataView.EmptyViewHelper;
-import com.kimeeo.library.listDataView.recyclerView.BaseRecyclerViewAdapter;
+import com.kimeeo.kAndroid.listViews.BaseListDataView;
+import com.kimeeo.kAndroid.listViews.EmptyViewHelper;
+import com.kimeeo.kAndroid.listViews.R;
+import com.kimeeo.kAndroid.listViews.recyclerView.BaseRecyclerViewAdapter;
 
 import java.util.List;
 
@@ -65,7 +65,7 @@ abstract public class BaseAdapterLayoutView extends BaseListDataView implements 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         configViewParam();
         mRootView = createRootView(inflater, container, savedInstanceState);
-        if(getDataManager().getRefreshEnabled())
+        if(getDataProvider().getRefreshEnabled())
             configSwipeRefreshLayout(createSwipeRefreshLayout(mRootView));
 
         mViewGroup = createViewGroup(mRootView);
@@ -81,7 +81,7 @@ abstract public class BaseAdapterLayoutView extends BaseListDataView implements 
             mAdapterLayout.setAdapter(mAdapter);
         }
         configViewGroup(mViewGroup, mAdapter);
-        loadNext();
+        next();
         onViewCreated(mRootView);
         return mRootView;
     }
@@ -124,15 +124,15 @@ abstract public class BaseAdapterLayoutView extends BaseListDataView implements 
             mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    if (getDataManager().canLoadRefresh())
-                        loadRefreshData();
+                    if (getDataProvider().getCanLoadRefresh())
+                        refresh();
                     else
                         mSwipeRefreshLayout.setRefreshing(false);
 
-                    mSwipeRefreshLayout.setEnabled(getDataManager().hasScopeOfRefresh());
+                    mSwipeRefreshLayout.setEnabled(getDataProvider().getCanLoadRefresh());
                 }
             });
-            boolean refreshEnabled = getDataManager().getRefreshEnabled();
+            boolean refreshEnabled = getDataProvider().getRefreshEnabled();
             mSwipeRefreshLayout.setEnabled(refreshEnabled);
             mSwipeRefreshLayout.setColorSchemeColors(R.array.progressColors);
         }
@@ -156,31 +156,13 @@ abstract public class BaseAdapterLayoutView extends BaseListDataView implements 
             mSwipeRefreshLayout.setRefreshing(false);
 
             if(isRefreshData)
-                mSwipeRefreshLayout.setEnabled(getDataManager().hasScopeOfRefresh());
+                mSwipeRefreshLayout.setEnabled(getDataProvider().getCanLoadRefresh());
         }
     }
-    public void onDataLoadError(String url, Object status)
-    {
-        if (mEmptyViewHelper != null)
-            mEmptyViewHelper.updateView(getDataManager());
-        updateSwipeRefreshLayout(false);
-    }
-    public void onDataReceived(String url, Object value,Object status)
-    {
-
-    }
-    public void onCallEnd(List<?> dataList,final boolean isRefreshData)
-    {
-        if (mEmptyViewHelper != null)
-            mEmptyViewHelper.updateView(getDataManager());
-        updateSwipeRefreshLayout(isRefreshData);
-
-    }
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
-        Object baseObject = getDataManager().get(position);
+        Object baseObject = getDataProvider().get(position);
         onItemClick(baseObject);
     }
     public void onItemClick(Object baseObject)
@@ -188,19 +170,39 @@ abstract public class BaseAdapterLayoutView extends BaseListDataView implements 
 
     }
 
-
-    public void onCallStart()
-    {
+    @Override
+    public void onFetchingStart(boolean isFetchingRefresh){
         if (mEmptyViewHelper != null)
             mEmptyViewHelper.updatesStart();
-    }
-
-    public void onFirstCallEnd()
-    {
-
-    }
-    public void onLastCallEnd()
-    {
-
-    }
+    };
+    @Override
+    public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh){
+        if (mEmptyViewHelper != null)
+            mEmptyViewHelper.updateView(getDataProvider());
+        updateSwipeRefreshLayout(isFetchingRefresh);
+    };
+    @Override
+    public void onFetchingError(Object error){
+        if (mEmptyViewHelper != null)
+            mEmptyViewHelper.updateView(getDataProvider());
+        updateSwipeRefreshLayout(false);
+    };
+    @Override
+    public void itemsAdded(int index,List items){
+        if (mEmptyViewHelper != null)
+            mEmptyViewHelper.updateView(getDataProvider());
+        updateSwipeRefreshLayout(false);
+    };
+    @Override
+    public void itemsRemoved(int index,List items){
+        if (mEmptyViewHelper != null)
+            mEmptyViewHelper.updateView(getDataProvider());
+        updateSwipeRefreshLayout(false);
+    };
+    @Override
+    public void itemsChanged(int index,List items){
+        if (mEmptyViewHelper != null)
+            mEmptyViewHelper.updateView(getDataProvider());
+        updateSwipeRefreshLayout(false);
+    };
 }
