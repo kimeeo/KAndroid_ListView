@@ -22,6 +22,6 @@ abstract public class NetworkDataProvider extends DataProvider
     }
 
     public abstract class ListParser{
-        abstract List getDataProvider();
+        abstract public List getDataProvider();
     }
 }
