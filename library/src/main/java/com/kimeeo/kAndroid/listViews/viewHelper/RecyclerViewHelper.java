@@ -211,6 +211,11 @@ public class RecyclerViewHelper extends BaseHelper implements AdapterView.OnItem
         if (mEmptyViewHelper != null)
             mEmptyViewHelper.updatesStart();
     };
+    @Override
+    public void onFetchingFinish(boolean isFetchingRefresh)
+    {
+
+    }
     public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh){
         dataLoaded(dataList,isFetchingRefresh);
     }

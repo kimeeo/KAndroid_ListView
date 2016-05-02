@@ -184,6 +184,11 @@ public class ListViewHelper extends BaseHelper implements AdapterView.OnItemClic
     public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh){
         dataLoaded(dataList,isFetchingRefresh);
     }
+    @Override
+    public void onFetchingFinish(boolean isFetchingRefresh)
+    {
+
+    }
     protected void dataLoaded(List<?> dataList, boolean isFetchingRefresh) {
         if (isFetchingRefresh && mList!=null)
             mList.smoothScrollToPosition(0);

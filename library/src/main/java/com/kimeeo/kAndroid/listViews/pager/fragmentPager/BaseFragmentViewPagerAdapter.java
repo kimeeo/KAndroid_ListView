@@ -62,6 +62,20 @@ abstract public class BaseFragmentViewPagerAdapter extends FragmentStatePagerAda
             notifyDataSetChanged();
         }
     };
+    @Override
+    public void onFetchingFinish(boolean isFetchingRefresh)
+    {
+        List<Object> list = getDataProvider();
+        if(list.size()!=0 && list.get(list.size() - 1) instanceof ProgressItem && supportLoader)
+        {
+            getDataProvider().remove(getDataProvider().size() - 1);
+            if(firstTime) {
+                mViewPager.setAdapter(this);
+                firstTime=false;
+            }
+        }
+        notifyDataSetChanged();
+    }
     public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh){
         List<Object> list = getDataProvider();
         if(list.size()!=0 && list.get(list.size() - 1) instanceof ProgressItem && supportLoader)

@@ -250,6 +250,11 @@ public class ViewPagerHelper extends BaseHelper implements DataProvider.OnFatchi
     public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh){
         dataLoaded(dataList,isFetchingRefresh);
     }
+    @Override
+    public void onFetchingFinish(boolean isFetchingRefresh)
+    {
+
+    }
     protected void dataLoaded(List<?> dataList, boolean isFetchingRefresh) {
         if(dataList!=null && dataList.size()!=0 && mViewPager!=null)
         {

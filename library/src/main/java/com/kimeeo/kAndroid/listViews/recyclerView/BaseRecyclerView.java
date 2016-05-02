@@ -216,6 +216,11 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
     public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh){
         dataLoaded(dataList,isFetchingRefresh);
     }
+    @Override
+    public void onFetchingFinish(boolean isFetchingRefresh)
+    {
+
+    }
     public void itemsAdded(int index,List items){
         dataLoaded(items,false);
     };

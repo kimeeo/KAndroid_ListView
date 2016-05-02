@@ -170,6 +170,16 @@ abstract public class DataProvider extends MonitorList {
         }
     }
 
+    protected void onFetchingFinish(boolean isFetchingRefresh) {
+        if(onFatchingObserveList!=null && onFatchingObserveList.size()!=0)
+        {
+            for (WeakReference<OnFatchingObserve> fatchingObserve : onFatchingObserveList) {
+                if(fatchingObserve !=null && fatchingObserve.get()!=null)
+                    fatchingObserve.get().onFetchingFinish(isFetchingRefresh);
+            }
+        }
+    }
+
     protected void onFetchingError(Object status) {
         if(onFatchingObserveList!=null && onFatchingObserveList.size()!=0)
         {
@@ -191,6 +201,7 @@ abstract public class DataProvider extends MonitorList {
     }
 
     public void addData(List list) {
+        onFetchingFinish(isFetchingRefresh);
         if(getConfigurableObject())
         {
             for (int i = 0; i < list.size(); i++) {
@@ -212,6 +223,8 @@ abstract public class DataProvider extends MonitorList {
 
     public interface OnFatchingObserve {
         void onFetchingStart(boolean isFetchingRefresh);
+        void onFetchingFinish(boolean isFetchingRefresh);
+        //void onFetchingEnd(boolean isFetchingRefresh);
         void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh);
         void onFetchingError(Object error);
     }

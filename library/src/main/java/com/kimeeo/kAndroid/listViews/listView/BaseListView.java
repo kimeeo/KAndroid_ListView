@@ -173,6 +173,11 @@ abstract public class BaseListView extends BaseListDataView implements AdapterVi
     public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh){
         dataLoaded(dataList,isFetchingRefresh);
     }
+    @Override
+    public void onFetchingFinish(boolean isFetchingRefresh)
+    {
+
+    }
     public void itemsAdded(int index,List items){
         dataLoaded(items,false);
     };
