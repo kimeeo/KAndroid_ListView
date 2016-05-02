@@ -32,7 +32,7 @@ abstract public class BackgroundDataProvider extends DataProvider
         return true;
     }
     List listThreadSafe=null;
-    public void addDataInThread(final List list) {
+    public void addDataThreadSafe(final List list) {
         listThreadSafe =list;
     }
 
