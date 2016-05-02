@@ -12,23 +12,23 @@ import java.util.List;
  */
 abstract public class BackgroundDataProvider extends DataProvider
 {
-    BackgroundTask backgroundTask;
     Handler handler;
     public BackgroundDataProvider()
     {
-        backgroundTask=new BackgroundTask();
         handler = new Handler(Looper.getMainLooper());
     }
 
     @Override
     public boolean refresh()
     {
+        BackgroundTask backgroundTask = new BackgroundTask();
         backgroundTask.execute(true);
         return true;
     }
     @Override
     public boolean next()
     {
+        BackgroundTask backgroundTask = new BackgroundTask();
         backgroundTask.execute(false);
         return true;
     }
