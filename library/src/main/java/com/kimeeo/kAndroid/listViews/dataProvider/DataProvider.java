@@ -157,8 +157,11 @@ abstract public class DataProvider extends MonitorList {
 
     protected void dataLoadError(Object status) {
         onFetchingError(status);
+        onFetchingFinish(isFetchingRefresh);
+        isFetchingRefresh=false;
+        isFetching=false;
+        isFirstCall=false;
     }
-
 
     protected void onFetchingEnd(List list, boolean isFetchingRefresh) {
         if(onFatchingObserveList!=null && onFatchingObserveList.size()!=0)
