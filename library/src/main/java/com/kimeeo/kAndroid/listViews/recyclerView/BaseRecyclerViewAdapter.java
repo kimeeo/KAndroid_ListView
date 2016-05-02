@@ -188,24 +188,30 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
     }
     public void onFetchingFinish(boolean isFetchingRefresh)
     {
-        List<Object> list = getDataProvider();
-        if (list.size() != 0 && list.get(list.size() - 1) instanceof ProgressItem && supportLoader) {
-            getDataProvider().remove(getDataProvider().size() - 1);
-            //notifyItemRemoved(getDataProvider().size());
-        }
-    }
-    public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh)
-    {
-
+        removeProgressBar();
     }
     public void onFetchingError(Object error)
     {
+        removeProgressBar();
+    }
+    protected void removeProgressBar() {
         List<Object> list = getDataProvider();
         if (list.size() != 0 && list.get(list.size() - 1) instanceof ProgressItem && supportLoader) {
             getDataProvider().remove(getDataProvider().size() - 1);
-            //notifyItemRemoved(getDataProvider().size());
+            notifyItemRemoved(getDataProvider().size());
         }
     }
+
+    public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh)
+    {
+        if (dataList != null && dataList.size() != 0) {
+            if (isFetchingRefresh)
+                notifyItemRangeInserted(getDataProvider().getRefreshItemPos(), dataList.size());
+            else
+                notifyItemRangeInserted(getDataProvider().size() - dataList.size(), dataList.size());
+        }
+    }
+
 
 
 

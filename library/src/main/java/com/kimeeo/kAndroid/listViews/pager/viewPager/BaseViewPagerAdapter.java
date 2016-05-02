@@ -106,6 +106,7 @@ abstract public class BaseViewPagerAdapter extends PagerAdapter implements DataP
     {
         return dataProvider;
     }
+
     @Override
     public void onFetchingStart(boolean isFetchingRefresh){
         if(supportLoader) {
@@ -116,24 +117,29 @@ abstract public class BaseViewPagerAdapter extends PagerAdapter implements DataP
             }catch (Exception e){}
         }
     };
-    @Override
+
     public void onFetchingFinish(boolean isFetchingRefresh)
     {
-        List<Object> list = getDataProvider();
-        if(list.size()!=0 && list.get(list.size() - 1) instanceof ProgressItem && supportLoader)
-            getDataProvider().remove(getDataProvider().size() - 1);
-        //notifyDataSetChanged();
+        removeProgressBar();
     }
-    @Override
-    public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh){
-
-    };
-    @Override
-    public void onFetchingError(Object error){
+    public void onFetchingError(Object error)
+    {
+        removeProgressBar();
+    }
+    protected void removeProgressBar() {
         List<Object> list = getDataProvider();
         if(list.size()!=0 && list.get(list.size() - 1) instanceof ProgressItem && supportLoader)
             getDataProvider().remove(getDataProvider().size() - 1);
-    };
+        notifyDataSetChanged();
+    }
+
+    public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh)
+    {
+        if(dataList!=null && dataList.size()!=0)
+            notifyDataSetChanged();
+    }
+
+
     abstract public String getItemTitle(int position,Object navigationObject);
     @Override
     public CharSequence getPageTitle(int position) {

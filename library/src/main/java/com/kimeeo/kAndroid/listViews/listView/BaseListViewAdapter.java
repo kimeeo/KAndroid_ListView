@@ -168,23 +168,26 @@ abstract public class BaseListViewAdapter extends BaseAdapter implements DataPro
             }catch (Exception e){}
         }
     };
-    @Override
+
     public void onFetchingFinish(boolean isFetchingRefresh)
     {
+        removeProgressBar();
+    }
+    public void onFetchingError(Object error)
+    {
+        removeProgressBar();
+    }
+    protected void removeProgressBar() {
         List<Object> list = getDataProvider();
-        if(list.size()!=0 && list.get(list.size() - 1) instanceof ProgressItem && supportLoader)
+        if (list.size() != 0 && list.get(list.size() - 1) instanceof ProgressItem && supportLoader) {
             getDataProvider().remove(getDataProvider().size() - 1);
-
-        //notifyDataSetChanged();
+            notifyDataSetChanged();
+        }
     }
     @Override
     public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh){
-
-    };
-    public void onFetchingError(Object error){
-        List<Object> list = getDataProvider();
-        if(list.size()!=0 && list.get(list.size() - 1) instanceof ProgressItem && supportLoader)
-            getDataProvider().remove(getDataProvider().size() - 1);
+        if(dataList!=null && dataList.size()!=0)
+            notifyDataSetChanged();
     };
     // Update View Here
     public static class ProgressViewHolder extends BaseItemHolder {

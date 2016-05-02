@@ -62,9 +62,17 @@ abstract public class BaseFragmentViewPagerAdapter extends FragmentStatePagerAda
             notifyDataSetChanged();
         }
     };
-    @Override
+
+
     public void onFetchingFinish(boolean isFetchingRefresh)
     {
+        removeProgressBar();
+    }
+    public void onFetchingError(Object error)
+    {
+        removeProgressBar();
+    }
+    protected void removeProgressBar() {
         List<Object> list = getDataProvider();
         if(list.size()!=0 && list.get(list.size() - 1) instanceof ProgressItem && supportLoader)
         {
@@ -74,16 +82,15 @@ abstract public class BaseFragmentViewPagerAdapter extends FragmentStatePagerAda
                 firstTime=false;
             }
         }
-        //notifyDataSetChanged();
+        notifyDataSetChanged();
     }
-    public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh){
 
-    };
-    public void onFetchingError(Object error){
-        List<Object> list = getDataProvider();
-        if(list.size()!=0 && list.get(list.size() - 1) instanceof ProgressItem && supportLoader)
-            getDataProvider().remove(getDataProvider().size() - 1);
-    };
+    public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh)
+    {
+        if(dataList!=null && dataList.size()!=0)
+            notifyDataSetChanged();
+    }
+
     boolean firstTime = true;
     // Returns total number of pages
     @Override
