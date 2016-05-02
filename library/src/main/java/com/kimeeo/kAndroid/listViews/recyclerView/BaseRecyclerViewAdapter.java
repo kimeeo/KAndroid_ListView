@@ -57,38 +57,30 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
     public void itemsChanged(int position,List items)
     {
         if(items!=null && items.size()!=0) {
-            /*
             if (position == 0)
                 notifyDataSetChanged();
             else
                 notifyItemRangeChanged(position,items.size());
-            */
-            notifyItemRangeChanged(position,items.size());
         }
     }
 
     public void itemsAdded(int position,List items)
     {
         if(items!=null && items.size()!=0) {
-            /*
             if (position == 0)
                 notifyDataSetChanged();
             else
                 notifyItemRangeInserted(position, items.size());
-            */
-            notifyItemRangeInserted(position, items.size());
+
         }
     }
     public void itemsRemoved(int position,List items)
     {
         if(items!=null && items.size()!=0) {
-            /*
             if (position == 0)
                 notifyDataSetChanged();
             else
                 notifyItemRangeRemoved(position, items.size());
-            */
-            notifyItemRangeRemoved(position, items.size());
         }
     }
 
