@@ -168,8 +168,10 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
             mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    if (getDataProvider().getCanLoadRefresh())
+                    if (getDataProvider().getCanLoadRefresh()) {
+                        mSwipeRefreshLayout.setRefreshing(true);
                         refresh();
+                    }
                     else
                         mSwipeRefreshLayout.setRefreshing(false);
 
