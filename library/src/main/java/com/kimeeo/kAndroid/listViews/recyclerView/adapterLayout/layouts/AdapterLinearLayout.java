@@ -12,23 +12,19 @@ import com.kimeeo.kAndroid.listViews.recyclerView.adapterLayout.IAdapterLayoutVi
 /**
  * Created by bhavinpadhiyar on 2/16/16.
  */
-public class LinearLayout extends android.widget.LinearLayout implements IAdapterLayoutView {
+public class AdapterLinearLayout extends android.widget.LinearLayout implements IAdapterLayoutView {
     private AdapterLayoutDelegate mAdapterLayoutDelegate;
-
-    public LinearLayout(Context context) {
+    public AdapterLinearLayout(Context context) {
         super(context);
     }
-
-    public LinearLayout(Context context, AttributeSet attrs) {
+    public AdapterLinearLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
-
-    public LinearLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public AdapterLinearLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
-
     @TargetApi(21)
-    public LinearLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public AdapterLinearLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 

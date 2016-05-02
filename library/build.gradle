@@ -40,5 +40,5 @@ dependencies {
 
     //AdapterLayout
     //https://github.com/Commit451/AdapterLayout
-    compile 'com.commit451:adapterlayout:1.0.1'
+    //compile 'com.commit451:adapterlayout:1.0.1'
 }

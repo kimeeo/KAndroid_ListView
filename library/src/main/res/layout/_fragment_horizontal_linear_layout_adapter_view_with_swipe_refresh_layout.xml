@@ -12,7 +12,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true">
-            <com.kimeeo.kAndroid.listViews.recyclerView.adapterLayout.layouts.LinearLayout
+            <com.kimeeo.kAndroid.listViews.recyclerView.adapterLayout.layouts.AdapterLinearLayout
                 android:id="@+id/viewGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
