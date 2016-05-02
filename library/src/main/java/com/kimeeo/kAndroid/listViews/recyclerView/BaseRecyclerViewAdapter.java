@@ -196,11 +196,7 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
     }
     public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh)
     {
-        List<Object> list = getDataProvider();
-        if (list.size() != 0 && list.get(list.size() - 1) instanceof ProgressItem && supportLoader) {
-            getDataProvider().remove(getDataProvider().size() - 1);
-            notifyItemRemoved(getDataProvider().size());
-        }
+
     }
     public void onFetchingError(Object error)
     {

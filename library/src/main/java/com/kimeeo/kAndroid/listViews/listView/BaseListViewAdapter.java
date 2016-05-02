@@ -175,15 +175,11 @@ abstract public class BaseListViewAdapter extends BaseAdapter implements DataPro
         if(list.size()!=0 && list.get(list.size() - 1) instanceof ProgressItem && supportLoader)
             getDataProvider().remove(getDataProvider().size() - 1);
 
-        notifyDataSetChanged();
+        //notifyDataSetChanged();
     }
     @Override
     public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh){
-        List<Object> list = getDataProvider();
-        if(list.size()!=0 && list.get(list.size() - 1) instanceof ProgressItem && supportLoader)
-            getDataProvider().remove(getDataProvider().size() - 1);
 
-        notifyDataSetChanged();
     };
     public void onFetchingError(Object error){
     };
