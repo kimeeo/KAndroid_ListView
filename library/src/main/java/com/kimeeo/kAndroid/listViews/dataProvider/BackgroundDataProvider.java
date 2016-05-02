@@ -12,10 +12,9 @@ import java.util.List;
  */
 abstract public class BackgroundDataProvider extends DataProvider
 {
-    Handler handler;
     public BackgroundDataProvider()
     {
-        handler = new Handler(Looper.getMainLooper());
+
     }
 
     @Override
@@ -55,20 +54,11 @@ abstract public class BackgroundDataProvider extends DataProvider
 
         }
     }
-    boolean isInLoop=false;
-    public void addData(final List list) {
-        if(isInLoop)
-        {
-            isInLoop=false;
-            super.addData(list);
-        }
-        else {
-            isInLoop=true;
-            handler.post(new Runnable() {
-                public void run() {
-                    BackgroundDataProvider.this.addData(list);
-                }
-            });
-        }
+    public void addDataInThread(final List list) {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            public void run() {
+                addData(list);
+            }});
     }
 }
