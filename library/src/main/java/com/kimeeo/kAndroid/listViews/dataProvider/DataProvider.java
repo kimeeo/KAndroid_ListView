@@ -20,6 +20,11 @@ abstract public class DataProvider extends MonitorList {
     protected boolean refreshEnabled=false;
     protected boolean nextEnabled=false;
     protected int refreshItemPos=0;
+
+    public boolean isFirstCall() {
+        return isFirstCall;
+    }
+
     protected boolean isFirstCall=true;
     protected  boolean isConfigurableObject=false;
 
@@ -104,10 +109,15 @@ abstract public class DataProvider extends MonitorList {
     }
 
     public void reset() {
+        resetData();
         removeAll(this);
         isFirstCall=true;
         setCanLoadNext(true);
         next();
+    }
+
+    protected void resetData() {
+
     }
 
     protected boolean loadNext() {

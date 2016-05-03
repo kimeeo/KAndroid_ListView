@@ -61,7 +61,8 @@ abstract public class BaseListDataView extends BaseFragment implements DataProvi
         return errorHandler.getInternetViewMessage();
     }
     public void retry() {
-        next();
+        dataProvider.reset();
+        //next();
     }
     public boolean showInternetError() {
         return true;
