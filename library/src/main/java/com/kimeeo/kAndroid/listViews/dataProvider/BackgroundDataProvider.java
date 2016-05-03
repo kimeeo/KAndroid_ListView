@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -31,10 +32,6 @@ abstract public class BackgroundDataProvider extends DataProvider
         backgroundTask.execute(false);
         return true;
     }
-    List listThreadSafe=null;
-    public void addDataThreadSafe(final List list) {
-        listThreadSafe =list;
-    }
 
     private class BackgroundTask extends AsyncTask<Boolean, Void, Boolean> {
 
@@ -56,12 +53,33 @@ abstract public class BackgroundDataProvider extends DataProvider
         }
         @Override
         protected void onPostExecute(Boolean data) {
-            if(listThreadSafe!=null)
-                addData(listThreadSafe);
-            else
-                dataLoadError(listThreadSafe);
-            listThreadSafe = null;
+
         }
     }
 
+    boolean inLoop;
+    @Override
+    public void addData(final List list) {
+        if(inLoop)
+        {
+            inLoop=false;
+            super.addData(list);
+        }
+        else
+        {
+            inLoop=true;
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            mainHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    if(list!=null)
+                        BackgroundDataProvider.this.addData(list);
+                    else
+                        BackgroundDataProvider.this.dataLoadError(list);
+                }
+            });
+
+
+        }
+    }
 }
