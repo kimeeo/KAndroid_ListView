@@ -10,11 +10,11 @@ import java.util.List;
 /**
  * Created by BhavinPadhiyar on 28/04/16.
  */
-abstract public class DirectoryDataManager extends PermissionsBasedDataProvider{
+abstract public class DirectoryDataProvider extends PermissionsBasedDataProvider{
 
     private String[] filters;
 
-    public DirectoryDataManager(Context context)
+    public DirectoryDataProvider(Context context)
     {
         super(context);
     }
