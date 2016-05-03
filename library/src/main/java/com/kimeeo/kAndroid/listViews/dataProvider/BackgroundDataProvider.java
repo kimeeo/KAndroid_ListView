@@ -32,6 +32,10 @@ abstract public class BackgroundDataProvider extends DataProvider
         return true;
     }
 
+    @Override
+    final protected void invokeLoadNext(){}
+    @Override
+    final protected void invokeLoadRefresh(){}
 
     private class BackgroundTask extends AsyncTask<Boolean, Void, DataModel> {
 
@@ -53,9 +57,9 @@ abstract public class BackgroundDataProvider extends DataProvider
         @Override
         protected void onPostExecute(DataModel data) {
             if(data!=null && data.getDataProvider()!=null)
-                addData(data.getDataProvider());
+                addDataThreadSafe(data.getDataProvider());
             else
-                dataLoadError(null);
+                dataLoadErrorThreadSafe(null);
         }
     }
 
