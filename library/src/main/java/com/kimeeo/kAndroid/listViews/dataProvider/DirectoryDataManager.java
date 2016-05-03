@@ -28,7 +28,10 @@ abstract public class DirectoryDataManager extends PermissionsBasedDataProvider{
     }
 
     abstract protected String nextPath();
-    abstract protected String refreshPath();
+    protected String refreshPath()
+    {
+        return null;
+    }
 
     public boolean isFileList()
     {
@@ -37,12 +40,22 @@ abstract public class DirectoryDataManager extends PermissionsBasedDataProvider{
 
     @Override
     protected void invokeLoadNext() {
-        loadListing(nextPath(),false);
+        String path =nextPath();
+        if(path!=null)
+            loadListing(path,false);
+        else {
+            dataLoadError(null);
+        }
     }
 
     @Override
     protected void invokeLoadRefresh() {
-        loadListing(refreshPath(),true);
+        String path =refreshPath();
+        if(path!=null)
+            loadListing(path,false);
+        else {
+            dataLoadError(null);
+        }
     }
 
     protected void loadListing(String path, boolean isFetchingRefresh) {

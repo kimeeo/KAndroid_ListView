@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat;
 
 import com.gun0912.tedpermission.PermissionListener;
 import com.kimeeo.kAndroid.core.permissions.PermissionsHelper;
+import com.kimeeo.kAndroid.listViews.R;
 
 import java.util.ArrayList;
 
@@ -99,19 +100,19 @@ abstract public class PermissionsBasedDataProvider extends DataProvider
         return permissionsHelper;
     }
     protected String getDeniedCloseButtonText(Context context) {
-        return context.getString(com.kimeeo.kAndroid.core.R.string._permission_denied_close_button_text);
+        return context.getString(R.string._permission_denied_close_button_text);
     }
 
     protected String getRationaleConfirmText(Context context) {
-        return context.getString(com.kimeeo.kAndroid.core.R.string._permission_rationale_confirm_text);
+        return context.getString(R.string._permission_rationale_confirm_text);
     }
 
     protected String getRationaleMessage(Context context) {
-        return context.getString(com.kimeeo.kAndroid.core.R.string._permission_rationale_message);
+        return context.getString(R.string._permission_rationale_message);
     }
 
     protected String getDeniedMessage(Context context) {
-        return context.getString(com.kimeeo.kAndroid.core.R.string._permission_denied_message);
+        return context.getString(R.string._permission_denied_message);
     }
 
     protected boolean getShowDeniedMessage() {
