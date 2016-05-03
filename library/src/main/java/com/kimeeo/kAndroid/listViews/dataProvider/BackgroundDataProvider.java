@@ -57,6 +57,28 @@ abstract public class BackgroundDataProvider extends DataProvider
         }
     }
 
+    public void addDataThreadSafe(final List list)
+    {
+        Handler mainHandler = new Handler(Looper.getMainLooper());
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                addData(list);
+            }
+        });
+
+    }
+    public void dataLoadErrorThreadSafe(final Object status)
+    {
+        Handler mainHandler = new Handler(Looper.getMainLooper());
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                dataLoadError(status);
+            }
+        });
+    }
+
     boolean inLoop;
     @Override
     public void addData(final List list) {
