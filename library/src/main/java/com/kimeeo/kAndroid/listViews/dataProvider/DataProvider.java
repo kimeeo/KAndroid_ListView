@@ -9,19 +9,19 @@ import java.util.List;
  */
 abstract public class DataProvider extends MonitorList {
     abstract protected void invokeLoadNext();
-    abstract protected void invokeloadRefresh();
+    abstract protected void invokeLoadRefresh();
     public boolean isFetching() {
         return isFetching;
     }
-    private boolean isFetching=false;
-    private boolean isFetchingRefresh=false;
-    private boolean canLoadNext=true;
-    private boolean canLoadRefresh=true;
-    private boolean refreshEnabled=false;
-    private boolean nextEnabled=false;
-    private int refreshItemPos=0;
-    private boolean isFirstCall=true;
-    private  boolean isConfigurableObject=false;
+    protected boolean isFetching=false;
+    protected boolean isFetchingRefresh=false;
+    protected boolean canLoadNext=true;
+    protected boolean canLoadRefresh=true;
+    protected boolean refreshEnabled=false;
+    protected boolean nextEnabled=false;
+    protected int refreshItemPos=0;
+    protected boolean isFirstCall=true;
+    protected  boolean isConfigurableObject=false;
 
     private List<WeakReference<OnFatchingObserve>> onFatchingObserveList=new ArrayList<>();
 
@@ -141,7 +141,7 @@ abstract public class DataProvider extends MonitorList {
             isFetching=true;
             isFetchingRefresh=true;
             onFetchingStart(isFetchingRefresh);
-            invokeloadRefresh();
+            invokeLoadRefresh();
             return true;
         }
         else {

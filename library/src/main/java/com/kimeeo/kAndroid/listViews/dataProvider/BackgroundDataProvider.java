@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 
-import java.io.IOException;
 import java.util.List;
 
 
@@ -33,7 +32,8 @@ abstract public class BackgroundDataProvider extends DataProvider
         return true;
     }
 
-    private class BackgroundTask extends AsyncTask<Boolean, Void, Boolean> {
+
+    private class BackgroundTask extends AsyncTask<Boolean, Void, DataModel> {
 
         public BackgroundTask()
         {
@@ -43,18 +43,62 @@ abstract public class BackgroundDataProvider extends DataProvider
 
         }
         @Override
-        protected Boolean doInBackground(Boolean... params) {
+        protected DataModel doInBackground(Boolean... params) {
             boolean isRefresh =params[0];
             if(isRefresh)
-                loadRefresh();
+                return loadDataModelRefresh();
             else
-                loadNext();
-            return true;
+                return loadDataModelNext();
         }
         @Override
-        protected void onPostExecute(Boolean data) {
-
+        protected void onPostExecute(DataModel data) {
+            if(data!=null && data.getDataProvider()!=null)
+                addData(data.getDataProvider());
+            else
+                dataLoadError(null);
         }
+    }
+
+    protected DataModel loadDataModelNext() {
+        if(isFetching==false && getCanLoadNext() && isFirstCall) {
+            isFetching=true;
+            isFetchingRefresh=false;
+            onFetchingStart(isFetchingRefresh);
+            return getDataModelLoadNext();
+        }
+        else if(isFetching==false && getCanLoadNext() && getNextEnabled()) {
+            isFetching=true;
+            isFetchingRefresh=false;
+            onFetchingStart(isFetchingRefresh);
+            return getDataModelLoadNext();
+        }
+        else {
+            onFetchingEnd(null,false);
+            return null;
+        }
+    }
+
+    protected DataModel loadDataModelRefresh() {
+        if(isFetching==false && getCanLoadRefresh() && getRefreshEnabled()) {
+            isFetching=true;
+            isFetchingRefresh=true;
+            onFetchingStart(isFetchingRefresh);
+            return getDataModelLoadRefresh();
+        }
+        else {
+            onFetchingEnd(null,isFetchingRefresh);
+            return null;
+        }
+    }
+
+
+    protected DataModel getDataModelLoadNext()
+    {
+        return null;
+    }
+    protected DataModel getDataModelLoadRefresh()
+    {
+        return null;
     }
 
     public void addDataThreadSafe(final List list)
@@ -79,6 +123,10 @@ abstract public class BackgroundDataProvider extends DataProvider
         });
     }
 
+    public void addData(List list) {
+        super.addData(list);
+    }
+    /*
     boolean inLoop;
     @Override
     public void addData(final List list) {
@@ -104,4 +152,5 @@ abstract public class BackgroundDataProvider extends DataProvider
 
         }
     }
+    */
 }

@@ -39,7 +39,7 @@ abstract public class DirectoryDataManager extends PermissionsBasedDataProvider{
     }
 
     @Override
-    protected void invokeloadRefresh() {
+    protected void invokeLoadRefresh() {
         loadListing(refreshPath(),true);
     }
 
