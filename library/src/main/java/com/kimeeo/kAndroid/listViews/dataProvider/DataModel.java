@@ -7,4 +7,5 @@ import java.util.List;
  */
 public interface DataModel{
     public List getDataProvider();
+    public void setDataProvider(List list);
 }
