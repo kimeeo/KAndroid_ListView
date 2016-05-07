@@ -10,9 +10,11 @@ import java.util.List;
 /**
  * Created by BhavinPadhiyar on 28/04/16.
  */
-abstract public class DirectoryDataManager extends PermissionsBasedDataProvider{
+abstract public class DirectoryDataProvider extends PermissionsBasedDataProvider{
 
-    public DirectoryDataManager(Context context)
+    private String[] filters;
+
+    public DirectoryDataProvider(Context context)
     {
         super(context);
     }
@@ -26,7 +28,10 @@ abstract public class DirectoryDataManager extends PermissionsBasedDataProvider{
     }
 
     abstract protected String nextPath();
-    abstract protected String refreshPath();
+    protected String refreshPath()
+    {
+        return null;
+    }
 
     public boolean isFileList()
     {
@@ -35,15 +40,25 @@ abstract public class DirectoryDataManager extends PermissionsBasedDataProvider{
 
     @Override
     protected void invokeLoadNext() {
-        loadListing(nextPath(),false);
+        String path =nextPath();
+        if(path!=null)
+            loadListing(path,false);
+        else {
+            dataLoadError(null);
+        }
     }
 
     @Override
-    protected void invokeloadRefresh() {
-        loadListing(refreshPath(),true);
+    protected void invokeLoadRefresh() {
+        String path =refreshPath();
+        if(path!=null)
+            loadListing(path,false);
+        else {
+            dataLoadError(null);
+        }
     }
 
-    protected void loadListing(String path,boolean isFetchingRefresh) {
+    protected void loadListing(String path, boolean isFetchingRefresh) {
         File directory = new File(path);
         File file[] = null;
         if (directory != null && directory.exists() && directory.isDirectory())
@@ -56,7 +71,22 @@ abstract public class DirectoryDataManager extends PermissionsBasedDataProvider{
             if (isFileList()) {
                 List<File> data = new ArrayList<>();
                 for (int i = 0; i < file.length; i++) {
-                    data.add(file[i]);
+                    if (getFilters()!=null && getFilters().length!=0)
+                    {
+                        if(file[i].getName().indexOf(".")!=-1)
+                        {
+                            String ext = file[i].getName().substring(file[i].getName().lastIndexOf(".")+1,file[i].getName().length());
+                            for (String s : getFilters()) {
+                                if(s.equals(ext))
+                                {
+                                    data.add(file[i]);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    else
+                        data.add(file[i]);
                 }
                 addData(data);
             } else {
@@ -66,12 +96,18 @@ abstract public class DirectoryDataManager extends PermissionsBasedDataProvider{
                 }
                 addData(data);
             }
-        }
-        else
-        {
+        } else {
             dataLoadError("NOT_FOUND");
         }
     }
 
 
+    public String[] getFilters() {
+        return filters;
+    }
+
+
+    public void setFilters(String[] filters) {
+        this.filters = filters;
+    }
 }

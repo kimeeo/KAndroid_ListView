@@ -1,10 +1,10 @@
 package com.kimeeo.kAndroid.listViews.dataProvider;
 
+
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 
-import java.io.IOException;
 import java.util.List;
 
 
@@ -18,19 +18,39 @@ abstract public class BackgroundDataProvider extends DataProvider
 
     }
 
-    @Override
-    public boolean refresh()
-    {
-        BackgroundTask backgroundTask = new BackgroundTask();
-        backgroundTask.execute(true);
-        return true;
+    protected boolean loadNext() {
+        if(!isFetching && getCanLoadNext() && isFirstCall) {
+            isFetching = true;
+            isFetchingRefresh = false;
+            onFetchingStart(isFetchingRefresh);
+            BackgroundTask backgroundTask = new BackgroundTask();
+            backgroundTask.execute(false);
+            return true;
+        } else if(!isFetching && getCanLoadNext() && getNextEnabled()) {
+            isFetching = true;
+            isFetchingRefresh = false;
+            onFetchingStart(isFetchingRefresh);
+            BackgroundTask backgroundTask = new BackgroundTask();
+            backgroundTask.execute(false);
+            return true;
+        } else {
+            onFetchingEnd(null, false);
+            return false;
+        }
     }
-    @Override
-    public boolean next()
-    {
-        BackgroundTask backgroundTask = new BackgroundTask();
-        backgroundTask.execute(false);
-        return true;
+
+    protected boolean loadRefresh() {
+        if(!isFetching && getCanLoadRefresh() && getRefreshEnabled()) {
+            isFetching = true;
+            isFetchingRefresh = true;
+            onFetchingStart(isFetchingRefresh);
+            BackgroundTask backgroundTask = new BackgroundTask();
+            backgroundTask.execute(true);
+            return true;
+        } else {
+            onFetchingEnd(null,isFetchingRefresh);
+            return false;
+        }
     }
 
     private class BackgroundTask extends AsyncTask<Boolean, Void, Boolean> {
@@ -46,15 +66,32 @@ abstract public class BackgroundDataProvider extends DataProvider
         protected Boolean doInBackground(Boolean... params) {
             boolean isRefresh =params[0];
             if(isRefresh)
-                loadRefresh();
+                invokeLoadRefresh();
             else
-                loadNext();
+                invokeLoadNext();
             return true;
         }
         @Override
         protected void onPostExecute(Boolean data) {
 
         }
+    }
+
+    public void processDataManager(DataModel data) {
+        if(data!=null && data.getDataProvider()!=null)
+            addDataThreadSafe(data.getDataProvider());
+        else
+            dataLoadErrorThreadSafe(null);
+    }
+
+    public void processDataManagerThreadSafe(final DataModel data) {
+        Handler mainHandler = new Handler(Looper.getMainLooper());
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                processDataManager(data);
+            }
+        });
     }
 
     public void addDataThreadSafe(final List list)
@@ -77,31 +114,5 @@ abstract public class BackgroundDataProvider extends DataProvider
                 dataLoadError(status);
             }
         });
-    }
-
-    boolean inLoop;
-    @Override
-    public void addData(final List list) {
-        if(inLoop)
-        {
-            inLoop=false;
-            super.addData(list);
-        }
-        else
-        {
-            inLoop=true;
-            Handler mainHandler = new Handler(Looper.getMainLooper());
-            mainHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    if(list!=null)
-                        BackgroundDataProvider.this.addData(list);
-                    else
-                        BackgroundDataProvider.this.dataLoadError(list);
-                }
-            });
-
-
-        }
     }
 }

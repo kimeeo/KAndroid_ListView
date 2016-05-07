@@ -8,24 +8,42 @@ import java.util.List;
  * Created by BhavinPadhiyar on 27/04/16.
  */
 abstract public class DataProvider extends MonitorList {
+    public int getCurruntRefreshPage() {
+        return curruntRefreshPage;
+    }
+
+    public int getCurruntPage() {
+        return curruntPage;
+    }
+
+    protected int curruntRefreshPage=0;
+    protected int curruntPage=0;
+
     abstract protected void invokeLoadNext();
-    abstract protected void invokeloadRefresh();
+    abstract protected void invokeLoadRefresh();
     public boolean isFetching() {
         return isFetching;
     }
-    private boolean isFetching=false;
-    private boolean isFetchingRefresh=false;
-    private boolean canLoadNext=true;
-    private boolean canLoadRefresh=true;
-    private boolean refreshEnabled=false;
-    private boolean nextEnabled=false;
-    private int refreshItemPos=0;
-    private boolean isFirstCall=true;
-    private  boolean isConfigurableObject=false;
+    protected boolean isFetching=false;
+    protected boolean isFetchingRefresh=false;
+    protected boolean canLoadNext=true;
+    protected boolean canLoadRefresh=true;
+    protected boolean refreshEnabled=false;
+    protected boolean nextEnabled=false;
+    protected int refreshItemPos=0;
+
+    public boolean isFirstCall() {
+        return isFirstCall;
+    }
+
+    protected boolean isFirstCall=true;
+    protected  boolean isConfigurableObject=false;
 
     private List<WeakReference<OnFatchingObserve>> onFatchingObserveList=new ArrayList<>();
 
     public void garbageCollectorCall() {
+        curruntPage=0;
+        curruntRefreshPage=0;
         if(onFatchingObserveList!=null) {
             for (int i = 0; i < onFatchingObserveList.size(); i++) {
                 onFatchingObserveList.set(i, null);
@@ -104,10 +122,17 @@ abstract public class DataProvider extends MonitorList {
     }
 
     public void reset() {
+        curruntPage=0;
+        curruntRefreshPage=0;
+        resetData();
         removeAll(this);
         isFirstCall=true;
         setCanLoadNext(true);
         next();
+    }
+
+    protected void resetData() {
+
     }
 
     protected boolean loadNext() {
@@ -141,7 +166,7 @@ abstract public class DataProvider extends MonitorList {
             isFetching=true;
             isFetchingRefresh=true;
             onFetchingStart(isFetchingRefresh);
-            invokeloadRefresh();
+            invokeLoadRefresh();
             return true;
         }
         else {
@@ -205,6 +230,12 @@ abstract public class DataProvider extends MonitorList {
 
     public void addData(List list) {
         onFetchingFinish(isFetchingRefresh);
+
+        if(isFetchingRefresh)
+            curruntRefreshPage +=1;
+        else
+            curruntPage +=1;
+
         if(getConfigurableObject())
         {
             for (int i = 0; i < list.size(); i++) {
