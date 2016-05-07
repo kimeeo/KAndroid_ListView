@@ -39,6 +39,8 @@ dependencies {
     compile 'jp.wasabeef:recyclerview-animators:2.2.3'
 
 
+    //https://github.com/timehop/sticky-headers-recyclerview
+    compile 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
     //AdapterLayout
     //https://github.com/Commit451/AdapterLayout
     //compile 'com.commit451:adapterlayout:1.0.1'
