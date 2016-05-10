@@ -27,7 +27,7 @@ abstract public class BaseViewPager extends BaseListDataView implements ViewPage
     protected View mIndicator;
     protected EmptyViewHelper mEmptyViewHelper;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private boolean isIndicatorSet = false;
+    private boolean isIndicatorSetFirstTime = true;
     private int currentItem;
     protected void garbageCollectorCall() {
         super.garbageCollectorCall();
@@ -70,7 +70,7 @@ abstract public class BaseViewPager extends BaseListDataView implements ViewPage
         createAdapter(mViewPager);
 
         mIndicator = createIndicator(mRootView);
-        setUpIndicator(mIndicator, mViewPager);
+        updateIndicator(mIndicator, mViewPager);
 
         mViewPager.addOnPageChangeListener(this);
         next();
@@ -146,15 +146,21 @@ abstract public class BaseViewPager extends BaseListDataView implements ViewPage
         ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.viewPager);
         return viewPager;
     }
-    protected void setUpIndicator(View indicator, ViewPager viewPager) {
+    protected void updateIndicator(View indicator, ViewPager viewPager){
+        if(isIndicatorSetFirstTime){
+            setUpIndicator(indicator,viewPager,isIndicatorSetFirstTime);
+            isIndicatorSetFirstTime = false;
+        }
+        else
+            setUpIndicator(indicator,viewPager,isIndicatorSetFirstTime);
+    }
+
+    protected void setUpIndicator(View indicator, ViewPager viewPager,boolean isFirstTime) {
         if(indicator!=null) {
-            if(isIndicatorSet==false) {
-                if (indicator instanceof TabLayout && getDataProvider().size()!=0) {
-                    TabLayout tabLayout = (TabLayout) indicator;
-                    tabLayout.setupWithViewPager(viewPager);
-                    configTabLayout(tabLayout,viewPager);
-                }
-                isIndicatorSet = true;
+            if(isFirstTime && indicator instanceof TabLayout && getDataProvider().size()!=0) {
+                TabLayout tabLayout = (TabLayout) indicator;
+                tabLayout.setupWithViewPager(viewPager);
+                configTabLayout(tabLayout,viewPager);
             }
             else if (indicator instanceof TabLayout && getDataProvider().size()!=0) {
                 final TabLayout tabLayout = (TabLayout) indicator;
@@ -317,7 +323,7 @@ abstract public class BaseViewPager extends BaseListDataView implements ViewPage
                 } else
                     setUpIndicator(mIndicator, mViewPager);
             */
-            setUpIndicator(mIndicator, mViewPager);
+            updateIndicator(mIndicator, mViewPager);
 
         }
         if (mEmptyViewHelper != null)
