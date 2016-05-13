@@ -9,6 +9,8 @@
 package com.kimeeo.kAndroid.listViews.recyclerView;
 
 import android.os.Bundle;
+import android.support.annotation.IdRes;
+import android.support.annotation.LayoutRes;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -143,20 +145,41 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
     }
     protected View createRootView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         if(getDataProvider().getRefreshEnabled())
-            return inflater.inflate(R.layout._fragment_recycler_with_swipe_refresh_layout, container, false);
+            return inflater.inflate(getRootRefreshLayoutResID(), container, false);
         else
-            return inflater.inflate(R.layout._fragment_recycler, container, false);
+            return inflater.inflate(getRootLayoutResID(), container, false);
     }
+    @LayoutRes
+    protected int getRootRefreshLayoutResID() {
+        return R.layout._fragment_recycler_with_swipe_refresh_layout;
+    }
+    @LayoutRes
+    protected int getRootLayoutResID() {
+        return R.layout._fragment_recycler;
+    }
+    @IdRes
+    protected int getRecyclerViewResID() {
+        return  R.id.recyclerView;
+    }
+    @IdRes
+    protected int getEmptyViewResID() {
+        return  R.id.emptyView;
+    }
+    @IdRes
+    protected int getSwipeRefreshLayoutResID() {
+        return  R.id.swipeRefreshLayout;
+    }
+
+
     protected RecyclerView createRecyclerView(View rootView) {
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(getRecyclerViewResID());
         return recyclerView;
     }
     protected View createEmptyView(View rootView) {
-        View emptyView = rootView.findViewById(R.id.emptyView);
+        View emptyView = rootView.findViewById(getEmptyViewResID());
         return emptyView;
     }
     protected void onDataScroll(RecyclerView recyclerView, int dx, int dy) {
-
     }
     protected SwipeRefreshLayout getSwipeRefreshLayout()
     {
@@ -184,8 +207,8 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
         }
     }
     protected SwipeRefreshLayout createSwipeRefreshLayout(View rootView) {
-        if(rootView.findViewById(R.id.swipeRefreshLayout)!=null) {
-            SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
+        if(rootView.findViewById(getSwipeRefreshLayoutResID())!=null) {
+            SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(getSwipeRefreshLayoutResID());
             return swipeRefreshLayout;
         }
         return null;
@@ -243,4 +266,6 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
             getEmptyViewHelper().updateView(getDataProvider());
         updateSwipeRefreshLayout(isFetchingRefresh);
     }
+
+
 }

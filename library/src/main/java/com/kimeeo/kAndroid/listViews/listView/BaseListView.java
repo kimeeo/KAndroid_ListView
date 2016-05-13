@@ -1,6 +1,8 @@
 package com.kimeeo.kAndroid.listViews.listView;
 
 import android.os.Bundle;
+import android.support.annotation.IdRes;
+import android.support.annotation.LayoutRes;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -100,17 +102,40 @@ abstract public class BaseListView extends BaseListDataView implements AdapterVi
     protected View createRootView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View rootView;
         if(getDataProvider().getRefreshEnabled())
-            rootView = inflater.inflate(R.layout._fragment_list_view_with_swipe_refresh_layout, container, false);
+            rootView = inflater.inflate(getRootRefreshLayoutResID(), container, false);
         else
-            rootView = inflater.inflate(R.layout._fragment_list_view, container, false);
+            rootView = inflater.inflate(getRootLayoutResID(), container, false);
         return rootView;
     }
+
+    @LayoutRes
+    protected int getRootRefreshLayoutResID() {
+        return R.layout._fragment_list_view_with_swipe_refresh_layout;
+    }
+    @LayoutRes
+    protected int getRootLayoutResID() {
+        return R.layout._fragment_list_view;
+    }
+    @IdRes
+    protected int getListViewResID() {
+        return  R.id.listView;
+    }
+    @IdRes
+    protected int getEmptyViewResID() {
+        return  R.id.emptyView;
+    }
+    @IdRes
+    protected int getSwipeRefreshLayoutResID() {
+        return  R.id.swipeRefreshLayout;
+    }
+
+
     protected ListView createListView(View rootView) {
-        ListView recyclerView = (ListView) rootView.findViewById(R.id.listView);
+        ListView recyclerView = (ListView) rootView.findViewById(getListViewResID());
         return recyclerView;
     }
     protected View createEmptyView(View rootView) {
-        View emptyView = rootView.findViewById(R.id.emptyView);
+        View emptyView = rootView.findViewById(getEmptyViewResID());
         return emptyView;
     }
     protected void onDataScroll(ListView listView, int dx, int dy) {
@@ -142,8 +167,8 @@ abstract public class BaseListView extends BaseListDataView implements AdapterVi
         }
     }
     protected SwipeRefreshLayout createSwipeRefreshLayout(View rootView){
-        if(rootView.findViewById(R.id.swipeRefreshLayout)!=null) {
-            SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
+        if(rootView.findViewById(getSwipeRefreshLayoutResID())!=null) {
+            SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(getSwipeRefreshLayoutResID());
             return swipeRefreshLayout;
         }
         return null;
@@ -192,7 +217,7 @@ abstract public class BaseListView extends BaseListDataView implements AdapterVi
         if (mEmptyViewHelper != null)
             mEmptyViewHelper.updateView(getDataProvider());
     };
-    private void dataLoaded(List<?> dataList, boolean isFetchingRefresh) {
+    protected void dataLoaded(List<?> dataList, boolean isFetchingRefresh) {
         if (isFetchingRefresh && mList!=null)
             mList.smoothScrollToPosition(0);
         if (mEmptyViewHelper != null)

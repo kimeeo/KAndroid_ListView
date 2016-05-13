@@ -2,6 +2,8 @@ package com.kimeeo.kAndroid.listViews.pager;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.IdRes;
+import android.support.annotation.LayoutRes;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,7 +14,6 @@ import android.view.ViewGroup;
 import com.kimeeo.kAndroid.listViews.BaseListDataView;
 import com.kimeeo.kAndroid.listViews.EmptyViewHelper;
 import com.kimeeo.kAndroid.listViews.R;
-import com.kimeeo.kAndroid.listViews.pager.directionalviewpager.DirectionalViewPager;
 import com.kimeeo.kAndroid.listViews.pager.viewPager.BaseViewPagerAdapter;
 
 import java.util.List;
@@ -97,8 +98,36 @@ abstract public class BaseViewPager extends BaseListDataView implements ViewPage
     public void onViewCreated(View view) {
 
     }
+
+    @LayoutRes
+    protected int getRootRefreshLayoutResID() {
+        return R.layout._fragment_page_view_with_swipe_refresh_layout;
+    }
+    @LayoutRes
+    protected int getRootLayoutResID() {
+        return R.layout._fragment_page_view;
+    }
+    @IdRes
+    protected int getViewPagerResID() {
+        return  R.id.viewPager;
+    }
+    @IdRes
+    protected int getEmptyViewResID() {
+        return  R.id.emptyView;
+    }
+    @IdRes
+    protected int getSwipeRefreshLayoutResID() {
+        return  R.id.swipeRefreshLayout;
+    }
+
+    @IdRes
+    protected int getIndicatorResID() {
+        return  R.id.indicator;
+    }
+
+
     protected View createEmptyView(View rootView) {
-        View emptyView = rootView.findViewById(R.id.emptyView);
+        View emptyView = rootView.findViewById(getEmptyViewResID());
         return emptyView;
     }
     protected void configSwipeRefreshLayout(SwipeRefreshLayout view) {
@@ -123,8 +152,8 @@ abstract public class BaseViewPager extends BaseListDataView implements ViewPage
         }
     }
     protected SwipeRefreshLayout createSwipeRefreshLayout(View rootView) {
-        if (rootView.findViewById(R.id.swipeRefreshLayout) != null) {
-            SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
+        if (rootView.findViewById(getSwipeRefreshLayoutResID()) != null) {
+            SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(getSwipeRefreshLayoutResID());
             return swipeRefreshLayout;
         }
         return null;
@@ -132,9 +161,9 @@ abstract public class BaseViewPager extends BaseListDataView implements ViewPage
     protected View createRootView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView;
         if(getDataProvider().getRefreshEnabled())
-            rootView = inflater.inflate(R.layout._fragment_page_view_with_swipe_refresh_layout, container, false);
+            rootView = inflater.inflate(getRootRefreshLayoutResID(), container, false);
         else
-            rootView = inflater.inflate(R.layout._fragment_page_view, container, false);
+            rootView = inflater.inflate(getRootLayoutResID(), container, false);
         return rootView;
     }
     abstract protected BaseViewPagerAdapter createViewPagerAdapter();
@@ -143,7 +172,7 @@ abstract public class BaseViewPager extends BaseListDataView implements ViewPage
         return "";
     }
     protected ViewPager createViewPager(View rootView) {
-        ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.viewPager);
+        ViewPager viewPager = (ViewPager) rootView.findViewById(getViewPagerResID());
         return viewPager;
     }
     protected void updateIndicator(View indicator, ViewPager viewPager){
@@ -189,7 +218,7 @@ abstract public class BaseViewPager extends BaseListDataView implements ViewPage
     protected void configTabLayout(TabLayout tabLayout, ViewPager viewPager) {
     }
     protected View createIndicator(View rootView) {
-        return rootView.findViewById(R.id.indicator);
+        return rootView.findViewById(getIndicatorResID());
     }
     protected void onPageChange(Object itemPosition, int position) {}
     public void onPageSelected(int position) {

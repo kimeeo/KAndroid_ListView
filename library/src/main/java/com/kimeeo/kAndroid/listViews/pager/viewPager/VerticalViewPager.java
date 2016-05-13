@@ -1,9 +1,7 @@
 package com.kimeeo.kAndroid.listViews.pager.viewPager;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.annotation.LayoutRes;
+
 import com.kimeeo.kAndroid.listViews.R;
 
 
@@ -12,12 +10,15 @@ import com.kimeeo.kAndroid.listViews.R;
  */
 abstract public class VerticalViewPager extends DefaltViewPager {
 
-    protected View createRootView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView;
-        if(getDataProvider().getRefreshEnabled())
-            rootView= inflater.inflate(R.layout._fragment_vertical_page_view_with_swipe_refresh_layout, container, false);
-        else
-            rootView= inflater.inflate(R.layout._fragment_vertical_page_view, container, false);
-        return rootView;
+    @Override
+    @LayoutRes
+    protected int getRootRefreshLayoutResID() {
+        return R.layout._fragment_vertical_page_view_with_swipe_refresh_layout;
     }
+    @Override
+    @LayoutRes
+    protected int getRootLayoutResID() {
+        return R.layout._fragment_vertical_page_view;
+    }
+
 }

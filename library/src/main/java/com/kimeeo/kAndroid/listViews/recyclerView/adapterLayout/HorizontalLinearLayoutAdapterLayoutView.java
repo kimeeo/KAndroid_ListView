@@ -1,6 +1,7 @@
 package com.kimeeo.kAndroid.listViews.recyclerView.adapterLayout;
 
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +12,21 @@ import com.kimeeo.kAndroid.listViews.R;
  * Created by bhavinpadhiyar on 2/16/16.
  */
 abstract public class HorizontalLinearLayoutAdapterLayoutView extends BaseLinearLayoutAdapterLayoutView {
-    protected View createRootView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (getDataProvider().getRefreshEnabled())
-            return inflater.inflate(R.layout._fragment_horizontal_linear_layout_adapter_view_with_swipe_refresh_layout, container, false);
+
+    @Override
+    protected View createRootView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+        if(getDataProvider().getRefreshEnabled())
+            return inflater.inflate(getRootRefreshLayoutResID(), container, false);
         else
-            return inflater.inflate(R.layout._fragment_horizontal_linear_layout_adapter_view, container, false);
+            return inflater.inflate(getRootLayoutResID(), container, false);
+    }
+
+    @LayoutRes
+    protected int getRootRefreshLayoutResID() {
+        return R.layout._fragment_horizontal_linear_layout_adapter_view_with_swipe_refresh_layout;
+    }
+    @LayoutRes
+    protected int getRootLayoutResID() {
+        return R.layout._fragment_horizontal_linear_layout_adapter_view;
     }
 }
