@@ -32,6 +32,16 @@ abstract public class DataProvider extends MonitorList {
     protected boolean nextEnabled=false;
     protected int refreshItemPos=0;
 
+    public int getNextItemPos() {
+        return nextItemPos;
+    }
+
+    public void setNextItemPos(int nextItemPos) {
+        this.nextItemPos = nextItemPos;
+    }
+
+    protected int nextItemPos=0;
+
     public boolean isFirstCall() {
         return isFirstCall;
     }
@@ -247,7 +257,16 @@ abstract public class DataProvider extends MonitorList {
             if (isFetchingRefresh)
                 addAll(getRefreshItemPos(), list);
             else
-                addAll(list);
+            {
+                if(getNextItemPos()<=0)
+                    addAll(list);
+                else
+                {
+                    int pos=size()-(getNextItemPos()+1);
+                    addAll(pos,list);
+                }
+            }
+
         }
         onFetchingEnd(list,isFetchingRefresh);
         isFetchingRefresh=false;
