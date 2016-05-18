@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.kimeeo.kAndroid.listViews.dataProvider.DataProvider;
 import com.kimeeo.kAndroid.listViews.dataProvider.StaticDataProvider;
@@ -26,7 +25,7 @@ public class ListView extends com.kimeeo.kAndroid.listViews.recyclerView.vertica
     @Override
     protected DataProvider createDataProvider()
     {
-        StaticDataProvider data = new StaticDataProvider();
+        StaticDataProvider1 data = new StaticDataProvider1();
         return data;
     }
     public class StaticDataProvider1 extends StaticDataProvider
@@ -41,9 +40,9 @@ public class ListView extends com.kimeeo.kAndroid.listViews.recyclerView.vertica
         }
         @Override
         public void updateItemView(Object o, View view, int i) {
-            DataBean data = (DataBean) o;
-            TextView title = (TextView) view.findViewById(R.id.title);
-            title.setText(i +". "+data.getName());
+           // DataBean data = (DataBean) o;
+            //TextView title = (TextView) view.findViewById(R.id.title);
+            //title.setText(i +". "+data.getName());
         }
     }
 }
