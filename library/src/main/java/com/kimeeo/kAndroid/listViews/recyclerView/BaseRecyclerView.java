@@ -119,7 +119,7 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
     }
     protected int getItemAnimatorDuration()
     {
-        return  200;
+        return  100;
     }
     //Confgi Your RecycleVIew Here
     protected void configRecyclerView(RecyclerView mList, BaseRecyclerViewAdapter mAdapter) {
