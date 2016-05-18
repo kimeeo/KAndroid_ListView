@@ -72,11 +72,12 @@ public class MonitorList<T> extends ArrayList<T> {
     @Override
     public boolean add(T value)
     {
+        int size =size();
         boolean retrunVal= super.add(value);
         if(retrunVal) {
             ArrayList<T> list = new ArrayList<>();
             list.add(value);
-            notifyAdd(size(),list);
+            notifyAdd(size,list);
         }
         return retrunVal;
     }
@@ -89,12 +90,12 @@ public class MonitorList<T> extends ArrayList<T> {
     }
     @Override
     public boolean addAll(Collection value) {
+        int size =size();
         boolean returnVal = super.addAll(value);
         if(returnVal) {
             ArrayList<T> list = new ArrayList<>();
             list.addAll(value);
-
-            notifyAdd(size(), list);
+            notifyAdd(size, list);
         }
         return returnVal;
     }

@@ -62,17 +62,7 @@ abstract public class BaseListViewAdapter extends BaseAdapter implements DataPro
         this.dataProvider.addFatchingObserve(this);
         this.dataProvider.addDataChangeWatcher(this);
     }
-    public void itemsChanged(int index,List items){
-        notifyDataSetChanged();
-    };
-    public void itemsAdded(int position,List items)
-    {
-        notifyDataSetChanged();
-    }
-    public void itemsRemoved(int position,List items)
-    {
-        notifyDataSetChanged();
-    }
+
     public BaseItemHolder onCreateViewHolder(ViewGroup container, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(container.getContext());
         BaseItemHolder itemHolder;
@@ -186,9 +176,19 @@ abstract public class BaseListViewAdapter extends BaseAdapter implements DataPro
     }
     @Override
     public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh){
-        if(dataList!=null && dataList.size()!=0)
-            notifyDataSetChanged();
+
     };
+    public void itemsChanged(int index,List items){
+        notifyDataSetChanged();
+    };
+    public void itemsAdded(int position,List items)
+    {
+        notifyDataSetChanged();
+    }
+    public void itemsRemoved(int position,List items)
+    {
+        notifyDataSetChanged();
+    }
     // Update View Here
     public static class ProgressViewHolder extends BaseItemHolder {
         public ProgressViewHolder(View itemView){

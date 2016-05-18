@@ -44,15 +44,7 @@ abstract public class BaseViewPagerAdapter extends PagerAdapter implements DataP
         this.dataProvider.addFatchingObserve(this);
         this.dataProvider.addDataChangeWatcher(this);
     }
-    public void itemsChanged(int index,List items){notifyDataSetChanged();};
-    public void itemsAdded(int position,List items)
-    {
-        notifyDataSetChanged();
-    }
-    public void itemsRemoved(int position,List items)
-    {
-        notifyDataSetChanged();
-    }
+
     public int getCount() {
         if(dataProvider!=null)
             return dataProvider.size();
@@ -135,8 +127,16 @@ abstract public class BaseViewPagerAdapter extends PagerAdapter implements DataP
 
     public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh)
     {
-        if(dataList!=null && dataList.size()!=0)
-            notifyDataSetChanged();
+
+    }
+    public void itemsChanged(int index,List items){notifyDataSetChanged();};
+    public void itemsAdded(int position,List items)
+    {
+        notifyDataSetChanged();
+    }
+    public void itemsRemoved(int position,List items)
+    {
+        notifyDataSetChanged();
     }
 
 
@@ -154,6 +154,10 @@ abstract public class BaseViewPagerAdapter extends PagerAdapter implements DataP
             return POSITION_NONE;
         return super.getItemPosition(object);
     }
+
+
+
+
     public static class ProgressItem{}
     // Update View Here
     public class ProgressViewHolder extends BaseItemHolder {

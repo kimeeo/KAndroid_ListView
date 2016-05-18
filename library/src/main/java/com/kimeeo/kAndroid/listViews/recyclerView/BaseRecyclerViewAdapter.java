@@ -54,35 +54,7 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
     abstract protected View getItemView(int viewType,LayoutInflater inflater,ViewGroup container);
     abstract protected BaseItemHolder getItemHolder(int viewType,View view);
 
-    public void itemsChanged(int position,List items)
-    {
-        if(items!=null && items.size()!=0) {
-            if (position == 0)
-                notifyDataSetChanged();
-            else
-                notifyItemRangeChanged(position,items.size());
-        }
-    }
 
-    public void itemsAdded(int position,List items)
-    {
-        if(items!=null && items.size()!=0) {
-            if (position == 0)
-                notifyDataSetChanged();
-            else
-                notifyItemRangeInserted(position, items.size());
-
-        }
-    }
-    public void itemsRemoved(int position,List items)
-    {
-        if(items!=null && items.size()!=0) {
-            if (position == 0)
-                notifyDataSetChanged();
-            else
-                notifyItemRangeRemoved(position, items.size());
-        }
-    }
 
 
     public void onItemHolderClick(BaseItemHolder itemHolder,int position)
@@ -197,35 +169,50 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
     }
     protected void removeProgressBar() {
         List<Object> list = getDataProvider();
-        if (list.size() != 0 && list.get(list.size() - 1) instanceof ProgressItem && supportLoader) {
-            getDataProvider().remove(getDataProvider().size() - 1);
-            notifyItemRemoved(getDataProvider().size());
-        }
+        if (list.size() != 0 && list.get(list.size() - 1) instanceof ProgressItem && supportLoader)
+            list.remove(getDataProvider().size() - 1);
     }
 
     public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh)
     {
-        if (dataList != null && dataList.size() != 0) {
-            if (isFetchingRefresh)
-                notifyItemRangeInserted(getDataProvider().getRefreshItemPos(), dataList.size());
-            else
-                notifyItemRangeInserted(getDataProvider().size() - dataList.size(), dataList.size());
-        }
+
     }
-
-
-
-
-    final public void onCallEnd(List<?> dataList, boolean isRefreshPage)
+    public void itemsAdded(int position,List items)
     {
-        if (dataList != null && dataList.size() != 0) {
-            if (isRefreshPage) {
-                notifyItemRangeInserted(getDataProvider().getRefreshItemPos(), dataList.size());
-            } else
-                notifyItemRangeInserted(getDataProvider().size() - dataList.size(), dataList.size());
+        if(items!=null && items.size()!=0) {
+            if (position == 0)
+                notifyDataSetChanged();
+            else {
+                int size=getDataProvider().size();
+                System.out.println(size);
+                int insertPosition= position;
+                if(insertPosition==0)
+                    notifyDataSetChanged();
+                else
+                    notifyItemRangeInserted(insertPosition, items.size());
+            }
+        }
+    }
+    public void itemsChanged(int position,List items)
+    {
+        if(items!=null && items.size()!=0) {
+            if (position == 0)
+                notifyDataSetChanged();
+            else
+                notifyItemRangeChanged(position,items.size());
         }
     }
 
+
+    public void itemsRemoved(int position,List items)
+    {
+        if(items!=null && items.size()!=0) {
+            if (position == 0)
+                notifyDataSetChanged();
+            else
+                notifyItemRangeRemoved(position, items.size());
+        }
+    }
 
     public static class ViewTypes {
         public static final int VIEW_PROGRESS = 0;
