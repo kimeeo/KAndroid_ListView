@@ -89,6 +89,8 @@ abstract public class DataProvider extends MonitorList {
     }
 
     public void setRefreshItemPos(int refreshItemPos) {
+        if(refreshItemPos<0)
+            refreshItemPos=0;
         this.refreshItemPos = refreshItemPos;
     }
 
@@ -262,8 +264,15 @@ abstract public class DataProvider extends MonitorList {
                     addAll(list);
                 else
                 {
-                    int pos=size()-(getNextItemPos()+1);
-                    addAll(pos,list);
+                    if(size()!=0) {
+                        int pos = size() - getNextItemPos();
+                        if(pos>0)
+                            addAll(pos, list);
+                        else
+                            addAll(list);
+                    }
+                    else
+                        addAll(list);
                 }
             }
 

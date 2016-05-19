@@ -24,7 +24,9 @@ public class ListView extends com.kimeeo.kAndroid.listViews.recyclerView.vertica
     @Override
     public void onItemClick(Object data)
     {
-        getDataProvider().remove(data);
+        //getDataProvider().remove(data);
+
+        getDataProvider().set(0,new DataObject("UPDATED"));
     }
 
     @Override
@@ -60,8 +62,11 @@ public class ListView extends com.kimeeo.kAndroid.listViews.recyclerView.vertica
         };
         public StaticDataProvider1()
         {
+            //setRefreshItemPos(1);
+            //setNextItemPos(1);
             setNextEnabled(true);
             setRefreshEnabled(true);
+
         }
 
         @Override
