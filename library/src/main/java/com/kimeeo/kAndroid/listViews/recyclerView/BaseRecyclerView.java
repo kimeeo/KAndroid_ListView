@@ -224,7 +224,8 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Object data = getDataProvider().get(position);
-        onItemClick(data);
+        if(data!=null)
+            onItemClick(data);
     }
     public void onItemClick(Object data) {
 

@@ -52,6 +52,20 @@ public class MonitorList<T> extends ArrayList<T> {
         }
         return value;
     }
+
+    public T update(int index)
+    {
+        return set(index,get(index));
+    }
+    public T update(T element)
+    {
+        int index = indexOf(element);
+        return set(index,element);
+    }
+    public T update(int index,T element)
+    {
+        return set(index,element);
+    }
     @Override
     public T set(int index,T element)
     {
