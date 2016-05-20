@@ -18,8 +18,6 @@ import java.util.List;
  * Created by BhavinPadhiyar on 02/05/16.
  */
 public class ListView extends com.kimeeo.kAndroid.listViews.recyclerView.verticalViews.ListView {
-    private int pageCount=1;
-    private int refreshPageCount=1;
 
     @Override
     public void onItemClick(Object data)
@@ -39,6 +37,8 @@ public class ListView extends com.kimeeo.kAndroid.listViews.recyclerView.vertica
         return new BaseItemHolder1(view);
     }
 
+    private int pageCount=1;
+    private int refreshPageCount=1;
     @NonNull
     @Override
     protected DataProvider createDataProvider()

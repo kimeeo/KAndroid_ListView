@@ -66,7 +66,7 @@ abstract public class DataProvider extends MonitorList {
     public boolean removeFatchingObserve(OnFatchingObserve onFatchingObserve) {
         for (WeakReference<OnFatchingObserve> onFatchingObserveWeakReference : this.onFatchingObserveList) {
             if(onFatchingObserveWeakReference!=null && onFatchingObserveWeakReference.get()!=null && onFatchingObserveWeakReference.get()==onFatchingObserve)
-                return this.onFatchingObserveList.remove(onFatchingObserve);
+                return this.onFatchingObserveList.remove(onFatchingObserveWeakReference);
         }
         return false;
     }

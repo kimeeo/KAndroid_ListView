@@ -42,6 +42,10 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
     }
     public void garbageCollectorCall()
     {
+        if(dataProvider!=null) {
+            dataProvider.removeDataChangeWatcher(this);
+            dataProvider.removeFatchingObserve(this);
+        }
         dataProvider=null;
         mOnItemClickListener=null;
     }
@@ -198,6 +202,19 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
     {
         if(items!=null && items.size()!=0) {
             notifyItemRangeRemoved(position, items.size());
+        }
+    }
+
+    public void removeWatcher() {
+        if(getDataProvider()!=null) {
+            getDataProvider().removeFatchingObserve(this);
+            getDataProvider().removeDataChangeWatcher(this);
+        }
+    }
+    public void addWatcher() {
+        if(getDataProvider()!=null) {
+            getDataProvider().addFatchingObserve(this);
+            getDataProvider().addDataChangeWatcher(this);
         }
     }
 

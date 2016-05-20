@@ -20,6 +20,7 @@ import com.kimeeo.kAndroid.listViews.recyclerView.viewProfiles.BaseViewProfile;
 abstract public class BaseProfileRecyclerView extends BaseRecyclerView implements AdapterView.OnItemClickListener
 {
     protected RecyclerView.ItemDecoration itemDecoration;
+    private BaseViewProfile oldProfile;
 
     final protected RecyclerView.LayoutManager createLayoutManager()
     {
@@ -41,10 +42,19 @@ abstract public class BaseProfileRecyclerView extends BaseRecyclerView implement
         return rootView;
     }
     public void applyProfile(BaseViewProfile profile) {
+        if(oldProfile!=null)
+        {
+
+        }
+        if(mAdapter!=null)
+            mAdapter.removeWatcher();
+
         RecyclerView.LayoutManager layoutManager= profile.createLayoutManager();
         profile.configLayoutManager(layoutManager);
         recyclerView.setLayoutManager(layoutManager);
         mAdapter = profile.createListViewAdapter();
+        mAdapter.removeWatcher();
+        mAdapter.addWatcher();
         profile.configViewAdapter(mAdapter);
         mAdapter.setOnItemClickListener(this);
         recyclerView.setAdapter(mAdapter);
@@ -78,5 +88,6 @@ abstract public class BaseProfileRecyclerView extends BaseRecyclerView implement
             recyclerView.addItemDecoration(itemDecoration);
         }
         profile.configRecyclerView(recyclerView, mAdapter);
+        oldProfile = profile;
     }
 }

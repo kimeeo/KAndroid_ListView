@@ -14,7 +14,7 @@ public class MonitorList<T> extends ArrayList<T> {
     public boolean removeDataChangeWatcher(OnChangeWatcher<T> onChangeWatcher) {
         for (WeakReference<OnChangeWatcher<T>> onChangeWatcherWeakReference : onChangeWatcherList) {
             if(onChangeWatcherWeakReference!=null && onChangeWatcherWeakReference.get()!=null && onChangeWatcherWeakReference.get()==onChangeWatcher) {
-                return this.onChangeWatcherList.remove(new WeakReference<OnChangeWatcher<T>>(onChangeWatcher));
+                return this.onChangeWatcherList.remove(onChangeWatcherWeakReference);
             }
         }
         return false;

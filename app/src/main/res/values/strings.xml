@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">KAndroid_ListView</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_close">Close</string>
+    <string name="navigation_drawer_open">Open</string>
+
 </resources>
