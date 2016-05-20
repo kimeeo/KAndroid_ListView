@@ -58,4 +58,9 @@ abstract public class BaseViewProfile implements IViewProvider
     //Confgi Your Layout manager here
     public void  configLayoutManager(RecyclerView.LayoutManager layoutManager){
     }
+
+    public int getListItemViewType(int position, Object item)
+    {
+        return BaseRecyclerViewAdapter.ViewTypes.VIEW_ITEM;
+    }
 }
