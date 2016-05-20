@@ -70,9 +70,13 @@ abstract public class BaseProfileRecyclerView extends BaseRecyclerView implement
             recyclerView.removeItemDecoration(itemDecoration);
         }
         catch(Exception e){}
-        itemDecoration= profile.createItemDecoration(getActivity());
-        recyclerView.addItemDecoration(itemDecoration);
 
+        RecyclerView.ItemDecoration decoration= profile.createItemDecoration(getActivity());
+        if(decoration!=null)
+        {
+            itemDecoration = decoration;
+            recyclerView.addItemDecoration(itemDecoration);
+        }
         profile.configRecyclerView(recyclerView, mAdapter);
     }
 }
