@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
 
-import com.kimeeo.kAndroid.listViews.R;
 import com.kimeeo.kAndroid.listViews.dataProvider.DataProvider;
 import com.kimeeo.kAndroid.listViews.recyclerView.BaseItemHolder;
 import com.kimeeo.kAndroid.listViews.recyclerView.BaseRecyclerViewAdapter;
@@ -24,6 +23,7 @@ import com.kimeeo.kAndroid.listViews.recyclerView.IViewProvider;
 abstract public class DefaultHeaderRecyclerView extends BaseHeaderRecyclerView implements IViewProvider
 {
     private final float DEFAULT_SCROLL_MULTIPLIER = 0.5f;
+    HeaderObject headerObject = new HeaderObject();
     private float mScrollMultiplier = DEFAULT_SCROLL_MULTIPLIER;
     private OnParallaxScroll mParallaxScroll;
     private View headerView=null;
@@ -34,10 +34,13 @@ abstract public class DefaultHeaderRecyclerView extends BaseHeaderRecyclerView i
     }
 
     abstract public View getNormalItemView(int viewType,LayoutInflater inflater,ViewGroup container);
+
     abstract public BaseItemHolder getNormalItemHolder(int viewType, View view);
+
     public int getNormalItemViewType(int position,Object item){
         return BaseRecyclerViewAdapter.ViewTypes.VIEW_ITEM;
     }
+
     public View getItemView(int viewType,LayoutInflater inflater,ViewGroup container) {
 
 
@@ -68,25 +71,30 @@ abstract public class DefaultHeaderRecyclerView extends BaseHeaderRecyclerView i
         return getNormalItemView(viewType,inflater,container);
     }
 
-
     public BaseItemHolder getHeaderItemHolder(int viewType,View view) {
+        //Chnage
         return new HeaderItemHolder(view);
     }
+
     public boolean getSupportParallex() {
         return false;
     }
+
     public View createHeaderView(LayoutInflater inflater,ViewGroup container,Object data)
     {
         return null;
     }
+
     public View getHeaderView()
     {
         return headerView;
     }
+
     protected void garbageCollectorCall() {
         super.garbageCollectorCall();
         headerView=null;
     }
+
     protected void configRecyclerView(RecyclerView mList, BaseRecyclerViewAdapter mAdapter) {
         if(getSupportParallex()) {
             mList.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -102,6 +110,7 @@ abstract public class DefaultHeaderRecyclerView extends BaseHeaderRecyclerView i
             });
         }
     }
+
     public void translateHeader(float headerTop) {
         float translationAmount = headerTop * mScrollMultiplier;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -119,6 +128,7 @@ abstract public class DefaultHeaderRecyclerView extends BaseHeaderRecyclerView i
             mParallaxScroll.onParallaxScroll(left, headerTop, headerView);
         }
     }
+
     @Override
     protected void configDataManager(DataProvider dataManager) {
         if(getHeaderObject()!=null && dataManager!=null) {
@@ -126,11 +136,12 @@ abstract public class DefaultHeaderRecyclerView extends BaseHeaderRecyclerView i
             dataManager.setRefreshItemPos(1);
         }
     }
+
     public Object getHeaderObject()
     {
         return headerObject;
     }
-    HeaderObject headerObject =new HeaderObject();
+
     public BaseItemHolder getItemHolder(int viewType,View view) {
         if(viewType== BaseRecyclerViewAdapter.ViewTypes.VIEW_HEADER)
             return getHeaderItemHolder(viewType,view);
@@ -149,8 +160,12 @@ abstract public class DefaultHeaderRecyclerView extends BaseHeaderRecyclerView i
     }
 
 
+    public interface OnParallaxScroll {
+        void onParallaxScroll(float percentage, float offset, View parallax);
+    }
 
     public static class HeaderObject{}
+
     // Update View Here
     public class HeaderItemHolder extends BaseItemHolder {
 
@@ -162,8 +177,5 @@ abstract public class DefaultHeaderRecyclerView extends BaseHeaderRecyclerView i
         public void updateItemView(Object item,View view,int position){
 
         }
-    }
-    public interface OnParallaxScroll {
-        void onParallaxScroll(float percentage, float offset, View parallax);
     }
 }
