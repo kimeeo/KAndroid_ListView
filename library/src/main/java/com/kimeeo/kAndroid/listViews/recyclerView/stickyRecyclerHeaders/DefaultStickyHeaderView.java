@@ -36,6 +36,11 @@ abstract public class DefaultStickyHeaderView extends BaseStickyHeaderView imple
     abstract public BaseItemHolder getStickyItemHolder(View view);
     abstract public long getHeaderId(int position);
 
+    @Override
+    public int getListItemViewType(int i, Object o) {
+        return BaseRecyclerViewAdapter.ViewTypes.VIEW_ITEM;
+    }
+
     protected BaseRecyclerViewAdapter createListViewAdapter()
     {
         return new DefaultStickyRecyclerViewAdapter(getDataProvider(),this,this);
