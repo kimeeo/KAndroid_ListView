@@ -42,8 +42,6 @@ abstract public class DefaultHeaderRecyclerView extends BaseHeaderRecyclerView i
     }
 
     public View getItemView(int viewType,LayoutInflater inflater,ViewGroup container) {
-
-
         if(viewType==BaseRecyclerViewAdapter.ViewTypes.VIEW_HEADER)
         {
             View hView = createHeaderView(inflater,container,getHeaderObject());
@@ -72,7 +70,6 @@ abstract public class DefaultHeaderRecyclerView extends BaseHeaderRecyclerView i
     }
 
     public BaseItemHolder getHeaderItemHolder(int viewType,View view) {
-        //Chnage
         return new HeaderItemHolder(view);
     }
 
@@ -82,8 +79,6 @@ abstract public class DefaultHeaderRecyclerView extends BaseHeaderRecyclerView i
 
     public View createHeaderView(LayoutInflater inflater,ViewGroup container,Object data)
     {
-
-        //Some issues
         return null;
     }
 
