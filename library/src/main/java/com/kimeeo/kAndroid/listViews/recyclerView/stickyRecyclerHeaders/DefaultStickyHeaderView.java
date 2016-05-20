@@ -39,6 +39,7 @@ abstract public class DefaultStickyHeaderView extends BaseStickyHeaderView imple
 
     @Override
     public int getListItemViewType(int i, Object o) {
+        //Change
         return BaseRecyclerViewAdapter.ViewTypes.VIEW_ITEM;
     }
 
