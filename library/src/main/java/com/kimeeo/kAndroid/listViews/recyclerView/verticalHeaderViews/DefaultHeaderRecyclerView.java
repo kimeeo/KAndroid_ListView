@@ -82,6 +82,8 @@ abstract public class DefaultHeaderRecyclerView extends BaseHeaderRecyclerView i
 
     public View createHeaderView(LayoutInflater inflater,ViewGroup container,Object data)
     {
+
+        //Some issues
         return null;
     }
 
