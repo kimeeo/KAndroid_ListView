@@ -169,7 +169,12 @@ abstract public class BaseAdapterLayoutView extends BaseListDataView implements 
     {
 
     }
-
+    @Override
+    public void onFetchingFinish(boolean b) {
+        if (mEmptyViewHelper != null)
+            mEmptyViewHelper.updateView(getDataProvider());
+        updateSwipeRefreshLayout(false);
+    }
     @Override
     public void onFetchingStart(boolean isFetchingRefresh){
         if (mEmptyViewHelper != null)
