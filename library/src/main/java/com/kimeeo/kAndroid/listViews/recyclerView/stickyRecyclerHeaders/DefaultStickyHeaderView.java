@@ -29,6 +29,7 @@ abstract public class DefaultStickyHeaderView extends BaseStickyHeaderView imple
                     headersDecor.invalidateHeaders();
                 }
             });
+
         }
     }
 
