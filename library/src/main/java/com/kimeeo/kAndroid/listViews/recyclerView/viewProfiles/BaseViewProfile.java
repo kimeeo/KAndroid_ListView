@@ -61,6 +61,7 @@ abstract public class BaseViewProfile implements IViewProvider
 
     public int getListItemViewType(int position, Object item)
     {
+
         return BaseRecyclerViewAdapter.ViewTypes.VIEW_ITEM;
     }
 }
