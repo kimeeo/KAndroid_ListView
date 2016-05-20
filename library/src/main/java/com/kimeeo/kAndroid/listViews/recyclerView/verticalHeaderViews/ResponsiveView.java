@@ -14,22 +14,42 @@ abstract public class ResponsiveView extends BaseHeaderGridView
     {
         return true;
     }
-
+    boolean canBeParallex;
     @Override
     protected RecyclerView.LayoutManager createLayoutManager() {
         RecyclerView.LayoutManager layoutManager;
         int columns = getColumnsCount();
+
         if(columns==1)
         {
+            canBeParallex=true;
             layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         }
         else
         {
-            if(getVariableHeight())
+            if(getVariableHeight()) {
+                canBeParallex = false;
                 layoutManager = new StaggeredGridLayoutManager(columns, StaggeredGridLayoutManager.VERTICAL);
-            else
+            }
+            else {
+                canBeParallex=true;
                 layoutManager = new GridLayoutManager(getActivity(), columns, GridLayoutManager.VERTICAL, false);
+            }
         }
         return layoutManager;
+    }
+
+    @Override
+    final public boolean getSupportParallex()
+    {
+        if(!canBeParallex)
+            return false;
+        else
+            return supportParallex();
+    }
+
+    public boolean supportParallex()
+    {
+        return false;
     }
 }

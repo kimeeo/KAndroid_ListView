@@ -13,5 +13,9 @@ abstract public class StaggeredGridView extends BaseHeaderGridView
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(getColumnsCount(), StaggeredGridLayoutManager.VERTICAL);
         return layoutManager;
     }
-
+    @Override
+    final public boolean getSupportParallex()
+    {
+        return false;
+    }
 }

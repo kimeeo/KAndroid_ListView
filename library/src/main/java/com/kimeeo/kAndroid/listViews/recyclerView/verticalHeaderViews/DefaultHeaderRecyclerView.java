@@ -15,10 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
 
+import com.kimeeo.kAndroid.listViews.R;
 import com.kimeeo.kAndroid.listViews.dataProvider.DataProvider;
 import com.kimeeo.kAndroid.listViews.recyclerView.BaseItemHolder;
 import com.kimeeo.kAndroid.listViews.recyclerView.BaseRecyclerViewAdapter;
-import com.kimeeo.kAndroid.listViews.recyclerView.DefaultRecyclerViewAdapter;
 import com.kimeeo.kAndroid.listViews.recyclerView.IViewProvider;
 
 abstract public class DefaultHeaderRecyclerView extends BaseHeaderRecyclerView implements IViewProvider
@@ -39,17 +39,43 @@ abstract public class DefaultHeaderRecyclerView extends BaseHeaderRecyclerView i
         return BaseRecyclerViewAdapter.ViewTypes.VIEW_ITEM;
     }
     public View getItemView(int viewType,LayoutInflater inflater,ViewGroup container) {
+
+
         if(viewType==BaseRecyclerViewAdapter.ViewTypes.VIEW_HEADER)
-            return getHeaderView();
+        {
+            View hView = createHeaderView(inflater,container,getHeaderObject());
+            if(hView!=null) {
+                if (getSupportParallex()) {
+                    if (hView instanceof HeaderViewWrapper) {
+                        headerView = hView;
+                    } else{
+
+                        HeaderViewWrapper headerViewWrapper= new HeaderViewWrapper(getActivity());
+                        headerViewWrapper.addView(hView);
+
+                        headerView= headerViewWrapper;
+                    }
+                } else
+                    headerView = hView;
+            }
+            else {
+                headerView = new View(container.getContext());
+                headerView.setVisibility(View.GONE);
+            }
+
+            return headerView;
+        }
         return getNormalItemView(viewType,inflater,container);
     }
+
+
     public BaseItemHolder getHeaderItemHolder(int viewType,View view) {
         return new HeaderItemHolder(view);
     }
     public boolean getSupportParallex() {
         return false;
     }
-    public View createHeaderView(LayoutInflater inflater)
+    public View createHeaderView(LayoutInflater inflater,ViewGroup container,Object data)
     {
         return null;
     }
@@ -95,35 +121,16 @@ abstract public class DefaultHeaderRecyclerView extends BaseHeaderRecyclerView i
     }
     @Override
     protected void configDataManager(DataProvider dataManager) {
-
-        View hView = createHeaderView(getActivity().getLayoutInflater());
-        if(getSupportParallex())
-        {
-            if(hView!=null && hView instanceof HeaderViewWrapper)
-            {
-                headerView=hView;
-            }
-            else if(hView!=null){
-                HeaderViewWrapper headerViewWrapper= new HeaderViewWrapper(getActivity());
-                headerViewWrapper.addView(hView);
-                headerView= headerViewWrapper;
-            }
-            else
-                headerView = null;
-        }
-        else
-            headerView = hView;
-
-
-        if(getHeaderView()!=null && dataManager!=null) {
+        if(getHeaderObject()!=null && dataManager!=null) {
             dataManager.add(getHeaderObject());
             dataManager.setRefreshItemPos(1);
         }
     }
     public Object getHeaderObject()
     {
-        return new HeaderObject();
+        return headerObject;
     }
+    HeaderObject headerObject =new HeaderObject();
     public BaseItemHolder getItemHolder(int viewType,View view) {
         if(viewType== BaseRecyclerViewAdapter.ViewTypes.VIEW_HEADER)
             return getHeaderItemHolder(viewType,view);
@@ -131,15 +138,18 @@ abstract public class DefaultHeaderRecyclerView extends BaseHeaderRecyclerView i
             return getNormalItemHolder(viewType, view);
     }
     final public int getListItemViewType(int position,Object item) {
-        if(position==0 && getHeaderView()!=null)
+        if(position==0 && getHeaderObject()!=null)
             return BaseRecyclerViewAdapter.ViewTypes.VIEW_HEADER;
         else
             return getNormalItemViewType(position, item);
     }
     @Override
     protected BaseRecyclerViewAdapter createListViewAdapter(){
-        return new DefaultRecyclerViewAdapter(getDataProvider(),this);
+        return new DefaultHeaderRecyclerViewAdapter(getDataProvider(),this);
     }
+
+
+
     public static class HeaderObject{}
     // Update View Here
     public class HeaderItemHolder extends BaseItemHolder {

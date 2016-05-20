@@ -3,6 +3,8 @@ package com.kimeeo.kAndroid.listViews.recyclerView.verticalHeaderViews;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.support.annotation.Nullable;
+import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
 /**
@@ -10,6 +12,7 @@ import android.widget.FrameLayout;
  */
 public class HeaderViewWrapper extends FrameLayout {
     private int mOffset;
+
 
     public HeaderViewWrapper(Context context) {
         super(context);

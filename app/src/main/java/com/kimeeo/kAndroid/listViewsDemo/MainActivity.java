@@ -13,7 +13,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Fragment view = BaseFragment.newInstance(ListView.class);
+
+        Class clazz =HeaderListView.class;
+        //Class clazz = ListView.class;
+        Fragment view = BaseFragment.newInstance(clazz);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, view).commit();
     }
 
