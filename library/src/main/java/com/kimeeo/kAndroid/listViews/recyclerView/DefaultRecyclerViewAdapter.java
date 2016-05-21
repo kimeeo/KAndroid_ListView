@@ -28,4 +28,9 @@ public class DefaultRecyclerViewAdapter extends BaseRecyclerViewAdapter
     protected int getListItemViewType(int position,Object item){
         return viewProvider.getListItemViewType(position, item);
     }
+    @Override
+    protected boolean getSpanForItem(BaseItemHolder itemHolder, int position,int viewType)
+    {
+        return false;
+    }
 }
