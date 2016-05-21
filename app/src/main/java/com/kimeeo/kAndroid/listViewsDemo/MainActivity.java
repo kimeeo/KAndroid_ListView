@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         views.put(R.id.nav_recycle_view_profile, ProfileBasedListView.class);
         views.put(R.id.nav_recycle_gird, GridView.class);
         views.put(R.id.nav_recycle_list, ListView.class);
+        views.put(R.id.nav_recycle_heler, Helper.class);
 
 
         loadView(R.id.nav_recycle_view_profile);

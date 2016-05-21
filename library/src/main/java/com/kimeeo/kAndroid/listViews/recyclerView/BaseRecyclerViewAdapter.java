@@ -143,7 +143,15 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
 
     @Override
     public int getItemViewType(int position) {
-        return getDataProvider().get(position) instanceof ProgressItem ? ViewTypes.VIEW_PROGRESS : getListItemViewType(position, getDataProvider().get(position));
+        if (getDataProvider().get(position) instanceof ProgressItem)
+            return ViewTypes.VIEW_PROGRESS;
+        else {
+            int type = getListItemViewType(position, getDataProvider().get(position));
+            if (type <= 0)
+                type = ViewTypes.VIEW_ITEM;
+            return type;
+        }
+
     }
 
     protected int getListItemViewType(int position, Object item)

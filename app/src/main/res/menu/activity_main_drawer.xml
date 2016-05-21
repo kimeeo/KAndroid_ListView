@@ -12,4 +12,8 @@
     <item
         android:id="@+id/nav_recycle_list"
         android:title="List" />
+
+    <item
+        android:id="@+id/nav_recycle_heler"
+        android:title="Helper" />
 </menu>
