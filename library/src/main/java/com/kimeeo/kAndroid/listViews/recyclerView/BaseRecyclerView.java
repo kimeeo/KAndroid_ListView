@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 import android.widget.AdapterView;
 
 import com.kimeeo.kAndroid.listViews.BaseListDataView;
@@ -31,16 +32,18 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
     protected RecyclerView recyclerView;
     protected View mRootView;
     protected BaseRecyclerViewAdapter mAdapter;
+    private EmptyViewHelper mEmptyViewHelper;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+
     public EmptyViewHelper getEmptyViewHelper() {
         return mEmptyViewHelper;
     }
-    private EmptyViewHelper mEmptyViewHelper;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+
     abstract protected RecyclerView.LayoutManager createLayoutManager();
     abstract protected BaseRecyclerViewAdapter createListViewAdapter();
     protected RecyclerView.ItemAnimator createItemAnimator()
     {
-        return  new FadeInAnimator();
+        return new FadeInAnimator(new OvershootInterpolator(1f));
     }
     public View getRootView() {
         return mRootView;
@@ -233,12 +236,14 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
     public void onFetchingStart(boolean isFetchingRefresh){
         if (getEmptyViewHelper() != null)
             getEmptyViewHelper().updatesStart();
-    };
+    }
+
     public void onFetchingError(Object error){
         if (getEmptyViewHelper() != null)
             getEmptyViewHelper().updateView(getDataProvider());
         updateSwipeRefreshLayout(false);
-    };
+    }
+
     public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh){
         dataLoaded(dataList,isFetchingRefresh);
     }
@@ -250,15 +255,18 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
     public void itemsAdded(int index,List items){
         if (getEmptyViewHelper() != null)
             getEmptyViewHelper().updateView(getDataProvider());
-    };
+    }
+
     public void itemsRemoved(int index,List items){
         if (getEmptyViewHelper() != null)
             getEmptyViewHelper().updateView(getDataProvider());
-    };
+    }
+
     public void itemsChanged(int index,List items){
         if (getEmptyViewHelper() != null)
             getEmptyViewHelper().updateView(getDataProvider());
-    };
+    }
+
     protected void dataLoaded(List<?> dataList, boolean isFetchingRefresh) {
         if (isFetchingRefresh)
             recyclerView.scrollToPosition(0);

@@ -2,6 +2,8 @@ package com.kimeeo.kAndroid.listViewsDemo;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import com.kimeeo.kAndroid.listViews.dataProvider.DataProvider;
 import com.kimeeo.kAndroid.listViews.dataProvider.StaticDataProvider;
 import com.kimeeo.kAndroid.listViews.recyclerView.BaseItemHolder;
+import com.kimeeo.kAndroid.listViews.recyclerView.itemDecoration.DefaultDividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,26 +22,31 @@ import java.util.List;
  */
 public class ListView extends com.kimeeo.kAndroid.listViews.recyclerView.verticalViews.ListView {
 
+    private int pageCount = 1;
+    private int refreshPageCount = 1;
+
     @Override
-    public void onItemClick(Object data)
-    {
+    public void onItemClick(Object data) {
         //getDataProvider().remove(data);
 
-        getDataProvider().set(0,new DataObject("UPDATED"));
+        getDataProvider().set(0, new DataObject("UPDATED"));
+    }
+
+    protected RecyclerView.ItemDecoration createItemDecoration() {
+        return new DefaultDividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL);
     }
 
     @Override
     public View getItemView(int i, LayoutInflater layoutInflater, ViewGroup viewGroup) {
-        return layoutInflater.inflate(R.layout.sample_list_view_item,viewGroup,false);
+        return layoutInflater.inflate(R.layout.sample_list_view_item, viewGroup, false);
 
     }
+
     @Override
     public BaseItemHolder getItemHolder(int  i, View view){
         return new BaseItemHolder1(view);
     }
 
-    private int pageCount=1;
-    private int refreshPageCount=1;
     @NonNull
     @Override
     protected DataProvider createDataProvider()

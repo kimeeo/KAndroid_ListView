@@ -25,21 +25,24 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
     private DataProvider dataProvider;
 
     private WeakReference<OnUpdateItem> onUpdateItem;
-    public OnUpdateItem getOnUpdateItem() {
-        if(onUpdateItem!=null)
-            return onUpdateItem.get();
-        return
-                null;
-    }
-    public void setOnUpdateItem(OnUpdateItem onUpdateItem) {
-        this.onUpdateItem = new WeakReference<OnUpdateItem>(onUpdateItem);
-    }
 
     public BaseRecyclerViewAdapter(DataProvider dataProvider) {
         this.dataProvider = dataProvider;
         this.dataProvider.addFatchingObserve(this);
         this.dataProvider.addDataChangeWatcher(this);
     }
+
+    public OnUpdateItem getOnUpdateItem() {
+        if(onUpdateItem!=null)
+            return onUpdateItem.get();
+        return
+                null;
+    }
+
+    public void setOnUpdateItem(OnUpdateItem onUpdateItem) {
+        this.onUpdateItem = new WeakReference<OnUpdateItem>(onUpdateItem);
+    }
+
     public void garbageCollectorCall()
     {
         if(dataProvider!=null) {
@@ -183,9 +186,8 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
     }
     public void itemsAdded(int position,List items)
     {
-        if(items!=null && items.size()!=0) {
+        if (items != null && items.size() != 0)
             notifyItemRangeInserted(position, items.size());
-        }
     }
     public void itemsChanged(int position,List items)
     {
@@ -218,6 +220,10 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
         }
     }
 
+    public interface OnUpdateItem {
+        void update(BaseItemHolder itemHolder, Object item, int position);
+    }
+
     public static class ViewTypes {
         public static final int VIEW_PROGRESS = 0;
         public static final int VIEW_ITEM = 1;
@@ -238,9 +244,5 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
         {
 
         }
-    }
-    public interface OnUpdateItem
-    {
-        void update(BaseItemHolder itemHolder, Object item, int position);
     }
 }

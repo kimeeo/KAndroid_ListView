@@ -9,52 +9,42 @@ import com.kimeeo.kAndroid.listViews.recyclerView.GridHelper;
  * Created by bhavinpadhiyar on 1/30/16.
  */
 abstract public class VerticalGrid extends DefaultStickyHeaderView implements GridHelper.IColoumProvider {
-
     private GridHelper gridHelper;
-
     @Override
     protected RecyclerView.LayoutManager createLayoutManager() {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), getColumnsCount(), GridLayoutManager.VERTICAL, false);
         return gridLayoutManager;
     }
 
-    public int getColumnsCount()
-    {
+    public int getColumnsCount() {
         if(gridHelper!=null)
             return gridHelper.getColumnsCount();
         return getColumnsPhone();
     }
-
     public int getColumnsPhone() {
         return 2;
     }
-
     public int getColumnsTablet10() {
         return 5;
     }
-
     public int getColumnsTablet7() {return 4;}
-
     public int getSpanSizeForItem(int position,int viewType,Object baseObject)
     {
         return 1;
     }
-
     protected void garbageCollectorCall() {
         super.garbageCollectorCall();
         if(gridHelper!=null)
             gridHelper.garbageCollectorCall();
         gridHelper=null;
     }
-
     @Override
-    protected void configViewParam()
-    {
+    protected void configViewParam() {
         super.configViewParam();
         gridHelper = new GridHelper(this,getApplication());
     }
-    protected void configLayoutManager(RecyclerView.LayoutManager layoutManager)
-    {
+
+    protected void configLayoutManager(RecyclerView.LayoutManager layoutManager) {
         gridHelper.configLayoutManager(layoutManager);
     }
 }
