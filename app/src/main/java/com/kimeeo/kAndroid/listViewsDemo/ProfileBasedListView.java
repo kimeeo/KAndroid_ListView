@@ -1,7 +1,9 @@
 package com.kimeeo.kAndroid.listViewsDemo;
 
+import android.app.Activity;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +16,7 @@ import com.kimeeo.kAndroid.listViews.dataProvider.DataProvider;
 import com.kimeeo.kAndroid.listViews.dataProvider.StaticDataProvider;
 import com.kimeeo.kAndroid.listViews.recyclerView.BaseItemHolder;
 import com.kimeeo.kAndroid.listViews.recyclerView.BaseProfileRecyclerView;
+import com.kimeeo.kAndroid.listViews.recyclerView.itemDecoration.GridDividerDecoration;
 import com.kimeeo.kAndroid.listViews.recyclerView.viewProfiles.BaseViewProfile;
 import com.kimeeo.kAndroid.listViews.recyclerView.viewProfiles.HorizontalList;
 import com.kimeeo.kAndroid.listViews.recyclerView.viewProfiles.VerticalGrid;
@@ -37,56 +40,6 @@ public class ProfileBasedListView extends BaseProfileRecyclerView {
     protected DataProvider createDataProvider()
     {
         return new StaticDataProvider1();
-    }
-    public class StaticDataProvider1 extends StaticDataProvider
-    {
-        int count = 1;
-        Handler h = new Handler();
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                List list=new ArrayList();
-                for (int i = 0; i < 30; i++) {
-                    list.add(new DataObject("Name "+ count));
-                    count++;
-                }
-                addData(list);
-            }
-        };
-        public StaticDataProvider1()
-        {
-            //setRefreshItemPos(1);
-            //setNextItemPos(1);
-            setNextEnabled(true);
-            setRefreshEnabled(true);
-
-        }
-
-        @Override
-        protected void invokeLoadNext() {
-            if(pageCount!=100) {
-                h.postDelayed(r,2000);
-
-
-                pageCount+=1;
-            }
-            else {
-                setCanLoadNext(false);
-                dataLoadError(null);
-            }
-        }
-
-        @Override
-        protected void invokeLoadRefresh() {
-            if(refreshPageCount!=3) {
-                h.postDelayed(r,2000);
-                refreshPageCount+=1;
-            }
-            else {
-                setCanLoadRefresh(false);
-                dataLoadError(null);
-            }
-        }
     }
 
     public void onViewCreated(View view) {
@@ -123,6 +76,53 @@ public class ProfileBasedListView extends BaseProfileRecyclerView {
         return super.onOptionsItemSelected(item);
     }
 
+    public class StaticDataProvider1 extends StaticDataProvider {
+        int count = 1;
+        Handler h = new Handler();
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                List list = new ArrayList();
+                for (int i = 0; i < 30; i++) {
+                    list.add(new DataObject("Name " + count));
+                    count++;
+                }
+                addData(list);
+            }
+        };
+
+        public StaticDataProvider1() {
+            //setRefreshItemPos(1);
+            //setNextItemPos(1);
+            setNextEnabled(true);
+            setRefreshEnabled(true);
+
+        }
+
+        @Override
+        protected void invokeLoadNext() {
+            if (pageCount != 100) {
+                h.postDelayed(r, 2000);
+
+
+                pageCount += 1;
+            } else {
+                setCanLoadNext(false);
+                dataLoadError(null);
+            }
+        }
+
+        @Override
+        protected void invokeLoadRefresh() {
+            if (refreshPageCount != 3) {
+                h.postDelayed(r, 2000);
+                refreshPageCount += 1;
+            } else {
+                setCanLoadRefresh(false);
+                dataLoadError(null);
+            }
+        }
+    }
 
     public class MyVerticalListViewProfile extends VerticalList {
         public MyVerticalListViewProfile(String name, BaseProfileRecyclerView host) {
@@ -135,7 +135,12 @@ public class ProfileBasedListView extends BaseProfileRecyclerView {
 
         @Override
         public BaseItemHolder getItemHolder(int viewType, View view) {
+
             return new BaseItemHolder1(view);
+        }
+
+        public RecyclerView.ItemDecoration createItemDecoration(Activity context) {
+            return new GridDividerDecoration(context);
         }
     }
 
@@ -151,6 +156,10 @@ public class ProfileBasedListView extends BaseProfileRecyclerView {
         @Override
         public BaseItemHolder getItemHolder(int viewType, View view) {
             return new BaseItemHolder1(view);
+        }
+
+        public RecyclerView.ItemDecoration createItemDecoration(Activity context) {
+            return new GridDividerDecoration(context);
         }
     }
 
@@ -168,6 +177,10 @@ public class ProfileBasedListView extends BaseProfileRecyclerView {
         public BaseItemHolder getItemHolder(int viewType, View view) {
             return new BaseItemHolder1(view);
         }
+
+        public RecyclerView.ItemDecoration createItemDecoration(Activity context) {
+            return new GridDividerDecoration(context);
+        }
     }
 
     public class MyVerticalStaggeredGridViewProfile extends VerticalStaggeredGrid {
@@ -184,6 +197,10 @@ public class ProfileBasedListView extends BaseProfileRecyclerView {
         @Override
         public BaseItemHolder getItemHolder(int viewType, View view) {
             return new BaseItemHolder1(view);
+        }
+
+        public RecyclerView.ItemDecoration createItemDecoration(Activity context) {
+            return new GridDividerDecoration(context);
         }
     }
 
