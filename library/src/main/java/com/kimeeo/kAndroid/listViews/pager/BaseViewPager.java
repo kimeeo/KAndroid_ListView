@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.kimeeo.kAndroid.listViews.BaseListDataView;
 import com.kimeeo.kAndroid.listViews.EmptyViewHelper;
 import com.kimeeo.kAndroid.listViews.R;
+import com.kimeeo.kAndroid.listViews.pager.directionalviewpager.DirectionalViewPager;
 import com.kimeeo.kAndroid.listViews.pager.viewPager.BaseViewPagerAdapter;
 
 import java.util.List;
@@ -336,31 +337,22 @@ abstract public class BaseViewPager extends BaseListDataView implements ViewPage
             mEmptyViewHelper.updateView(getDataProvider());
     }
 
-    private void dataLoaded(List<?> dataList,final boolean isFetchingRefresh) {
+    private void dataLoaded(List<?> dataList, boolean isFetchingRefresh) {
         if(dataList!=null && dataList.size()!=0 && getViewPager()!=null)
         {
-            /*
-                if (isFetchingRefresh) {
-                    final Handler handler = new Handler();
-                    final Runnable runnablelocal = new Runnable() {
-                        @Override
-                        public void run() {
-                            if (isFetchingRefresh) {
-                                if (getViewPager() instanceof DirectionalViewPager == false)
-                                {
-                                    getViewPager().setAdapter(getAdapter());
-                                    gotoItem(0, true);
-                                    setUpIndicator(mIndicator, mViewPager);
-                                }
-                            }
-                        }
-                    };
-                    handler.postDelayed(runnablelocal, 1000);
-                } else
-                    setUpIndicator(mIndicator, mViewPager);
-            */
-            updateIndicator(mIndicator, mViewPager);
-
+            if (isFetchingRefresh && getViewPager() instanceof DirectionalViewPager == false) {
+                final Handler handler = new Handler();
+                final Runnable runnablelocal = new Runnable() {
+                    @Override
+                    public void run() {
+                        getViewPager().setAdapter(getAdapter());
+                        gotoItem(0, true);
+                        updateIndicator(mIndicator, mViewPager);
+                    }
+                };
+                handler.postDelayed(runnablelocal, 1000);
+            } else
+                updateIndicator(mIndicator, mViewPager);
         }
         if (mEmptyViewHelper != null)
             mEmptyViewHelper.updateView(getDataProvider());
