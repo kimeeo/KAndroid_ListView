@@ -18,9 +18,10 @@ import java.util.List;
  * Created by BhavinPadhiyar on 02/05/16.
  */
 public class HeaderListView extends com.kimeeo.kAndroid.listViews.recyclerView.verticalHeaderViews.ResponsiveView {
+
+
     private int pageCount=1;
     private int refreshPageCount=1;
-
 
     @Override
     public View getNormalItemView(int viewType, LayoutInflater inflater, ViewGroup container) {
@@ -31,13 +32,13 @@ public class HeaderListView extends com.kimeeo.kAndroid.listViews.recyclerView.v
     public BaseItemHolder getNormalItemHolder(int viewType, View view) {
         return new BaseItemHolder1(view);
     }
+
     @Override
     public View createHeaderView(LayoutInflater inflater,ViewGroup container,Object data)
     {
         View view =inflater.inflate(R.layout.fragment_header_page_view, container,false);
         return view;
     }
-
 
     @NonNull
     @Override
