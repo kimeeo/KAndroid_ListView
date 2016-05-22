@@ -30,6 +30,8 @@ public class ViewPagerHelper extends BaseHelper implements DataProvider.OnFatchi
     private boolean isIndicatorSet = false;
     private int currentItem;
 
+    private OnPageIndicatorUpdate onPageIndicatorUpdate;
+
     public Resources getResources() {
         return mViewPager.getResources();
     }
@@ -48,9 +50,14 @@ public class ViewPagerHelper extends BaseHelper implements DataProvider.OnFatchi
         this.showInternetRetry = showInternetRetry;
         return this;
     }
-    public ViewPagerHelper
-    emptyView(EmptyViewHelper emptyViewHelper) {
+
+    public ViewPagerHelper emptyView(EmptyViewHelper emptyViewHelper) {
         mEmptyViewHelper = emptyViewHelper;
+        return this;
+    }
+
+    public ViewPagerHelper onPageIndicatorUpdate(OnPageIndicatorUpdate update) {
+        this.onPageIndicatorUpdate = update;
         return this;
     }
     protected void clear() {
@@ -165,7 +172,11 @@ public class ViewPagerHelper extends BaseHelper implements DataProvider.OnFatchi
                 configTabLayout(tabLayout, viewPager);
             }
 
+            if (onPageIndicatorUpdate != null)
+                onPageIndicatorUpdate.onUpdate(viewPager, indicator);
         }
+
+
     }
     protected void configTabLayout(TabLayout tabLayout, ViewPager viewPager) {
 
@@ -284,4 +295,9 @@ public class ViewPagerHelper extends BaseHelper implements DataProvider.OnFatchi
                 mSwipeRefreshLayout.setEnabled(dataProvider.getCanLoadRefresh());
         }
     }
+
+    public interface OnPageIndicatorUpdate {
+        void onUpdate(ViewPager mViewPager, View mIndicator);
+    }
+
 }
