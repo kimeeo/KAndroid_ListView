@@ -31,7 +31,6 @@ public class HorizontalViewPager extends com.kimeeo.kAndroid.listViews.pager.vie
     protected DataProvider createDataProvider() {
         return new AQDataProvider(getActivity(), true, true);
     }
-
     @Override
     public BaseItemHolder getItemHolder(View view, int i, Object o) {
         return new BaseItemHolder1(view);
@@ -41,12 +40,10 @@ public class HorizontalViewPager extends com.kimeeo.kAndroid.listViews.pager.vie
         public BaseItemHolder1(View itemView) {
             super(itemView);
         }
-
         @Override
         public void cleanView(View view, int i) {
 
         }
-
         @Override
         public void updateItemView(Object o, View view, int i) {
             DataBean data = (DataBean) o;

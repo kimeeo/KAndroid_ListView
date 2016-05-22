@@ -27,13 +27,12 @@ dependencies {
     compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
 
-
+    compile project(':library')
 
     final ANDROID_QUERY_DATA_PROVIDER_VERSION = '3bc36632d0'
     compile("com.github.kimeeo:AndroidQuery_DataProvider:$ANDROID_QUERY_DATA_PROVIDER_VERSION@aar") {
         transitive = true
     }
-    compile project(':library')
 
 }
 

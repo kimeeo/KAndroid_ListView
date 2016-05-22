@@ -11,7 +11,6 @@ public class DataBean {
     private String icon;
     private String image;
     private String details;
-
     public String getName() {
         return name;
     }

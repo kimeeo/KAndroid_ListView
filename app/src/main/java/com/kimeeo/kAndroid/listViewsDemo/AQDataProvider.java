@@ -18,12 +18,10 @@ public class AQDataProvider extends JSONDataProvider {
         setNextEnabled(nextEnabled);
         setRefreshEnabled(refreshEnabled);
     }
-
     @Override
     protected int getMethod() {
         return METHOD_GET;
     }
-
     @Override
     protected String getRefreshURL() {
         if (minCurruntPage != 2) {
@@ -34,7 +32,6 @@ public class AQDataProvider extends JSONDataProvider {
             return null;
         }
     }
-
     @Override
     protected String getNextURL() {
         if (curruntPage != 4) {
@@ -45,12 +42,10 @@ public class AQDataProvider extends JSONDataProvider {
             return null;
         }
     }
-
     @Override
     protected Map<String, Object> getNextParam() {
         return null;
     }
-
     @Override
     protected Class getDataModel() {
         return BaseDataModel.class;
