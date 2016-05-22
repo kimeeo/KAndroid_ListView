@@ -18,32 +18,40 @@ import java.util.List;
  * Created by bhavinpadhiyar on 1/20/16.
  */
 abstract public class BaseViewPagerAdapter extends PagerAdapter implements DataProvider.OnFatchingObserve,MonitorList.OnChangeWatcher {
+    public boolean supportLoader = true;
     private WeakReference<OnUpdateItem> onUpdateItem;
+    private DataProvider dataProvider;
+
+    public BaseViewPagerAdapter(DataProvider dataProvider) {
+        this.dataProvider = dataProvider;
+        this.dataProvider.addFatchingObserve(this);
+        this.dataProvider.addDataChangeWatcher(this);
+    }
+
     public OnUpdateItem getOnUpdateItem() {
         if(onUpdateItem!=null)
             return onUpdateItem.get();
         return
                 null;
     }
+
     public void setOnUpdateItem(OnUpdateItem onUpdateItem) {
         this.onUpdateItem = new WeakReference<OnUpdateItem>(onUpdateItem);
     }
+
     public void garbageCollectorCall() {
         dataProvider=null;
     }
+
     protected BaseItemHolder getProgressViewHolder(View view) {
         return  new ProgressViewHolder(view);
     }
+
     abstract protected View getView(int position,Object data);
+
     abstract protected BaseItemHolder getItemHolder(View view,int position,Object data);
+
     abstract protected void removeView(View view,int position,BaseItemHolder itemHolder);
-    private DataProvider dataProvider;
-    public boolean supportLoader = true;
-    public BaseViewPagerAdapter(DataProvider dataProvider){
-        this.dataProvider = dataProvider;
-        this.dataProvider.addFatchingObserve(this);
-        this.dataProvider.addDataChangeWatcher(this);
-    }
 
     public int getCount() {
         if(dataProvider!=null)
@@ -88,7 +96,7 @@ abstract public class BaseViewPagerAdapter extends PagerAdapter implements DataP
     }
     @Override
     public boolean isViewFromObject(View arg0, Object arg1) {
-        return arg0 == ((View) arg1);
+        return arg0 == arg1;
     }
     @Override
     public Parcelable saveState() {
@@ -108,11 +116,12 @@ abstract public class BaseViewPagerAdapter extends PagerAdapter implements DataP
                 notifyDataSetChanged();
             }catch (Exception e){}
         }
-    };
+    }
 
     public void onFetchingFinish(boolean isFetchingRefresh)
     {
         removeProgressBar();
+        notifyDataSetChanged();
     }
     public void onFetchingError(Object error)
     {
@@ -127,9 +136,13 @@ abstract public class BaseViewPagerAdapter extends PagerAdapter implements DataP
 
     public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh)
     {
-
+        notifyDataSetChanged();
     }
-    public void itemsChanged(int index,List items){notifyDataSetChanged();};
+
+    public void itemsChanged(int index, List items) {
+        notifyDataSetChanged();
+    }
+
     public void itemsAdded(int position,List items)
     {
         notifyDataSetChanged();
@@ -156,9 +169,12 @@ abstract public class BaseViewPagerAdapter extends PagerAdapter implements DataP
     }
 
 
-
+    public interface OnUpdateItem {
+        void update(BaseItemHolder itemHolder, Object item, int position);
+    }
 
     public static class ProgressItem{}
+
     // Update View Here
     public class ProgressViewHolder extends BaseItemHolder {
         public ProgressViewHolder(View itemView){
@@ -169,10 +185,5 @@ abstract public class BaseViewPagerAdapter extends PagerAdapter implements DataP
         public void updateItemView(Object item,View view,int position){
 
         }
-    }
-
-    public interface OnUpdateItem
-    {
-        void update(BaseItemHolder itemHolder, Object item, int position);
     }
 }
