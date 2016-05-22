@@ -303,12 +303,16 @@ abstract public class BaseViewPager extends BaseListDataView implements ViewPage
     public void onFetchingStart(boolean isFetchingRefresh){
         if (mEmptyViewHelper != null)
             mEmptyViewHelper.updatesStart();
-    };
+
+        updateIndicator(mIndicator, mViewPager);
+    }
+
     public void onFetchingError(Object error){
         if (mEmptyViewHelper != null)
             mEmptyViewHelper.updateView(getDataProvider());
         updateSwipeRefreshLayout(false);
-    };
+    }
+
     public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh){
         dataLoaded(dataList,isFetchingRefresh);
     }
@@ -320,15 +324,18 @@ abstract public class BaseViewPager extends BaseListDataView implements ViewPage
     public void itemsAdded(int index,List items){
         if (mEmptyViewHelper != null)
             mEmptyViewHelper.updateView(getDataProvider());
-    };
+    }
+
     public void itemsRemoved(int index,List items){
         if (mEmptyViewHelper != null)
             mEmptyViewHelper.updateView(getDataProvider());
-    };
+    }
+
     public void itemsChanged(int index,List items){
         if (mEmptyViewHelper != null)
             mEmptyViewHelper.updateView(getDataProvider());
-    };
+    }
+
     private void dataLoaded(List<?> dataList,final boolean isFetchingRefresh) {
         if(dataList!=null && dataList.size()!=0 && getViewPager()!=null)
         {
