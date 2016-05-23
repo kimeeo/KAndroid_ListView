@@ -134,8 +134,7 @@ abstract public class DefaultHeaderRecyclerView extends BaseHeaderRecyclerView i
         }
     }
 
-    public Object getHeaderObject()
-    {
+    public Object getHeaderObject() {
         return headerObject;
     }
 
@@ -146,7 +145,7 @@ abstract public class DefaultHeaderRecyclerView extends BaseHeaderRecyclerView i
             return getNormalItemHolder(viewType, view);
     }
     final public int getListItemViewType(int position,Object item) {
-        if (position == 0 && getHeaderObject() != null && getHeaderObject() == item)
+        if (position == 0 && getHeaderObject() != null)
             return BaseRecyclerViewAdapter.ViewTypes.VIEW_HEADER;
         else
             return getNormalItemViewType(position, item);
