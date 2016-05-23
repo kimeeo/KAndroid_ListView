@@ -235,7 +235,7 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
     public static class ViewTypes {
         public static final int VIEW_PROGRESS = 0;
         public static final int VIEW_ITEM = 1;
-        public static final int VIEW_HEADER = -1;
+        public static final int VIEW_HEADER = 99999999;
     }
 
     public static class ProgressItem

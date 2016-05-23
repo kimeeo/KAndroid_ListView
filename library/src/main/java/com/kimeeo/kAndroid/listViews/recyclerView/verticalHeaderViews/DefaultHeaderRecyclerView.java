@@ -129,7 +129,7 @@ abstract public class DefaultHeaderRecyclerView extends BaseHeaderRecyclerView i
     @Override
     protected void configDataManager(DataProvider dataManager) {
         if(getHeaderObject()!=null && dataManager!=null) {
-            dataManager.add(getHeaderObject());
+            dataManager.add(0, getHeaderObject());
             dataManager.setRefreshItemPos(1);
         }
     }
@@ -146,7 +146,7 @@ abstract public class DefaultHeaderRecyclerView extends BaseHeaderRecyclerView i
             return getNormalItemHolder(viewType, view);
     }
     final public int getListItemViewType(int position,Object item) {
-        if(position==0 && getHeaderObject()!=null)
+        if (position == 0 && getHeaderObject() != null && getHeaderObject() == item)
             return BaseRecyclerViewAdapter.ViewTypes.VIEW_HEADER;
         else
             return getNormalItemViewType(position, item);
