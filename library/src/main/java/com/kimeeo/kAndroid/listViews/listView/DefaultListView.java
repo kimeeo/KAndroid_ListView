@@ -11,10 +11,18 @@ import android.view.ViewGroup;
 
 abstract public class DefaultListView extends BaseListView implements IViewProvider
 {
+    @Override
+    public int getTotalViewTypeCount() {
+        return 1;
+    }
+
+    @Override
+    public int getListItemViewType(int viewType, Object data) {
+        return 1;
+    }
+
     abstract public View getItemView(int viewType,LayoutInflater inflater,ViewGroup container);
     abstract public BaseItemHolder getItemHolder(int viewType,View view);
-    abstract public int getTotalViewTypeCount();
-    abstract public int getListItemViewType(int viewType,Object data);
     protected BaseListViewAdapter createListViewAdapter(){
         return new DefaultListViewAdapter(getDataProvider(),this);
     }
