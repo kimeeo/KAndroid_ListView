@@ -8,6 +8,21 @@ import java.util.List;
  * Created by BhavinPadhiyar on 27/04/16.
  */
 abstract public class DataProvider extends MonitorList {
+    protected int curruntRefreshPage=0;
+    protected int curruntPage=0;
+    protected boolean isFetching = false;
+    protected boolean isFetchingRefresh = false;
+    protected boolean canLoadNext = true;
+    protected boolean canLoadRefresh = true;
+    protected boolean refreshEnabled = false;
+    protected boolean nextEnabled = false;
+    protected int refreshItemPos = 0;
+    protected boolean enterReverse = false;
+    protected int nextItemPos = 0;
+    protected boolean isFirstCall = true;
+    protected boolean isConfigurableObject = false;
+    private List<WeakReference<OnFatchingObserve>> onFatchingObserveList = new ArrayList<>();
+
     public int getCurruntRefreshPage() {
         return curruntRefreshPage;
     }
@@ -16,21 +31,21 @@ abstract public class DataProvider extends MonitorList {
         return curruntPage;
     }
 
-    protected int curruntRefreshPage=0;
-    protected int curruntPage=0;
-
     abstract protected void invokeLoadNext();
+
     abstract protected void invokeLoadRefresh();
+
     public boolean isFetching() {
         return isFetching;
     }
-    protected boolean isFetching=false;
-    protected boolean isFetchingRefresh=false;
-    protected boolean canLoadNext=true;
-    protected boolean canLoadRefresh=true;
-    protected boolean refreshEnabled=false;
-    protected boolean nextEnabled=false;
-    protected int refreshItemPos=0;
+
+    public boolean getEnterReverse() {
+        return enterReverse;
+    }
+
+    public void setEnterReverse(boolean enterReverse) {
+        this.enterReverse = enterReverse;
+    }
 
     public int getNextItemPos() {
         return nextItemPos;
@@ -40,16 +55,9 @@ abstract public class DataProvider extends MonitorList {
         this.nextItemPos = nextItemPos;
     }
 
-    protected int nextItemPos=0;
-
     public boolean isFirstCall() {
         return isFirstCall;
     }
-
-    protected boolean isFirstCall=true;
-    protected  boolean isConfigurableObject=false;
-
-    private List<WeakReference<OnFatchingObserve>> onFatchingObserveList=new ArrayList<>();
 
     public void garbageCollectorCall() {
         curruntPage=0;
@@ -256,26 +264,44 @@ abstract public class DataProvider extends MonitorList {
             }
         }
         if(list!=null) {
-            if (isFetchingRefresh)
-                addAll(getRefreshItemPos(), list);
-            else
-            {
-                if(getNextItemPos()<=0)
-                    addAll(list);
-                else
-                {
-                    if(size()!=0) {
-                        int pos = size() - getNextItemPos();
-                        if(pos>0)
-                            addAll(pos, list);
-                        else
+            if (getEnterReverse()) {
+                if (isFetchingRefresh) {
+                    if (getNextItemPos() <= 0)
+                        addAll(list);
+                    else {
+                        if (size() != 0) {
+                            int pos = size() - getNextItemPos();
+                            if (pos > 0)
+                                addAll(pos, list);
+                            else
+                                addAll(list);
+                        } else
                             addAll(list);
                     }
-                    else
-                        addAll(list);
+                } else {
+                    addAll(getRefreshItemPos(), list);
                 }
             }
-
+            else
+            {
+                if (isFetchingRefresh)
+                    addAll(getRefreshItemPos(), list);
+                else
+                {
+                    if (getNextItemPos() <= 0)
+                        addAll(list);
+                    else {
+                        if (size() != 0) {
+                            int pos = size() - getNextItemPos();
+                            if (pos > 0)
+                                addAll(pos, list);
+                            else
+                                addAll(list);
+                        } else
+                            addAll(list);
+                    }
+                }
+            }
         }
         onFetchingEnd(list,isFetchingRefresh);
         isFetchingRefresh=false;
