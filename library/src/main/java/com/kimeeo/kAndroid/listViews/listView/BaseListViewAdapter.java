@@ -20,47 +20,51 @@ import java.util.Map;
  */
 abstract public class BaseListViewAdapter extends BaseAdapter implements DataProvider.OnFatchingObserve,MonitorList.OnChangeWatcher
 {
-    public static class ViewTypes {
-        public static final int VIEW_PROGRESS = 0;
-        public static final int VIEW_ITEM = 1;
-        public static final int VIEW_HEADER = -1;
-    }
     private static final String TAG = "BaseRecyclerViewAdapter";
+    public boolean supportLoader = true;
     private AdapterView.OnItemClickListener mOnItemClickListener;
     private DataProvider dataProvider;
 
     private WeakReference<OnUpdateItem> onUpdateItem;
+    private Map<Integer, Integer> viewTypes = new HashMap<>();
+    private int counter = 1;
+
+
+    public BaseListViewAdapter(DataProvider dataProvider) {
+        this.dataProvider = dataProvider;
+        this.dataProvider.addFatchingObserve(this);
+        this.dataProvider.addDataChangeWatcher(this);
+    }
+
     public OnUpdateItem getOnUpdateItem() {
         if(onUpdateItem!=null)
             return onUpdateItem.get();
         return
                 null;
     }
+
     public void setOnUpdateItem(OnUpdateItem onUpdateItem) {
         this.onUpdateItem = new WeakReference<OnUpdateItem>(onUpdateItem);
     }
 
-
-    public boolean supportLoader = true;
     public void garbageCollectorCall() {
         dataProvider=null;
     }
+
     protected DataProvider getDataProvider()
     {
         return dataProvider;
     }
+
     abstract protected View getItemView(int viewType,LayoutInflater inflater,ViewGroup container);
+
     abstract protected BaseItemHolder getItemHolder(int viewType,View view);
+
     @Override
     public int getCount() {
         if(getDataProvider()!=null)
             return getDataProvider().size();
         return 0;
-    }
-    public BaseListViewAdapter(DataProvider dataProvider){
-        this.dataProvider= dataProvider;
-        this.dataProvider.addFatchingObserve(this);
-        this.dataProvider.addDataChangeWatcher(this);
     }
 
     public BaseItemHolder onCreateViewHolder(ViewGroup container, int viewType) {
@@ -80,27 +84,32 @@ abstract public class BaseListViewAdapter extends BaseAdapter implements DataPro
         return itemHolder;
 
     }
+
     protected View getProgressItem(int viewType,LayoutInflater inflater,ViewGroup container) {
         return inflater.inflate(R.layout._fragment_recycler_progress_item, container, false);
     }
+
     public int getItemCount() {
         return getDataProvider().size();
     }
+
     @Override
     public Object getItem(int position) {
         return getDataProvider().get(position);
     }
+
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
+
     public int getViewTypeCount()
     {
         return getTotalViewTypeCount()+1;
     }
+
     abstract protected int getTotalViewTypeCount();
-    private Map<Integer,Integer> viewTypes=new HashMap<>();
-    private int counter=1;
+
     protected int itemViewType(int viewType) {
         /*
         Integer value=viewTypes.get(viewType);
@@ -112,23 +121,27 @@ abstract public class BaseListViewAdapter extends BaseAdapter implements DataPro
         */
         return viewType;
     }
+
     protected int getListItemViewType(int position, Object item)
     {
         return ViewTypes.VIEW_ITEM;
     }
+
     public void onBindViewHolder(BaseItemHolder itemHolder, int position) {
         Object item = getDataProvider().get(position);
         itemHolder.updateItemView(item, position);
         if(onUpdateItem!=null && onUpdateItem.get()!=null)
             onUpdateItem.get().update(itemHolder,item, position);
     }
+
     @Override
-    public int getItemViewType(int position){
-        if(getDataProvider().get(position) instanceof ProgressItem)
+    public int getItemViewType(int position) {
+        if (getDataProvider().get(position) instanceof ProgressItem)
             return ViewTypes.VIEW_PROGRESS;
         else
-            return itemViewType(getListItemViewType(position,getDataProvider().get(position)));
+            return itemViewType(getListItemViewType(position, getDataProvider().get(position)));
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         BaseItemHolder holder = null;
@@ -146,27 +159,26 @@ abstract public class BaseListViewAdapter extends BaseAdapter implements DataPro
 
         return convertView;
     }
-    public static class ProgressItem{
 
-    }
-    public void onFetchingStart(boolean isFetchingRefresh){
-        if(supportLoader) {
-            try
-            {
+    public void onFetchingStart(boolean isFetchingRefresh) {
+        if (supportLoader) {
+            try {
                 getDataProvider().add(new ProgressItem());
                 notifyDataSetChanged();
-            }catch (Exception e){}
+            } catch (Exception e) {
+            }
         }
-    };
+    }
 
-    public void onFetchingFinish(boolean isFetchingRefresh)
-    {
+    public void onFetchingFinish(boolean isFetchingRefresh) {
         removeProgressBar();
     }
+
     public void onFetchingError(Object error)
     {
         removeProgressBar();
     }
+
     protected void removeProgressBar() {
         List<Object> list = getDataProvider();
         if (list.size() != 0 && list.get(list.size() - 1) instanceof ProgressItem && supportLoader) {
@@ -174,21 +186,40 @@ abstract public class BaseListViewAdapter extends BaseAdapter implements DataPro
             notifyDataSetChanged();
         }
     }
+
     @Override
     public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh){
 
-    };
+    }
+
     public void itemsChanged(int index,List items){
         notifyDataSetChanged();
-    };
-    public void itemsAdded(int position,List items)
+    }
+
+    public void itemsAdded(int position,List items) {
+        notifyDataSetChanged();
+    }
+
+    public void itemsRemoved(int position, List items)
     {
         notifyDataSetChanged();
     }
-    public void itemsRemoved(int position,List items)
+
+    public interface OnUpdateItem
     {
-        notifyDataSetChanged();
+        void update(BaseItemHolder itemHolder, Object item, int position);
     }
+
+    public static class ViewTypes {
+        public static final int VIEW_PROGRESS = 0;
+        public static final int VIEW_ITEM = 1;
+        public static final int VIEW_HEADER = -1;
+    }
+
+    public static class ProgressItem {
+
+    }
+
     // Update View Here
     public static class ProgressViewHolder extends BaseItemHolder {
         public ProgressViewHolder(View itemView){
@@ -197,10 +228,6 @@ abstract public class BaseListViewAdapter extends BaseAdapter implements DataPro
         public void updateItemView(Object item,View view,int position){
 
         }
-    }
-    public interface OnUpdateItem
-    {
-        void update(BaseItemHolder itemHolder, Object item, int position);
     }
 }
 
