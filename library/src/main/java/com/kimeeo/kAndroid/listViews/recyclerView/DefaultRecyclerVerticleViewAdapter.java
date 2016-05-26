@@ -15,6 +15,7 @@ public class DefaultRecyclerVerticleViewAdapter extends DefaultRecyclerViewAdapt
         super(dataManager, viewProvider);
     }
 
+    @Override
     protected View getProgressItem(int viewType, LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout._fragment_recycler_horizontal_center_progress_item, container, false);
     }

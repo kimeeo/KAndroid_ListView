@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.kimeeo.kAndroid.listViews.recyclerView.BaseProfileRecyclerView;
 import com.kimeeo.kAndroid.listViews.recyclerView.BaseRecyclerViewAdapter;
-import com.kimeeo.kAndroid.listViews.recyclerView.DefaultRecyclerViewAdapter;
+import com.kimeeo.kAndroid.listViews.recyclerView.DefaultRecyclerVerticleViewAdapter;
 /**
  * Created by bhavinpadhiyar on 1/12/16.
  */
@@ -20,6 +20,6 @@ abstract public class VerticalList extends BaseViewProfile
         return linearLayoutManager;
     }
     public BaseRecyclerViewAdapter createListViewAdapter(){
-        return new DefaultRecyclerViewAdapter(getHost().getDataProvider(),this);
+        return new DefaultRecyclerVerticleViewAdapter(getHost().getDataProvider(), this);
     }
 }
