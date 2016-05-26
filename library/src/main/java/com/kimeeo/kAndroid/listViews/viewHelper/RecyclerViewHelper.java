@@ -12,6 +12,7 @@ import com.kimeeo.kAndroid.listViews.dataProvider.DataProvider;
 import com.kimeeo.kAndroid.listViews.dataProvider.MonitorList;
 import com.kimeeo.kAndroid.listViews.recyclerView.BaseRecyclerViewAdapter;
 import com.kimeeo.kAndroid.listViews.recyclerView.EndlessRecyclerOnScrollListener;
+import com.kimeeo.kAndroid.listViews.recyclerView.GridHelper;
 
 import java.util.List;
 
@@ -32,6 +33,8 @@ public class RecyclerViewHelper extends BaseHelper implements AdapterView.OnItem
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.ItemDecoration itemDecoration;
     private OnItemClick onItemClick;
+    private GridHelper.IColoumProvider coloumProvider;
+    private GridHelper gridHelper;
     public RecyclerViewHelper() {
 
     }
@@ -103,6 +106,19 @@ public class RecyclerViewHelper extends BaseHelper implements AdapterView.OnItem
         onItemClick=item;
         return this;
     }
+
+    public RecyclerViewHelper setColoumProvider(GridHelper.IColoumProvider item) {
+        coloumProvider = item;
+        return this;
+    }
+
+    public RecyclerViewHelper gridHelper(GridHelper item) {
+        gridHelper = item;
+        return this;
+    }
+
+
+
     protected void clear() {
         if(dataProvider!=null) {
             dataProvider.garbageCollectorCall();
@@ -129,9 +145,17 @@ public class RecyclerViewHelper extends BaseHelper implements AdapterView.OnItem
         else if(dataProvider==null)
             throw new Exception("Must have dataManager");
 
+
         recyclerView.setLayoutManager(layoutManager);
         if(itemDecoration!=null)
             recyclerView.addItemDecoration(itemDecoration);
+
+        if (gridHelper == null && coloumProvider != null)
+            gridHelper = new GridHelper(coloumProvider, recyclerView.getContext());
+
+        if (gridHelper != null)
+            gridHelper.configLayoutManager(layoutManager);
+
 
         if(dataProvider.getRefreshEnabled())
             configSwipeRefreshLayout(mSwipeRefreshLayout);
@@ -200,17 +224,21 @@ public class RecyclerViewHelper extends BaseHelper implements AdapterView.OnItem
     }
     public void itemsAdded(int index,List items){
         dataLoaded(items,false);
-    };
+    }
+
     public void itemsRemoved(int index,List items){
         dataLoaded(items,false);
-    };
+    }
+
     public void itemsChanged(int index,List items){
         dataLoaded(items,false);
-    };
+    }
+
     public void onFetchingStart(boolean isFetchingRefresh){
         if (mEmptyViewHelper != null)
             mEmptyViewHelper.updatesStart();
-    };
+    }
+
     @Override
     public void onFetchingFinish(boolean isFetchingRefresh)
     {
@@ -231,7 +259,8 @@ public class RecyclerViewHelper extends BaseHelper implements AdapterView.OnItem
         if (mEmptyViewHelper != null)
             mEmptyViewHelper.updateView(dataProvider);
         updateSwipeRefreshLayout(false);
-    };
+    }
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Object baseObject = dataProvider.get(position);

@@ -19,7 +19,10 @@ abstract public class BaseGridView extends DefaultRecyclerView implements GridHe
     public int getColumnsTablet10() {
         return 5;
     }
-    public int getColumnsTablet7() {return 4;}
+
+    public int getColumnsTablet7() {
+        return 3;
+    }
     public int getSpanSizeForItem(int position,int viewType,Object baseObject)
     {
         return 1;
