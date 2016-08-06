@@ -3,12 +3,10 @@ package com.kimeeo.kAndroid.listViews.recyclerView.verticalHeaderViews;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.kimeeo.kAndroid.listViews.recyclerView.DefaultVerticleRecyclerView;
-
 /**
  * Created by bhavinpadhiyar on 7/17/15.
  */
-abstract public class ListView extends DefaultVerticleRecyclerView
+abstract public class ListView extends DefaultHeaderRecyclerView
 {
     @Override
     protected RecyclerView.LayoutManager createLayoutManager() {
