@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.1"
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
     }
@@ -20,7 +20,7 @@ android {
 
 dependencies {
 
-    final SUPPORT_LIBRARY_VERSION = '23.3.0'
+    final SUPPORT_LIBRARY_VERSION = '24.1.1'
     compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
@@ -29,7 +29,7 @@ dependencies {
     //This is a core library has a basic fragment, permisions, activity, application bootstap code.
     //https://github.com/kimeeo/KAndroid_core
     //https://github.com/kimeeo/KAndroid_core/commit/aa9f570341458d775f8a9acf4c15396902e44290
-    final KIMEE_CORE_VERSION = 'V2.1Beta'
+    final KIMEE_CORE_VERSION = 'V3.0.1Beta'
     compile ("com.github.kimeeo:KAndroid_core:$KIMEE_CORE_VERSION@aar"){
         transitive=true
     }
