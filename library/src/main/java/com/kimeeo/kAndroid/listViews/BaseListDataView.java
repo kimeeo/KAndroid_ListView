@@ -14,6 +14,8 @@ import com.kimeeo.kAndroid.listViews.dataProvider.MonitorList;
  */
 abstract public class BaseListDataView extends BaseFragment implements DataProvider.OnFatchingObserve,MonitorList.OnChangeWatcher, IEmptyViewHandler
 {
+
+
     private DataProvider dataProvider;
     IEmptyViewHandler errorHandler = new DefaultErrorHandlerLocal();
     public void setErrorHandler(IEmptyViewHandler errorHandler) {
@@ -23,6 +25,20 @@ abstract public class BaseListDataView extends BaseFragment implements DataProvi
 
     }
     abstract protected @NonNull DataProvider createDataProvider();
+    public void setDataProvider(DataProvider dataProvider) {
+        if(this.dataProvider!=null)
+        {
+            this.dataProvider.removeFatchingObserve(this);
+            this.dataProvider.removeDataChangeWatcher(this);
+            this.dataProvider = null;
+        }
+        if(dataProvider!=null) {
+            this.dataProvider = dataProvider;
+            dataProvider.addFatchingObserve(this);
+            dataProvider.addDataChangeWatcher(this);
+            configDataManager(dataProvider);
+        }
+    }
     protected void garbageCollectorCall() {
         if(dataProvider!=null) {
             dataProvider.garbageCollectorCall();
@@ -32,11 +48,8 @@ abstract public class BaseListDataView extends BaseFragment implements DataProvi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dataProvider = createDataProvider();
-        dataProvider.addFatchingObserve(this);
-        dataProvider.addDataChangeWatcher(this);
-        configDataManager(dataProvider);
-
+        if(getDataProvider()==null)
+            setDataProvider(createDataProvider());
     }
     protected void configDataManager(DataProvider dataProvider) {}
     public DataProvider getDataProvider()

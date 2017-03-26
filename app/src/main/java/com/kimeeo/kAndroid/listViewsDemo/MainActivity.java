@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         views.put(R.id.nav_recycle_heler, Helper.class);
         views.put(R.id.nav_view_pager, HorizontalViewPager.class);
         views.put(R.id.nav_header, HeaderListView.class);
+        views.put(R.id.nav_stack_view, FragmentStack.class);
 
 
         loadView(R.id.nav_recycle_view_profile);

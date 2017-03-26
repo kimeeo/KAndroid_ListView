@@ -106,9 +106,11 @@ public class HorizontalViewPager extends com.kimeeo.kAndroid.listViews.pager.vie
         }
         @Override
         public void updateItemView(Object o, View view, int i) {
-            DataObject data = (DataObject) o;
-            TextView title = (TextView) view.findViewById(R.id.title);
-            title.setText(i + ". " + data.name);
+            if(o instanceof DataObject) {
+                DataObject data = (DataObject) o;
+                TextView title = (TextView) view.findViewById(R.id.title);
+                title.setText(i + ". " + data.name);
+            }
         }
     }
 }
