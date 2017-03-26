@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
+import com.kimeeo.kAndroid.listViews.ProgressItem;
 import com.kimeeo.kAndroid.listViews.R;
 import com.kimeeo.kAndroid.listViews.dataProvider.DataProvider;
 import com.kimeeo.kAndroid.listViews.dataProvider.MonitorList;
@@ -59,6 +60,12 @@ abstract public class BaseListViewAdapter extends BaseAdapter implements DataPro
     abstract protected View getItemView(int viewType,LayoutInflater inflater,ViewGroup container);
 
     abstract protected BaseItemHolder getItemHolder(int viewType,View view);
+    protected BaseItemHolder getProgressViewHolder(View view)
+    {
+        return new ProgressViewHolder(view);
+    }
+
+
 
     @Override
     public int getCount() {
@@ -73,8 +80,8 @@ abstract public class BaseListViewAdapter extends BaseAdapter implements DataPro
         View root;
         if(viewType== ViewTypes.VIEW_PROGRESS && supportLoader)
         {
-            root = getProgressItem(viewType,inflater, container);
-            itemHolder = new ProgressViewHolder(root);
+            root = getProgressView(viewType,inflater, container);
+            itemHolder = getProgressViewHolder(root);
         }
         else {
 
@@ -85,7 +92,7 @@ abstract public class BaseListViewAdapter extends BaseAdapter implements DataPro
 
     }
 
-    protected View getProgressItem(int viewType,LayoutInflater inflater,ViewGroup container) {
+    protected View getProgressView(int viewType,LayoutInflater inflater,ViewGroup container) {
         return inflater.inflate(R.layout._fragment_recycler_progress_item, container, false);
     }
 
@@ -160,10 +167,15 @@ abstract public class BaseListViewAdapter extends BaseAdapter implements DataPro
         return convertView;
     }
 
+    protected ProgressItem getProgressItem()
+    {
+        return new ProgressItem();
+    }
+
     public void onFetchingStart(boolean isFetchingRefresh) {
         if (supportLoader) {
             try {
-                getDataProvider().add(new ProgressItem());
+                getDataProvider().add(getProgressItem());
                 notifyDataSetChanged();
             } catch (Exception e) {
             }
@@ -216,9 +228,6 @@ abstract public class BaseListViewAdapter extends BaseAdapter implements DataPro
         public static final int VIEW_HEADER = -1;
     }
 
-    public static class ProgressItem {
-
-    }
 
     // Update View Here
     public static class ProgressViewHolder extends BaseItemHolder {

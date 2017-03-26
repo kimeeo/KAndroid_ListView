@@ -13,7 +13,7 @@ import com.kimeeo.kAndroid.listViews.dataProvider.MonitorList;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
-
+import com.kimeeo.kAndroid.listViews.ProgressItem;
 /**
  * Created by bhavinpadhiyar on 7/21/15.
  */
@@ -60,9 +60,10 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
 
     abstract protected View getItemView(int viewType,LayoutInflater inflater,ViewGroup container);
     abstract protected BaseItemHolder getItemHolder(int viewType,View view);
-
-
-
+    protected BaseItemHolder getProgressViewHolder(View view)
+    {
+        return new ProgressViewHolder(view);
+    }
 
     public void onItemHolderClick(BaseItemHolder itemHolder,int position)
     {
@@ -77,8 +78,8 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
         View root;
         if(viewType== ViewTypes.VIEW_PROGRESS && supportLoader)
         {
-            root = getProgressItem(viewType,inflater, container);
-            itemHolder = new ProgressViewHolder(root);
+            root = getProgressView(viewType,inflater, container);
+            itemHolder = getProgressViewHolder(root);
             if(getItemClickSupport())
                 itemHolder.setOnItemHolderClick(this);
         }
@@ -96,7 +97,7 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
         return true;
     }
 
-    protected View getProgressItem(int viewType,LayoutInflater inflater,ViewGroup container)
+    protected View getProgressView(int viewType,LayoutInflater inflater,ViewGroup container)
     {
         return inflater.inflate(R.layout._fragment_recycler_progress_item, container, false);
     }
@@ -160,13 +161,16 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
     }
 
 
-
+    protected ProgressItem getProgressItem()
+    {
+        return new ProgressItem();
+    }
 
     public void onFetchingStart(boolean isFetchingRefresh)
     {
         if (supportLoader) {
             try {
-                getDataProvider().add(new ProgressItem());
+                getDataProvider().add(getProgressItem());
                 notifyItemInserted(getDataProvider().size());
             } catch (Exception e) {
 
@@ -238,10 +242,6 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
         public static final int VIEW_HEADER = 99999999;
     }
 
-    public static class ProgressItem
-    {
-
-    }
 
     public class  ProgressViewHolder extends BaseItemHolder {
         public ProgressViewHolder(View itemView)

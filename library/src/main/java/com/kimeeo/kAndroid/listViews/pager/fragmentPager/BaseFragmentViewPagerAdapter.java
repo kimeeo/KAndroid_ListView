@@ -15,6 +15,7 @@ import com.kimeeo.kAndroid.listViews.dataProvider.DataProvider;
 import com.kimeeo.kAndroid.listViews.dataProvider.MonitorList;
 
 import java.util.List;
+import com.kimeeo.kAndroid.listViews.ProgressItem;
 
 /**
  * Created by bhavinpadhiyar on 1/21/16.
@@ -47,7 +48,8 @@ abstract public class BaseFragmentViewPagerAdapter extends FragmentStatePagerAda
     public boolean supportLoader = true;
     public void itemsChanged(int index,List items){
         notifyDataSetChanged();
-    };
+    }
+
     public void itemsAdded(int position,List items)
     {
         notifyDataSetChanged();
@@ -58,10 +60,15 @@ abstract public class BaseFragmentViewPagerAdapter extends FragmentStatePagerAda
     }
     public void onFetchingStart(boolean isFetchingRefresh){
         if(supportLoader) {
-            getDataProvider().add(new ProgressItem());
+            getDataProvider().add(getProgressItem());
             notifyDataSetChanged();
         }
-    };
+    }
+
+    protected ProgressItem getProgressItem()
+    {
+        return new ProgressItem();
+    }
 
 
     public void onFetchingFinish(boolean isFetchingRefresh)
@@ -105,15 +112,15 @@ abstract public class BaseFragmentViewPagerAdapter extends FragmentStatePagerAda
         Object navigationObject = getDataProvider().get(position);
         Fragment fragment;
         if(navigationObject instanceof ProgressItem)
-            fragment = getProgressFragment(position, navigationObject);
+            fragment = getProgressView(position, navigationObject);
         else
             fragment = getItemFragment(position, navigationObject);
         if (onItemCreated != null)
             onItemCreated.onItemCreated(fragment);
         return fragment;
     }
-    protected Fragment getProgressFragment(int position, Object navigationObject) {
-        return BaseFragment.newInstance(ProgressbarView.class);
+    protected Fragment getProgressView(int position, Object navigationObject) {
+        return BaseFragment.newInstance(ProgressItem.ProgressbarView.class);
     }
     public void destroyItem(ViewGroup container, int position, Object object) {
         super.destroyItem(container,position,object);
@@ -125,29 +132,8 @@ abstract public class BaseFragmentViewPagerAdapter extends FragmentStatePagerAda
         Object navigationObject = getDataProvider().get(position);
         return getItemTitle(position,navigationObject);
     }
-    public static class ProgressItem {
-        public Class getView()
-        {
-            return ProgressbarView.class;
-        };
-    }
-    public static class ProgressbarView extends Fragment {
-        protected void garbageCollectorCall() {
 
-        }
-        protected void configViewParam(){
-
-        }
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-        }
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
-        {
-            View rootView = inflater.inflate(R.layout._fragment_view_pager_progress_item, container, false);
-            return rootView;
-        }
-    }
-    public static interface OnItemCreated {
+    public interface OnItemCreated {
         void onItemCreated(Fragment page);
         void onDestroyItem(Fragment page);
     }

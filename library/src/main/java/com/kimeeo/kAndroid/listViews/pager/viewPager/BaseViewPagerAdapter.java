@@ -13,7 +13,7 @@ import com.kimeeo.kAndroid.listViews.pager.BaseItemHolder;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
-
+import com.kimeeo.kAndroid.listViews.ProgressItem;
 /**
  * Created by bhavinpadhiyar on 1/20/16.
  */
@@ -76,10 +76,10 @@ abstract public class BaseViewPagerAdapter extends PagerAdapter implements DataP
     }
     protected View getItemView(int position,Object data,ViewGroup container) {
         if(data instanceof ProgressItem && supportLoader)
-            return getProgressBar(container);
+            return getProgressView(container);
         return getView(position, data);
     }
-    public View getProgressBar(ViewGroup container) {
+    public View getProgressView(ViewGroup container) {
         LayoutInflater li = LayoutInflater.from(container.getContext());
         View view = li.inflate(R.layout._fragment_view_pager_progress_item, null, false);
         return view;
@@ -107,12 +107,17 @@ abstract public class BaseViewPagerAdapter extends PagerAdapter implements DataP
         return dataProvider;
     }
 
+    protected ProgressItem getProgressItem()
+    {
+        return new ProgressItem();
+    }
+
     @Override
     public void onFetchingStart(boolean isFetchingRefresh){
         if(supportLoader) {
             try
             {
-                getDataProvider().add(new ProgressItem());
+                getDataProvider().add(getProgressItem());
                 notifyDataSetChanged();
             }catch (Exception e){}
         }
@@ -173,7 +178,7 @@ abstract public class BaseViewPagerAdapter extends PagerAdapter implements DataP
         void update(BaseItemHolder itemHolder, Object item, int position);
     }
 
-    public static class ProgressItem{}
+
 
     // Update View Here
     public class ProgressViewHolder extends BaseItemHolder {

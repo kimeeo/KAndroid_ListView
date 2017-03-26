@@ -11,16 +11,14 @@ import android.widget.TextView;
 
 import com.kimeeo.kAndroid.listViews.dataProvider.DataProvider;
 import com.kimeeo.kAndroid.listViews.dataProvider.StaticDataProvider;
-import com.kimeeo.kAndroid.listViews.recyclerView.BaseItemHolder;
-import com.kimeeo.kAndroid.listViews.recyclerView.itemDecoration.DefaultDividerItemDecoration;
-
+import com.kimeeo.kAndroid.listViews.listView.BaseItemHolder;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by BhavinPadhiyar on 02/05/16.
  */
-public class ListView extends com.kimeeo.kAndroid.listViews.recyclerView.verticalViews.ListView {
+public class OldListView extends com.kimeeo.kAndroid.listViews.listView.verticalViews.ListView {
 
     private int pageCount = 1;
     private int refreshPageCount = 1;
@@ -30,10 +28,6 @@ public class ListView extends com.kimeeo.kAndroid.listViews.recyclerView.vertica
         //getDataProvider().remove(data);
 
         getDataProvider().set(0, new DataObject("UPDATED"));
-    }
-
-    protected RecyclerView.ItemDecoration createItemDecoration() {
-        return new DefaultDividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL);
     }
 
     @Override

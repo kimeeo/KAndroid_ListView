@@ -20,6 +20,7 @@ import com.kimeeo.kAndroid.listViews.dataProvider.StaticDataProvider;
 import com.kimeeo.kAndroid.listViews.fragmentStacks.BaseFragmentStacks;
 import com.kimeeo.kAndroid.listViews.recyclerView.BaseItemHolder;
 import com.kimeeo.kAndroid.listViews.recyclerView.itemDecoration.DefaultDividerItemDecoration;
+import com.kimeeo.kAndroid.listViews.recyclerView.viewProfiles.BaseViewProfile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,15 +33,14 @@ public class FragmentStack extends BaseFragmentStacks
 
     private int pageCount = 1;
     private int refreshPageCount = 1;
-    private boolean first=true;
-
     @Override
     protected BaseListDataView[] configFragments()
     {
-        BaseListDataView[] list= new BaseListDataView[2];
+        BaseListDataView[] list= new BaseListDataView[4];
         list[0] = (BaseListDataView)BaseFragment.newInstance(GridView.class);
         list[1] = (BaseListDataView)BaseFragment.newInstance(ListView.class);
-        //list[2] = (BaseListDataView)BaseFragment.newInstance(HorizontalViewPager.class);
+        list[2] = (BaseListDataView)BaseFragment.newInstance(OldListView.class);
+        list[3] = (BaseListDataView)BaseFragment.newInstance(HorizontalViewPager.class);
         return list;
     }
 
@@ -55,19 +55,24 @@ public class FragmentStack extends BaseFragmentStacks
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        if(item.getItemId()==R.id.nav_view_option_grid)
+        if(item.getTitle().equals("Grid"))
             setCurruntView(getFragments()[0]);
-        else if(item.getItemId()==R.id.nav_view_option_list)
+        else if(item.getTitle().equals("List"))
             setCurruntView(getFragments()[1]);
-        /*
-        else if(item.getItemId()==R.id.nav_view_option_page)
-            setCurruntView(2);
-            */
+        else if(item.getTitle().equals("Old List"))
+            setCurruntViewIndex(2);
+        else if(item.getTitle().equals("Pager"))
+            setCurruntViewIndex(3);
         return super.onOptionsItemSelected(item);
     }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.stack_view_options,menu);
+        super.onCreateOptionsMenu(menu, inflater);
+
+        menu.add("Grid");
+        menu.add("List");
+        menu.add("Old List");
+        menu.add("Pager");
     }
 
     @NonNull
