@@ -1,5 +1,6 @@
 package com.kimeeo.kAndroid.listViews.recyclerView;
 
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import com.kimeeo.kAndroid.listViews.dataProvider.DataProvider;
 import com.kimeeo.kAndroid.listViews.dataProvider.MonitorList;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 import com.kimeeo.kAndroid.listViews.ProgressItem;
 /**
@@ -189,17 +191,30 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
     protected void removeProgressBar() {
         List<Object> list = getDataProvider();
         if (list.size() != 0 && list.get(list.size() - 1) instanceof ProgressItem && supportLoader)
+        {
             list.remove(getDataProvider().size() - 1);
+        }
     }
 
     public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh)
     {
 
     }
-    public void itemsAdded(int position,List items)
+
+
+
+    public void itemsAdded(final int position,final List items)
     {
-        if (items != null && items.size() != 0)
+        if(items!=null && items.size()!=0) {
             notifyItemRangeInserted(position, items.size());
+        }
+
+    }
+    public void itemsRemoved(int position,List items)
+    {
+        if(items!=null && items.size()!=0) {
+            notifyItemRangeRemoved(position, items.size());
+        }
     }
     public void itemsChanged(int position,List items)
     {
@@ -212,12 +227,7 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
     }
 
 
-    public void itemsRemoved(int position,List items)
-    {
-        if(items!=null && items.size()!=0) {
-            notifyItemRangeRemoved(position, items.size());
-        }
-    }
+
 
     public void removeWatcher() {
         if(getDataProvider()!=null) {

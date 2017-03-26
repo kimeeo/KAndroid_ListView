@@ -41,10 +41,7 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
 
     abstract protected RecyclerView.LayoutManager createLayoutManager();
     abstract protected BaseRecyclerViewAdapter createListViewAdapter();
-    protected RecyclerView.ItemAnimator createItemAnimator()
-    {
-        return new FadeInAnimator(new OvershootInterpolator(1f));
-    }
+
     public View getRootView() {
         return mRootView;
     }
@@ -111,8 +108,8 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
     }
     protected void setItemAnimator(RecyclerView mList) {
         RecyclerView.ItemAnimator itemAnimator = createItemAnimator();
-        int itemAnimatorDuration = getItemAnimatorDuration();
         if(itemAnimator!=null) {
+            int itemAnimatorDuration = getItemAnimatorDuration();
             itemAnimator.setAddDuration(itemAnimatorDuration);
             itemAnimator.setChangeDuration(itemAnimatorDuration);
             itemAnimator.setMoveDuration(itemAnimatorDuration);
@@ -120,9 +117,13 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
             mList.setItemAnimator(itemAnimator);
         }
     }
+    protected RecyclerView.ItemAnimator createItemAnimator()
+    {
+        return new FadeInAnimator(new OvershootInterpolator(1f));
+    }
     protected int getItemAnimatorDuration()
     {
-        return  100;
+        return  300;
     }
     //Confgi Your RecycleVIew Here
     protected void configRecyclerView(RecyclerView mList, BaseRecyclerViewAdapter mAdapter) {
@@ -206,7 +207,7 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
             });
             boolean refreshEnabled = getDataProvider().getCanLoadRefresh();
             mSwipeRefreshLayout.setEnabled(refreshEnabled);
-            mSwipeRefreshLayout.setColorSchemeColors(R.array.progressColors);
+            //mSwipeRefreshLayout.setColorSchemeColors(R.array.progressColors);
         }
     }
     protected SwipeRefreshLayout createSwipeRefreshLayout(View rootView) {
