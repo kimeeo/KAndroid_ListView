@@ -173,7 +173,6 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
         if (supportLoader) {
             try {
                 getDataProvider().add(getProgressItem());
-                notifyItemInserted(getDataProvider().size());
             } catch (Exception e) {
 
             }
@@ -206,14 +205,20 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
     public void itemsAdded(final int position,final List items)
     {
         if(items!=null && items.size()!=0) {
-            notifyItemRangeInserted(position, items.size());
-        }
+            if(items.size()==1)
+                notifyItemInserted(position);
+            else
+                notifyItemRangeInserted(position, items.size());
 
+        }
     }
     public void itemsRemoved(int position,List items)
     {
         if(items!=null && items.size()!=0) {
-            notifyItemRangeRemoved(position, items.size());
+            if(items.size()==1)
+                notifyItemRemoved(position);
+            else
+                notifyItemRangeRemoved(position, items.size());
         }
     }
     public void itemsChanged(int position,List items)

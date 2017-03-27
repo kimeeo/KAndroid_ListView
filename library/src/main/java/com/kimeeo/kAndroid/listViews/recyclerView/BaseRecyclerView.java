@@ -26,6 +26,7 @@ import com.kimeeo.kAndroid.listViews.R;
 import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
+import jp.wasabeef.recyclerview.animators.LandingAnimator;
 
 
 abstract public class BaseRecyclerView extends BaseListDataView implements AdapterView.OnItemClickListener,BaseRecyclerViewAdapter.OnUpdateItem{
@@ -119,7 +120,9 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
     }
     protected RecyclerView.ItemAnimator createItemAnimator()
     {
-        return new FadeInAnimator(new OvershootInterpolator(1f));
+        //return new FadeInAnimator(new OvershootInterpolator(1f));
+        //
+        return  new LandingAnimator();
     }
     protected int getItemAnimatorDuration()
     {

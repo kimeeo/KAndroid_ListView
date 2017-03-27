@@ -41,4 +41,8 @@ abstract public class BaseGridView extends DefaultRecyclerView implements GridHe
     protected void configLayoutManager(RecyclerView.LayoutManager layoutManager){
         gridHelper.configLayoutManager(layoutManager);
     }
+
+    protected BaseRecyclerViewAdapter createListViewAdapter() {
+        return new DefaultRecyclerVerticleViewAdapter(getDataProvider(), this);
+    }
 }
