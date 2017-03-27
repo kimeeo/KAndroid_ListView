@@ -9,6 +9,7 @@
 package com.kimeeo.kAndroid.listViews.recyclerView;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -21,12 +22,16 @@ import android.widget.AdapterView;
 
 import com.kimeeo.kAndroid.listViews.BaseListDataView;
 import com.kimeeo.kAndroid.listViews.EmptyViewHelper;
+import com.kimeeo.kAndroid.listViews.ProgressItem;
 import com.kimeeo.kAndroid.listViews.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
+import jp.wasabeef.recyclerview.animators.FlipInTopXAnimator;
 import jp.wasabeef.recyclerview.animators.LandingAnimator;
+import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 
 
 abstract public class BaseRecyclerView extends BaseListDataView implements AdapterView.OnItemClickListener,BaseRecyclerViewAdapter.OnUpdateItem{
@@ -107,9 +112,16 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
     public void onViewCreated(View view) {
 
     }
+
+    public RecyclerView.ItemAnimator getItemAnimator() {
+        return itemAnimator;
+    }
+
+    RecyclerView.ItemAnimator itemAnimator;
     protected void setItemAnimator(RecyclerView mList) {
-        RecyclerView.ItemAnimator itemAnimator = createItemAnimator();
+        itemAnimator = createItemAnimator();
         if(itemAnimator!=null) {
+
             int itemAnimatorDuration = getItemAnimatorDuration();
             itemAnimator.setAddDuration(itemAnimatorDuration);
             itemAnimator.setChangeDuration(itemAnimatorDuration);
@@ -121,12 +133,12 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
     protected RecyclerView.ItemAnimator createItemAnimator()
     {
         //return new FadeInAnimator(new OvershootInterpolator(1f));
-        //
-        return  new LandingAnimator();
+        //return new SlideInLeftAnimator();
+        return null;
     }
     protected int getItemAnimatorDuration()
     {
-        return  300;
+        return  400;
     }
     //Confgi Your RecycleVIew Here
     protected void configRecyclerView(RecyclerView mList, BaseRecyclerViewAdapter mAdapter) {
@@ -261,7 +273,23 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
             getEmptyViewHelper().updateView(getDataProvider());
     }
 
-    public void itemsRemoved(int index,List items){
+    public void itemsRemoved(final int index,final List items){
+
+        Handler h = new Handler();
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                if (recyclerView != null && recyclerView.getItemAnimator() != null) {
+                    if (items.get(0) instanceof ProgressItem) {
+                        recyclerView.getItemAnimator().setRemoveDuration(1);
+                        recyclerView.getAdapter().notifyItemChanged(index);
+                    } else
+                        recyclerView.getItemAnimator().setRemoveDuration(getItemAnimatorDuration());
+                }
+            }
+        };
+        h.postDelayed(r, 50);
+
         if (getEmptyViewHelper() != null)
             getEmptyViewHelper().updateView(getDataProvider());
     }

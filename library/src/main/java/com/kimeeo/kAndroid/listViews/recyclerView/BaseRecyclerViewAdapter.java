@@ -14,6 +14,7 @@ import com.kimeeo.kAndroid.listViews.dataProvider.MonitorList;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import com.kimeeo.kAndroid.listViews.ProgressItem;
 /**
@@ -214,12 +215,15 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
     }
     public void itemsRemoved(int position,List items)
     {
+
         if(items!=null && items.size()!=0) {
             if(items.size()==1)
                 notifyItemRemoved(position);
-            else
+            else {
                 notifyItemRangeRemoved(position, items.size());
+            }
         }
+
     }
     public void itemsChanged(int position,List items)
     {

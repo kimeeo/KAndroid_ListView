@@ -1,5 +1,9 @@
 package com.kimeeo.kAndroid.listViews.dataProvider;
 
+import android.os.Handler;
+
+import com.kimeeo.kAndroid.listViews.ProgressItem;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;

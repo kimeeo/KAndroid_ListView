@@ -1,6 +1,11 @@
 package com.kimeeo.kAndroid.listViews.recyclerView;
 
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
+
+import com.kimeeo.kAndroid.listViews.ProgressItem;
+
+import java.util.List;
 
 /**
  * Created by bhavinpadhiyar on 7/20/15.
@@ -44,5 +49,29 @@ abstract public class BaseGridView extends DefaultRecyclerView implements GridHe
 
     protected BaseRecyclerViewAdapter createListViewAdapter() {
         return new DefaultRecyclerVerticleViewAdapter(getDataProvider(), this);
+    }
+
+
+    public void itemsRemoved(final int index,final List items){
+
+
+        Handler h = new Handler();
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                if(recyclerView!=null && recyclerView.getItemAnimator()!=null) {
+                    if(items.get(0) instanceof ProgressItem) {
+                        recyclerView.getItemAnimator().setRemoveDuration(1);
+                        recyclerView.getAdapter().notifyItemRangeChanged(index,100);
+                    }
+                    else
+                        recyclerView.getItemAnimator().setRemoveDuration(getItemAnimatorDuration());
+                }
+            }
+        };
+        h.postDelayed(r, 100);
+
+        if (getEmptyViewHelper() != null)
+            getEmptyViewHelper().updateView(getDataProvider());
     }
 }

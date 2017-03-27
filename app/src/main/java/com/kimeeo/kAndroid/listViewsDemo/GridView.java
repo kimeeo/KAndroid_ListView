@@ -30,10 +30,7 @@ public class GridView extends com.kimeeo.kAndroid.listViews.recyclerView.vertica
         getDataProvider().set(0,new DataObject("UPDATED"));
     }
 
-    protected RecyclerView.ItemAnimator createItemAnimator()
-    {
-        return  new FadeInAnimator();
-    }
+
     @Override
     public View getItemView(int i, LayoutInflater layoutInflater, ViewGroup viewGroup) {
         return layoutInflater.inflate(R.layout.sample_list_view_item,viewGroup,false);
