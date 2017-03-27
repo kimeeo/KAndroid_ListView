@@ -1,6 +1,7 @@
 package com.kimeeo.kAndroid.listViews.fragmentStacks;
 import android.os.Bundle;
 
+import com.kimeeo.kAndroid.core.utils.IDUtil;
 import com.kimeeo.kAndroid.listViews.BaseListDataView;
 import com.kimeeo.kAndroid.listViews.R;
 import android.support.v4.app.FragmentManager;
