@@ -13,7 +13,6 @@ import com.kimeeo.kAndroid.listViews.recyclerView.adapterLayout.IAdapterLayoutVi
  * Created by bhavinpadhiyar on 2/16/16.
  */
 public class AdapterLinearLayout extends android.widget.LinearLayout implements IAdapterLayoutView {
-    private AdapterLayoutDelegate mAdapterLayoutDelegate;
     public AdapterLinearLayout(Context context) {
         super(context);
     }
@@ -28,6 +27,8 @@ public class AdapterLinearLayout extends android.widget.LinearLayout implements 
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
+    /*Copy From Here*/
+    private AdapterLayoutDelegate mAdapterLayoutDelegate;
     public void setAdapter(RecyclerView.Adapter adapter) {
         if (mAdapterLayoutDelegate == null) {
             mAdapterLayoutDelegate = new AdapterLayoutDelegate(this);
@@ -47,5 +48,5 @@ public class AdapterLinearLayout extends android.widget.LinearLayout implements 
     public RecyclerView.ViewHolder getViewHolderAt(int index) {
         return mAdapterLayoutDelegate.getViewHolderAt(index);
     }
-
+    /*Copy To Here*/
 }
