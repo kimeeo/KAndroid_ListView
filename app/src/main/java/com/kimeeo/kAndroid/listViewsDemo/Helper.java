@@ -17,6 +17,7 @@ import com.kimeeo.kAndroid.listViews.dataProvider.DataProvider;
 import com.kimeeo.kAndroid.listViews.dataProvider.StaticDataProvider;
 import com.kimeeo.kAndroid.listViews.recyclerView.BaseItemHolder;
 import com.kimeeo.kAndroid.listViews.recyclerView.BaseRecyclerViewAdapter;
+import com.kimeeo.kAndroid.listViews.recyclerView.DefaultRecyclerVerticleViewAdapter;
 import com.kimeeo.kAndroid.listViews.recyclerView.DefaultRecyclerViewAdapter;
 import com.kimeeo.kAndroid.listViews.recyclerView.IViewProvider;
 import com.kimeeo.kAndroid.listViews.recyclerView.itemDecoration.DefaultDividerItemDecoration;
@@ -106,7 +107,8 @@ public class Helper extends BaseFragment implements IViewProvider {
     }
 
     protected BaseRecyclerViewAdapter createListViewAdapter(DataProvider dataManager) {
-        return new DefaultRecyclerViewAdapter(dataManager, this);
+        return new DefaultRecyclerVerticleViewAdapter(dataManager, this);
+        //return new DefaultRecyclerViewAdapter(dataManager, this);
     }
 
     @NonNull
