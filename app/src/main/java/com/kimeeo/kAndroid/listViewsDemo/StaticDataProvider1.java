@@ -2,7 +2,7 @@ package com.kimeeo.kAndroid.listViewsDemo;
 
 import android.os.Handler;
 
-import com.kimeeo.kAndroid.listViews.dataProvider.StaticDataProvider;
+import com.kimeeo.kAndroid.dataProvider.StaticDataProvider;
 
 import java.util.ArrayList;
 import java.util.List;

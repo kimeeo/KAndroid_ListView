@@ -3,24 +3,18 @@ package com.kimeeo.kAndroid.listViewsDemo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.kimeeo.kAndroid.core.fragment.BaseFragment;
 import com.kimeeo.kAndroid.listViews.BaseListDataView;
 import com.kimeeo.kAndroid.dataProvider.DataProvider;
 import com.kimeeo.kAndroid.dataProvider.StaticDataProvider;
 import com.kimeeo.kAndroid.listViews.fragmentStacks.BaseFragmentStacks;
-import com.kimeeo.kAndroid.listViews.recyclerView.BaseItemHolder;
-import com.kimeeo.kAndroid.listViews.recyclerView.itemDecoration.DefaultDividerItemDecoration;
-import com.kimeeo.kAndroid.listViews.recyclerView.viewProfiles.BaseViewProfile;
 
 import java.util.ArrayList;
 import java.util.List;
