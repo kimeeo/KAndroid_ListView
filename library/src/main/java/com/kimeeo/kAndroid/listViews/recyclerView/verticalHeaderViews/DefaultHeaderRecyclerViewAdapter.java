@@ -1,6 +1,6 @@
 package com.kimeeo.kAndroid.listViews.recyclerView.verticalHeaderViews;
 
-import com.kimeeo.kAndroid.listViews.dataProvider.DataProvider;
+import com.kimeeo.kAndroid.dataProvider.DataProvider;
 import com.kimeeo.kAndroid.listViews.recyclerView.BaseItemHolder;
 import com.kimeeo.kAndroid.listViews.recyclerView.DefaultRecyclerViewAdapter;
 import com.kimeeo.kAndroid.listViews.recyclerView.IViewProvider;

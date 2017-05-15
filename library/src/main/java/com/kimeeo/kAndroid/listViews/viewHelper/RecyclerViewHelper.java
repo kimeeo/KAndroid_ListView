@@ -8,8 +8,8 @@ import android.widget.AdapterView;
 
 import com.kimeeo.kAndroid.listViews.EmptyViewHelper;
 import com.kimeeo.kAndroid.listViews.R;
-import com.kimeeo.kAndroid.listViews.dataProvider.DataProvider;
-import com.kimeeo.kAndroid.listViews.dataProvider.MonitorList;
+import com.kimeeo.kAndroid.dataProvider.DataProvider;
+import com.kimeeo.kAndroid.dataProvider.MonitorList;
 import com.kimeeo.kAndroid.listViews.recyclerView.BaseRecyclerViewAdapter;
 import com.kimeeo.kAndroid.listViews.recyclerView.EndlessRecyclerOnScrollListener;
 import com.kimeeo.kAndroid.listViews.recyclerView.GridHelper;

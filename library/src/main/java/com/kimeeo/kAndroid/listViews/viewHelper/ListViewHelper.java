@@ -9,8 +9,8 @@ import android.widget.ListView;
 
 import com.kimeeo.kAndroid.listViews.EmptyViewHelper;
 import com.kimeeo.kAndroid.listViews.R;
-import com.kimeeo.kAndroid.listViews.dataProvider.DataProvider;
-import com.kimeeo.kAndroid.listViews.dataProvider.MonitorList;
+import com.kimeeo.kAndroid.dataProvider.DataProvider;
+import com.kimeeo.kAndroid.dataProvider.MonitorList;
 import com.kimeeo.kAndroid.listViews.listView.BaseListViewAdapter;
 import com.kimeeo.kAndroid.listViews.listView.EndlessListScrollListener;
 
@@ -170,17 +170,21 @@ public class ListViewHelper extends BaseHelper implements AdapterView.OnItemClic
 
     public void itemsAdded(int index,List items){
         dataLoaded(items,false);
-    };
+    }
+
     public void itemsRemoved(int index,List items){
         dataLoaded(items,false);
-    };
+    }
+
     public void itemsChanged(int index,List items){
         dataLoaded(items,false);
-    };
+    }
+
     public void onFetchingStart(boolean isFetchingRefresh){
         if (mEmptyViewHelper != null)
             mEmptyViewHelper.updatesStart();
-    };
+    }
+
     public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh){
         dataLoaded(dataList,isFetchingRefresh);
     }
@@ -200,7 +204,7 @@ public class ListViewHelper extends BaseHelper implements AdapterView.OnItemClic
         if (mEmptyViewHelper != null)
             mEmptyViewHelper.updateView(dataProvider);
         updateSwipeRefreshLayout(false);
-    };
+    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id){

@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 
 import com.kimeeo.kAndroid.core.fragment.BaseFragment;
 import com.kimeeo.kAndroid.listViews.R;
-import com.kimeeo.kAndroid.listViews.dataProvider.DataProvider;
-import com.kimeeo.kAndroid.listViews.dataProvider.MonitorList;
+import com.kimeeo.kAndroid.dataProvider.DataProvider;
+import com.kimeeo.kAndroid.dataProvider.MonitorList;
 
 import java.util.List;
 import com.kimeeo.kAndroid.listViews.ProgressItem;

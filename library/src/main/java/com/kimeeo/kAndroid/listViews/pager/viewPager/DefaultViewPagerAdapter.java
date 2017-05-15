@@ -3,7 +3,7 @@ package com.kimeeo.kAndroid.listViews.pager.viewPager;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.kimeeo.kAndroid.listViews.dataProvider.DataProvider;
+import com.kimeeo.kAndroid.dataProvider.DataProvider;
 import com.kimeeo.kAndroid.listViews.pager.BaseItemHolder;
 /**
  * Created by bhavinpadhiyar on 1/20/16.
@@ -33,6 +33,6 @@ public class DefaultViewPagerAdapter extends BaseViewPagerAdapter
         return viewProvider.getView(position, data);
     }
     protected void removeView(View view,int position,BaseItemHolder itemHolder) {
-        viewProvider.removeView((View) view,position,itemHolder);
+        viewProvider.removeView(view,position,itemHolder);
     }
 }

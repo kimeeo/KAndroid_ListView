@@ -9,8 +9,8 @@ import android.view.View;
 
 import com.kimeeo.kAndroid.listViews.EmptyViewHelper;
 import com.kimeeo.kAndroid.listViews.R;
-import com.kimeeo.kAndroid.listViews.dataProvider.DataProvider;
-import com.kimeeo.kAndroid.listViews.dataProvider.MonitorList;
+import com.kimeeo.kAndroid.dataProvider.DataProvider;
+import com.kimeeo.kAndroid.dataProvider.MonitorList;
 import com.kimeeo.kAndroid.listViews.pager.viewPager.BaseViewPagerAdapter;
 
 import java.util.List;
@@ -247,17 +247,21 @@ public class ViewPagerHelper extends BaseHelper implements DataProvider.OnFatchi
     }
     public void itemsAdded(int index,List items){
         dataLoaded(items,false);
-    };
+    }
+
     public void itemsRemoved(int index,List items){
         dataLoaded(items,false);
-    };
+    }
+
     public void itemsChanged(int index,List items){
         dataLoaded(items,false);
-    };
+    }
+
     public void onFetchingStart(boolean isFetchingRefresh){
         if (mEmptyViewHelper != null)
             mEmptyViewHelper.updatesStart();
-    };
+    }
+
     public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh){
         dataLoaded(dataList,isFetchingRefresh);
     }
@@ -287,7 +291,8 @@ public class ViewPagerHelper extends BaseHelper implements DataProvider.OnFatchi
         if (mEmptyViewHelper != null)
             mEmptyViewHelper.updateView(dataProvider);
         updateSwipeRefreshLayout(false);
-    };
+    }
+
     public void updateSwipeRefreshLayout(boolean isRefreshData) {
         if (mSwipeRefreshLayout != null) {
             mSwipeRefreshLayout.setRefreshing(false);

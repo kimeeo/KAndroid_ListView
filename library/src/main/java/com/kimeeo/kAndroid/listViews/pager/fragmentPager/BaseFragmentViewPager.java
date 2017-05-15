@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-import com.kimeeo.kAndroid.listViews.dataProvider.DataProvider;
+import com.kimeeo.kAndroid.dataProvider.DataProvider;
 import com.kimeeo.kAndroid.listViews.pager.BaseItemHolder;
 import com.kimeeo.kAndroid.listViews.pager.BaseViewPager;
 import com.kimeeo.kAndroid.listViews.pager.viewPager.BaseViewPagerAdapter;

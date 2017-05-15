@@ -8,8 +8,8 @@ import android.widget.BaseAdapter;
 
 import com.kimeeo.kAndroid.listViews.ProgressItem;
 import com.kimeeo.kAndroid.listViews.R;
-import com.kimeeo.kAndroid.listViews.dataProvider.DataProvider;
-import com.kimeeo.kAndroid.listViews.dataProvider.MonitorList;
+import com.kimeeo.kAndroid.dataProvider.DataProvider;
+import com.kimeeo.kAndroid.dataProvider.MonitorList;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;

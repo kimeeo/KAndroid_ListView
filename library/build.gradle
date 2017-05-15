@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.0"
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         minSdkVersion 15
@@ -31,10 +31,19 @@ dependencies {
     //This is a core library has a basic fragment, permisions, activity, application bootstap code.
     //https://github.com/kimeeo/KAndroid_core
     //https://github.com/kimeeo/KAndroid_core/commit/aa9f570341458d775f8a9acf4c15396902e44290
-    final KIMEE_CORE_VERSION = 'eacddd4093'
-    compile ("com.github.kimeeo:KAndroid_core:$KIMEE_CORE_VERSION@aar"){
+    final KANDROID_CORE_VERSION = 'V3.0.7Beta'
+    compile ("com.github.kimeeo:KAndroid_core:$KANDROID_CORE_VERSION@aar"){
         transitive=true
     }
+
+
+
+    final KANDROID_DATAPROVDER_VERSION = 'V3.0.7Beta'
+    compile ("com.github.kimeeo:KAndroid_DataProvider:$KANDROID_DATAPROVDER_VERSION@aar"){
+        transitive=true
+    }
+
+
 
     //RecyclerView Animators
     //https://github.com/wasabeef/recyclerview-animators

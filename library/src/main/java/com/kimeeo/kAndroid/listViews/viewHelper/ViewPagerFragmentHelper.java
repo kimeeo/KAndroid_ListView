@@ -3,7 +3,7 @@ package com.kimeeo.kAndroid.listViews.viewHelper;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-import com.kimeeo.kAndroid.listViews.dataProvider.DataProvider;
+import com.kimeeo.kAndroid.dataProvider.DataProvider;
 import com.kimeeo.kAndroid.listViews.pager.fragmentPager.BaseFragmentViewPagerAdapter;
 /**
  * Created by bhavinpadhiyar on 1/30/16.
