@@ -225,23 +225,18 @@ public class RecyclerViewHelper extends BaseHelper implements AdapterView.OnItem
     public void itemsAdded(int index,List items){
         dataLoaded(items,false);
     }
-
     public void itemsRemoved(int index,List items){
         dataLoaded(items,false);
     }
-
     public void itemsChanged(int index,List items){
         dataLoaded(items,false);
     }
-
     public void onFetchingStart(boolean isFetchingRefresh){
         if (mEmptyViewHelper != null)
             mEmptyViewHelper.updatesStart();
     }
-
     @Override
-    public void onFetchingFinish(boolean isFetchingRefresh)
-    {
+    public void onFetchingFinish(boolean isFetchingRefresh) {
 
     }
     public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh){
@@ -260,7 +255,6 @@ public class RecyclerViewHelper extends BaseHelper implements AdapterView.OnItem
             mEmptyViewHelper.updateView(dataProvider);
         updateSwipeRefreshLayout(false);
     }
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Object baseObject = dataProvider.get(position);

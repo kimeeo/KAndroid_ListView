@@ -138,7 +138,7 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
     }
     protected int getItemAnimatorDuration()
     {
-        return  400;
+        return  500;
     }
     //Confgi Your RecycleVIew Here
     protected void configRecyclerView(RecyclerView mList, BaseRecyclerViewAdapter mAdapter) {
@@ -275,20 +275,27 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
 
     public void itemsRemoved(final int index,final List items){
 
-        Handler h = new Handler();
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                if (recyclerView != null && recyclerView.getItemAnimator() != null) {
-                    if (items.get(0) instanceof ProgressItem) {
-                        recyclerView.getItemAnimator().setRemoveDuration(1);
-                        recyclerView.getAdapter().notifyItemChanged(index);
-                    } else
-                        recyclerView.getItemAnimator().setRemoveDuration(getItemAnimatorDuration());
+        try {
+            Handler h = new Handler();
+            Runnable r = new Runnable() {
+                @Override
+                public void run() {
+                    if (recyclerView != null && recyclerView.getItemAnimator() != null) {
+                        if (items.get(0) instanceof ProgressItem) {
+                            recyclerView.getItemAnimator().setRemoveDuration(1);
+                            recyclerView.getAdapter().notifyItemChanged(index);
+                        } else
+                            recyclerView.getItemAnimator().setRemoveDuration(getItemAnimatorDuration());
+                    }
                 }
-            }
-        };
-        h.postDelayed(r, 50);
+            };
+            h.postDelayed(r, 50);
+        }catch(Exception e){
+            if (recyclerView != null && recyclerView.getItemAnimator() != null && items.get(0) instanceof ProgressItem)
+                recyclerView.getAdapter().notifyItemChanged(index);
+        }
+
+
 
         if (getEmptyViewHelper() != null)
             getEmptyViewHelper().updateView(getDataProvider());
