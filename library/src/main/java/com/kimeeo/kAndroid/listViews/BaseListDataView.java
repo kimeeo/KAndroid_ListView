@@ -34,9 +34,9 @@ abstract public class BaseListDataView extends BaseFragment implements DataProvi
         }
         if(dataProvider!=null) {
             this.dataProvider = dataProvider;
-            dataProvider.addFatchingObserve(this);
-            dataProvider.addDataChangeWatcher(this);
-            configDataManager(dataProvider);
+            this.dataProvider.addFatchingObserve(this);
+            this.dataProvider.addDataChangeWatcher(this);
+            configDataManager(this.dataProvider);
         }
     }
     protected void garbageCollectorCall() {
