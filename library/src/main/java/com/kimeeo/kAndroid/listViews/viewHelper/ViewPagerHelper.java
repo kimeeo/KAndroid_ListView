@@ -138,7 +138,7 @@ public class ViewPagerHelper extends BaseHelper implements DataProvider.OnFatchi
             });
             boolean refreshEnabled = dataProvider.getRefreshEnabled();
             mSwipeRefreshLayout.setEnabled(refreshEnabled);
-            mSwipeRefreshLayout.setColorSchemeColors(R.array.progressColors);
+            //mSwipeRefreshLayout.setColorSchemeColors(R.array.progressColors);
         }
     }
 

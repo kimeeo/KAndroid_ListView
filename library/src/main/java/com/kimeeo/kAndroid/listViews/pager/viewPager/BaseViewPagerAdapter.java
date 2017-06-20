@@ -18,9 +18,19 @@ import com.kimeeo.kAndroid.listViews.ProgressItem;
  * Created by bhavinpadhiyar on 1/20/16.
  */
 abstract public class BaseViewPagerAdapter extends PagerAdapter implements DataProvider.OnFatchingObserve,MonitorList.OnChangeWatcher {
-    public boolean supportLoader = true;
     private WeakReference<OnUpdateItem> onUpdateItem;
     private DataProvider dataProvider;
+
+    public boolean isSupportLoader() {
+        return supportLoader;
+    }
+
+    public void setSupportLoader(boolean supportLoader) {
+        this.supportLoader = supportLoader;
+    }
+
+    private boolean supportLoader = true;
+
 
     public BaseViewPagerAdapter(DataProvider dataProvider) {
         this.dataProvider = dataProvider;

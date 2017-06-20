@@ -48,6 +48,16 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
     abstract protected RecyclerView.LayoutManager createLayoutManager();
     abstract protected BaseRecyclerViewAdapter createListViewAdapter();
 
+    public boolean isSupportLoader() {
+        return supportLoader;
+    }
+
+    public void setSupportLoader(boolean supportLoader) {
+        this.supportLoader = supportLoader;
+    }
+
+    private boolean supportLoader = true;
+
     public View getRootView() {
         return mRootView;
     }
@@ -88,6 +98,7 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
         recyclerView = createRecyclerView(mRootView);
         mAdapter = createListViewAdapter();
         mAdapter.setOnUpdateItem(this);
+        mAdapter.setSupportLoader(isSupportLoader());
 
         RecyclerView.LayoutManager layoutManager= createLayoutManager();
         configLayoutManager(layoutManager);

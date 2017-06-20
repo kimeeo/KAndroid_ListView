@@ -21,8 +21,16 @@ import java.util.Map;
  */
 abstract public class BaseListViewAdapter extends BaseAdapter implements DataProvider.OnFatchingObserve,MonitorList.OnChangeWatcher
 {
+    public boolean isSupportLoader() {
+        return supportLoader;
+    }
+
+    public void setSupportLoader(boolean supportLoader) {
+        this.supportLoader = supportLoader;
+    }
+
+    private boolean supportLoader = true;
     private static final String TAG = "BaseRecyclerViewAdapter";
-    public boolean supportLoader = true;
     private AdapterView.OnItemClickListener mOnItemClickListener;
     private DataProvider dataProvider;
 

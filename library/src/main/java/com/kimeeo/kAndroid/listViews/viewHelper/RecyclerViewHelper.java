@@ -212,7 +212,7 @@ public class RecyclerViewHelper extends BaseHelper implements AdapterView.OnItem
             });
             boolean refreshEnabled = dataProvider.getRefreshEnabled();
             mSwipeRefreshLayout.setEnabled(refreshEnabled);
-            mSwipeRefreshLayout.setColorSchemeColors(R.array.progressColors);
+            //mSwipeRefreshLayout.setColorSchemeColors(R.array.progressColors);
         }
     }
     public void updateSwipeRefreshLayout(boolean isRefreshData) {

@@ -12,13 +12,19 @@ import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
  */
 abstract public class BaseStickyHeaderView extends BaseRecyclerView
 {
+    final public boolean isSupportLoader() {
+        return false;
+    }
+
+    final public void setSupportLoader(boolean supportLoader) {}
+
     protected void configRecyclerView(RecyclerView recyclerView, BaseRecyclerViewAdapter mAdapter )
     {
         super.configRecyclerView(recyclerView, mAdapter);
         if(mAdapter instanceof StickyRecyclerHeadersAdapter)
         {
             StickyRecyclerHeadersAdapter adapter = (StickyRecyclerHeadersAdapter) mAdapter;
-            mAdapter.supportLoader = false;
+            mAdapter.setSupportLoader(isSupportLoader());
             final StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(adapter);
             recyclerView.addItemDecoration(headersDecor);
             mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {

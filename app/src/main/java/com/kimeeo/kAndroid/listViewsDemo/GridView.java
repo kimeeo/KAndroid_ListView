@@ -26,7 +26,6 @@ public class GridView extends com.kimeeo.kAndroid.listViews.recyclerView.vertica
     public void onItemClick(Object data)
     {
         //getDataProvider().remove(data);
-
         getDataProvider().set(0,new DataObject("UPDATED"));
     }
 

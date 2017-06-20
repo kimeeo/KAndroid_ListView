@@ -25,6 +25,13 @@ import java.util.List;
 
 abstract public class BaseAdapterLayoutView extends BaseListDataView implements AdapterView.OnItemClickListener
 {
+    final public boolean isSupportLoader() {
+        return false;
+    }
+
+    final public void setSupportLoader(boolean supportLoader) {}
+
+
     protected View mRootView;
     protected EmptyViewHelper mEmptyViewHelper;
     protected BaseRecyclerViewAdapter mAdapter;
@@ -74,7 +81,7 @@ abstract public class BaseAdapterLayoutView extends BaseListDataView implements 
         mEmptyViewHelper = createEmptyViewHelper();
         mAdapter = createListViewAdapter();
         mAdapter.setOnItemClickListener(this);
-        mAdapter.supportLoader=false;
+        mAdapter.setSupportLoader(isSupportLoader());
 
         if(mViewGroup instanceof IAdapterLayoutView) {
             mAdapterLayout = (IAdapterLayoutView) mViewGroup;
@@ -134,7 +141,7 @@ abstract public class BaseAdapterLayoutView extends BaseListDataView implements 
             });
             boolean refreshEnabled = getDataProvider().getRefreshEnabled();
             mSwipeRefreshLayout.setEnabled(refreshEnabled);
-            mSwipeRefreshLayout.setColorSchemeColors(R.array.progressColors);
+            //mSwipeRefreshLayout.setColorSchemeColors(R.array.progressColors);
         }
     }
     /*
@@ -179,35 +186,40 @@ abstract public class BaseAdapterLayoutView extends BaseListDataView implements 
     public void onFetchingStart(boolean isFetchingRefresh){
         if (mEmptyViewHelper != null)
             mEmptyViewHelper.updatesStart();
-    };
+    }
+
     @Override
     public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh){
         if (mEmptyViewHelper != null)
             mEmptyViewHelper.updateView(getDataProvider());
         updateSwipeRefreshLayout(isFetchingRefresh);
-    };
+    }
+
     @Override
     public void onFetchingError(Object error){
         if (mEmptyViewHelper != null)
             mEmptyViewHelper.updateView(getDataProvider());
         updateSwipeRefreshLayout(false);
-    };
+    }
+
     @Override
     public void itemsAdded(int index,List items){
         if (mEmptyViewHelper != null)
             mEmptyViewHelper.updateView(getDataProvider());
         updateSwipeRefreshLayout(false);
-    };
+    }
+
     @Override
     public void itemsRemoved(int index,List items){
         if (mEmptyViewHelper != null)
             mEmptyViewHelper.updateView(getDataProvider());
         updateSwipeRefreshLayout(false);
-    };
+    }
+
     @Override
     public void itemsChanged(int index,List items){
         if (mEmptyViewHelper != null)
             mEmptyViewHelper.updateView(getDataProvider());
         updateSwipeRefreshLayout(false);
-    };
+    }
 }

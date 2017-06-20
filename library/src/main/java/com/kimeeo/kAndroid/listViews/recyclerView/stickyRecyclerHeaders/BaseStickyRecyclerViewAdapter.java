@@ -15,7 +15,7 @@ abstract public class BaseStickyRecyclerViewAdapter extends BaseRecyclerViewAdap
     public BaseStickyRecyclerViewAdapter(DataProvider dataProvider)
     {
         super(dataProvider);
-        supportLoader = false;
+        setSupportLoader(false);
     }
 
 

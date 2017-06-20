@@ -155,7 +155,7 @@ public class ListViewHelper extends BaseHelper implements AdapterView.OnItemClic
             });
             boolean refreshEnabled = dataProvider.getRefreshEnabled();
             mSwipeRefreshLayout.setEnabled(refreshEnabled);
-            mSwipeRefreshLayout.setColorSchemeColors(R.array.progressColors);
+            //mSwipeRefreshLayout.setColorSchemeColors(R.array.progressColors);
         }
     }
     public void updateSwipeRefreshLayout(boolean isRefreshData) {

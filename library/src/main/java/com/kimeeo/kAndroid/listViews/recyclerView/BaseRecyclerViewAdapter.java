@@ -23,7 +23,16 @@ import com.kimeeo.kAndroid.listViews.ProgressItem;
 abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseItemHolder> implements MonitorList.OnChangeWatcher, BaseItemHolder.OnItemHolderClick,DataProvider.OnFatchingObserve {
 
     private static final String TAG = "BaseRecyclerViewAdapter";
-    public boolean supportLoader = true;
+
+    public boolean isSupportLoader() {
+        return supportLoader;
+    }
+
+    public void setSupportLoader(boolean supportLoader) {
+        this.supportLoader = supportLoader;
+    }
+
+    private boolean supportLoader = true;
     private AdapterView.OnItemClickListener mOnItemClickListener;
     private DataProvider dataProvider;
 

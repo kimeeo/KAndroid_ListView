@@ -26,6 +26,15 @@ abstract public class BaseListView extends BaseListDataView implements AdapterVi
     protected EmptyViewHelper mEmptyViewHelper;
     protected BaseListViewAdapter mAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    public boolean isSupportLoader() {
+        return supportLoader;
+    }
+
+    public void setSupportLoader(boolean supportLoader) {
+        this.supportLoader = supportLoader;
+    }
+
+    private boolean supportLoader = true;
     abstract protected BaseListViewAdapter createListViewAdapter();
     public View getRootView() {
         return mRootView;
@@ -61,6 +70,7 @@ abstract public class BaseListView extends BaseListDataView implements AdapterVi
         mEmptyViewHelper = createEmptyViewHelper();
 
         mAdapter = createListViewAdapter();
+        mAdapter.setSupportLoader(isSupportLoader());
         mAdapter.setOnUpdateItem(this);
         mList.setOnItemClickListener(this);
         mList.setAdapter(mAdapter);
@@ -163,7 +173,7 @@ abstract public class BaseListView extends BaseListDataView implements AdapterVi
             });
             boolean refreshEnabled = getDataProvider().getRefreshEnabled();
             mSwipeRefreshLayout.setEnabled(refreshEnabled);
-            mSwipeRefreshLayout.setColorSchemeColors(R.array.progressColors);
+            //mSwipeRefreshLayout.setColorSchemeColors(R.array.progressColors);
         }
     }
     protected SwipeRefreshLayout createSwipeRefreshLayout(View rootView){
@@ -191,12 +201,14 @@ abstract public class BaseListView extends BaseListDataView implements AdapterVi
     public void onFetchingStart(boolean isFetchingRefresh){
         if (mEmptyViewHelper != null)
             mEmptyViewHelper.updatesStart();
-    };
+    }
+
     public void onFetchingError(Object error){
         if (mEmptyViewHelper != null)
             mEmptyViewHelper.updateView(getDataProvider());
         updateSwipeRefreshLayout(false);
-    };
+    }
+
     public void onFetchingEnd(List<?> dataList, boolean isFetchingRefresh){
         dataLoaded(dataList,isFetchingRefresh);
     }
@@ -208,15 +220,18 @@ abstract public class BaseListView extends BaseListDataView implements AdapterVi
     public void itemsAdded(int index,List items){
         if (mEmptyViewHelper != null)
             mEmptyViewHelper.updateView(getDataProvider());
-    };
+    }
+
     public void itemsRemoved(int index,List items){
         if (mEmptyViewHelper != null)
             mEmptyViewHelper.updateView(getDataProvider());
-    };
+    }
+
     public void itemsChanged(int index,List items){
         if (mEmptyViewHelper != null)
             mEmptyViewHelper.updateView(getDataProvider());
-    };
+    }
+
     protected void dataLoaded(List<?> dataList, boolean isFetchingRefresh) {
         if (isFetchingRefresh && mList!=null)
             mList.smoothScrollToPosition(0);

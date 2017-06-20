@@ -15,6 +15,7 @@ import com.kimeeo.kAndroid.listViews.BaseListDataView;
 import com.kimeeo.kAndroid.dataProvider.DataProvider;
 import com.kimeeo.kAndroid.dataProvider.StaticDataProvider;
 import com.kimeeo.kAndroid.listViews.fragmentStacks.BaseFragmentStacks;
+import com.kimeeo.kAndroid.listViews.fragmentStacks.FragmentViewStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,14 +23,12 @@ import java.util.List;
 /**
  * Created by BhavinPadhiyar on 02/05/16.
  */
-public class FragmentStack extends BaseFragmentStacks
+public class FragmentStack extends FragmentViewStack
 {
-
     private int pageCount = 1;
     private int refreshPageCount = 1;
     @Override
-    protected BaseListDataView[] configFragments()
-    {
+    protected BaseListDataView[] configFragments() {
         BaseListDataView[] list= new BaseListDataView[4];
         list[0] = (BaseListDataView)BaseFragment.newInstance(GridView.class);
         list[1] = (BaseListDataView)BaseFragment.newInstance(ListView.class);
@@ -47,16 +46,15 @@ public class FragmentStack extends BaseFragmentStacks
         return rootView;
     }
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getTitle().equals("Grid"))
-            setCurruntView(getFragments()[0]);
+            setSelectedItem(getFragments()[0]);
         else if(item.getTitle().equals("List"))
-            setCurruntView(getFragments()[1]);
+            setSelectedItem(getFragments()[1]);
         else if(item.getTitle().equals("Old List"))
-            setCurruntViewIndex(2);
+            setSelectedItem(getFragments()[2]);
         else if(item.getTitle().equals("Pager"))
-            setCurruntViewIndex(3);
+            setSelectedItem(getFragments()[3]);
         return super.onOptionsItemSelected(item);
     }
     @Override
@@ -71,14 +69,12 @@ public class FragmentStack extends BaseFragmentStacks
 
     @NonNull
     @Override
-    protected DataProvider createDataProvider()
-    {
+    protected DataProvider createDataProvider() {
         StaticDataProvider1 data=new StaticDataProvider1();
         data.next();
         return data;
     }
-    public class StaticDataProvider1 extends StaticDataProvider
-    {
+    public class StaticDataProvider1 extends StaticDataProvider {
         int count = 1;
         Handler h = new Handler();
         Runnable r = new Runnable() {

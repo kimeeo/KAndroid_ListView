@@ -31,6 +31,16 @@ abstract public class BaseViewPager extends BaseListDataView implements ViewPage
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private boolean isIndicatorSetFirstTime = true;
     private int currentItem;
+    public boolean isSupportLoader() {
+        return supportLoader;
+    }
+
+    public void setSupportLoader(boolean supportLoader) {
+        this.supportLoader = supportLoader;
+    }
+
+    private boolean supportLoader = true;
+
     protected void garbageCollectorCall() {
         super.garbageCollectorCall();
         mRootView = null;
@@ -86,6 +96,7 @@ abstract public class BaseViewPager extends BaseListDataView implements ViewPage
     protected void createAdapter(ViewPager mViewPager) {
         mAdapter = createViewPagerAdapter();
         mAdapter.setOnUpdateItem(this);
+        mAdapter.setSupportLoader(isSupportLoader());
         mViewPager.setAdapter(mAdapter);
     }
     public void update(BaseItemHolder itemHolder, Object item, int position)
@@ -149,7 +160,7 @@ abstract public class BaseViewPager extends BaseListDataView implements ViewPage
             });
             boolean refreshEnabled = getDataProvider().getRefreshEnabled();
             mSwipeRefreshLayout.setEnabled(refreshEnabled);
-            mSwipeRefreshLayout.setColorSchemeColors(R.array.progressColors);
+            //mSwipeRefreshLayout.setColorSchemeColors(R.array.progressColors);
         }
     }
     protected SwipeRefreshLayout createSwipeRefreshLayout(View rootView) {
