@@ -74,7 +74,7 @@ abstract public class BaseRecyclerView extends BaseListDataView implements Adapt
         mEmptyViewHelper = null;
     }
     protected RecyclerView.ItemDecoration createItemDecoration() {return null;}
-    protected RecyclerView getRecyclerView()
+    public RecyclerView getRecyclerView()
     {
         return recyclerView;
     }

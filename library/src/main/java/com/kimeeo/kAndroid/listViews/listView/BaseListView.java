@@ -51,7 +51,7 @@ abstract public class BaseListView extends BaseListDataView implements AdapterVi
         mEmptyViewHelper = null;
         mSwipeRefreshLayout=null;
     }
-    protected ListView getListView()
+    public ListView getListView()
     {
         return mList;
     }

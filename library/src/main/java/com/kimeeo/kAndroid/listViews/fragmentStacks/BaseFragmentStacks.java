@@ -22,6 +22,9 @@ import android.os.Bundle;
 
 import com.kimeeo.kAndroid.listViews.BaseListDataView;
 import com.kimeeo.kAndroid.listViews.R;
+import com.kimeeo.kAndroid.listViews.listView.BaseListView;
+import com.kimeeo.kAndroid.listViews.pager.BaseViewPager;
+import com.kimeeo.kAndroid.listViews.recyclerView.BaseRecyclerView;
 
 import android.os.Handler;
 import android.support.annotation.LayoutRes;
@@ -185,6 +188,17 @@ abstract public class BaseFragmentStacks extends BaseListDataView
             else
                 transaction.show(fragment);
             transaction.commit();
+        }
+    }
+    public void syncViews(int position) {
+        BaseListDataView[] fragments= getFragments();
+        for (int i = 0; i < fragments.length; i++) {
+            if(fragments[i] instanceof BaseRecyclerView)
+                ((BaseRecyclerView)fragments[i]).getRecyclerView().scrollToPosition(position);
+            else if(fragments[i] instanceof BaseViewPager)
+                ((BaseViewPager)fragments[i]).gotoItem(position,false);
+            else if(fragments[i] instanceof BaseListView)
+                ((BaseListView)fragments[i]).getListView().smoothScrollToPosition(position);
         }
     }
     protected abstract BaseListDataView[] configFragments();
