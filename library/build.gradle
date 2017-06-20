@@ -37,7 +37,6 @@ dependencies {
     }
 
 
-
     final KANDROID_DATAPROVDER_VERSION = 'Ant-V1.0.0'
     compile ("com.github.kimeeo:KAndroid_DataProvider:$KANDROID_DATAPROVDER_VERSION@aar"){
         transitive=true
