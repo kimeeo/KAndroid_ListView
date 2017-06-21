@@ -34,7 +34,7 @@ abstract public class BaseListView extends BaseListDataView implements AdapterVi
         this.supportLoader = supportLoader;
     }
 
-    private boolean supportLoader = true;
+    public boolean supportLoader = true;
     abstract protected BaseListViewAdapter createListViewAdapter();
     public View getRootView() {
         return mRootView;
