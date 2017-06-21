@@ -34,7 +34,14 @@ abstract public class BaseListView extends BaseListDataView implements AdapterVi
         this.supportLoader = supportLoader;
     }
 
+    /**
+     * Does some thing in old style.
+     *
+     * @deprecated use setSupportLoader(true) instead.
+     */
+    @Deprecated
     public boolean supportLoader = true;
+
     abstract protected BaseListViewAdapter createListViewAdapter();
     public View getRootView() {
         return mRootView;
