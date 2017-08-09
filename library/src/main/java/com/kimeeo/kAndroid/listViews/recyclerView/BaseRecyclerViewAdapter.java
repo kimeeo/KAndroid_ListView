@@ -105,7 +105,7 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
 
     }
 
-    private boolean getItemClickSupport() {
+    protected boolean getItemClickSupport() {
         return true;
     }
 
