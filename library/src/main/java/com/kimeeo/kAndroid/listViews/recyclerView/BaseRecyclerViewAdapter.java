@@ -94,12 +94,17 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
             itemHolder = getProgressViewHolder(root);
             if(getItemClickSupport())
                 itemHolder.setOnItemHolderClick(this);
+            else
+                itemHolder.setOnItemHolderClick(null);
         }
         else {
             root= getItemView(viewType,inflater,container);
             itemHolder= getItemHolder(viewType, root);
             if(getItemClickSupport())
                 itemHolder.setOnItemHolderClick(this);
+            else
+                itemHolder.setOnItemHolderClick(null);
+
         }
         return itemHolder;
 

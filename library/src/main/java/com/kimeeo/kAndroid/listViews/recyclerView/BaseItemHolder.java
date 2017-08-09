@@ -11,6 +11,10 @@ abstract public class BaseItemHolder extends RecyclerView.ViewHolder implements 
     abstract public void updateItemView(Object item,View itemView, int position);
     public void setOnItemHolderClick(OnItemHolderClick onItemHolderClick) {
         this.onItemHolderClick = onItemHolderClick;
+        if(onItemHolderClick!=null)
+            setItemClickSupport(true);
+        else
+            setItemClickSupport(false);
     }
     private OnItemHolderClick onItemHolderClick;
     public View getItemView()
@@ -20,6 +24,18 @@ abstract public class BaseItemHolder extends RecyclerView.ViewHolder implements 
     public void updateItemView(Object item, int position){
         updateItemView(item,itemView,position);
     }
+    public void setItemClickSupport(boolean support) {
+        if(support)
+            getItemView().setOnClickListener(this);
+        else
+            getItemView().setOnClickListener(null);
+    }
+    public BaseItemHolder(View itemView,boolean clickSupport) {
+        super(itemView);
+        if(clickSupport)
+            itemView.setOnClickListener(this);
+    }
+
     public BaseItemHolder(View itemView) {
         super(itemView);
         itemView.setOnClickListener(this);
