@@ -21,8 +21,15 @@ abstract public class BaseItemHolder extends RecyclerView.ViewHolder implements 
     {
         return itemView;
     }
+
+    public int getPos() {
+        return mPosition;
+    }
+
+    private int mPosition;
     public void updateItemView(Object item, int position){
         updateItemView(item,itemView,position);
+        mPosition=position;
     }
     public void setItemClickSupport(boolean support) {
         if(support)
@@ -42,8 +49,12 @@ abstract public class BaseItemHolder extends RecyclerView.ViewHolder implements 
     }
     @Override
     public void onClick(View v) {
-        if(onItemHolderClick!=null)
-            onItemHolderClick.onItemHolderClick(this, getAdapterPosition());
+        if(onItemHolderClick!=null) {
+            if(getAdapterPosition()==-1)
+                onItemHolderClick.onItemHolderClick(this, getPos());
+            else
+                onItemHolderClick.onItemHolderClick(this, getAdapterPosition());
+        }
     }
     public static interface OnItemHolderClick{
         void onItemHolderClick(BaseItemHolder itemHolder, int position);
