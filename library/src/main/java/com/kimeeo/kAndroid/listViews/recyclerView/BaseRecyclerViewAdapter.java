@@ -110,8 +110,12 @@ abstract public class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseI
 
     }
 
-    protected boolean getItemClickSupport() {
-        return true;
+    private boolean mItemClickSupport=true;
+    public void setItemClickSupport(boolean value) {
+        mItemClickSupport=value;
+    }
+    public boolean getItemClickSupport() {
+        return mItemClickSupport;
     }
 
     protected View getProgressView(int viewType,LayoutInflater inflater,ViewGroup container)
